@@ -12,6 +12,8 @@ Route::prefix('cms/Admin')->name('cms.admin.')->group(function(){
 
 Route::view('temp','cms.temp');
 Route::resource('artisans' , ArtisanController::class);
+
+Route::post('artisans_update/{id}',[ArtisanController::class , 'update'])->name('artisans_update');
 }
 
 );

@@ -15,10 +15,6 @@
 
 @endsection
 
-@section('scripts')
-
-@endsection
-
 @section('content')
 
   <div class="card card-primary">
@@ -60,6 +56,46 @@
                     placeholder="Password">
                   </div>
 
+                  <div class="form-group">
+    <label for="store_name">Store Name</label>
+    <input type="text" class="form-control"
+           id="store_name"
+           name="store_name"
+           placeholder="Enter store name">
+</div>
+
+<div class="form-group">
+    <label for="city">City</label>
+    <input type="text" class="form-control"
+           id="city"
+           name="city"
+           placeholder="Enter city">
+</div>
+
+<div class="form-group">
+    <label for="bio">Bio</label>
+    <textarea class="form-control"
+              id="bio"
+              name="bio"
+              rows="3"
+              placeholder="Tell us about yourself"></textarea>
+</div>
+
+<div class="form-group">
+    <label for="bank_info">Bank Information</label>
+    <input type="text" class="form-control"
+           id="bank_info"
+           name="bank_info"
+           placeholder="Enter bank account or IBAN">
+</div>
+
+
+
+
+
+
+
+
                   {{-- <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
@@ -80,7 +116,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" onclick="performStore()" class="btn btn-primary">Submit</button>
                 <a href="{{ route('cms.admin.artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
 
                 </div>
@@ -89,4 +125,23 @@
 
 @endsection
 
+
+
+@section('scripts')
+    <script>
+     function performStore(){
+     let formData = new FormData();
+     formData.append('artisan_name',document.getElementById('artisan_name').value);
+     formData.append('email',document.getElementById('email').value);
+     formData.append('password',document.getElementById('password').value);
+     formData.append('store_name', document.getElementById('store_name').value);
+     formData.append('bio', document.getElementById('bio').value);
+     formData.append('city', document.getElementById('city').value);
+     formData.append('bank_info', document.getElementById('bank_info').value);
+     store('/cms/Admin/artisans', formData)
+     }
+
+
+    </script>
+@endsection
 

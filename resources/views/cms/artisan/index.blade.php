@@ -58,16 +58,16 @@
                       <td>{{ $artisan->artisan_name }}</td>
                       <td>{{ $artisan->store_name }}</td>
                       <td class="text-center">
-    <a href="{{ route('cms.admin.artisans.show' , $artisan->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="عرض التفاصيل">
+    <a href="{{ route('cms.admin.artisans.show' , $artisan->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
         <i class="fas fa-eye"></i>
     </a>
 
-    <a href="{{ route('cms.admin.artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="تعديل">
+    <a href="{{ route('cms.admin.artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
         <i class="fas fa-edit"></i>
     </a>
 
     <form action="#" method="POST" style="display:inline;">
-        <button type="submit" class="btn btn-sm" style="color: #e74c3c;" title="حذف" onclick="return confirm('هل أنت متأكد من الحذف؟')">
+        <button type="button" onclick="performDestroy({{ $artisan->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
             <i class="fas fa-trash-alt"></i>
         </button>
     </form>
@@ -119,5 +119,17 @@
 
 @section('scripts')
 
+         <script>
+        function performDestroy(id,reference){
+            confirmDestroy('/cms/Admin/artisans/'+id, reference);
+
+
+
+
+        }
+
+
+
+        </script>
 
 @endsection

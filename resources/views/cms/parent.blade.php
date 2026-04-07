@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="{{ asset('cms/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('cms/plugins/summernote/summernote-bs4.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
   @yield('styles')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -430,6 +433,9 @@
 <script src="{{ asset('cms/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('cms/dist/js/pages/dashboard.js') }}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/crud.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
