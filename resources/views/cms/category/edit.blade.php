@@ -1,12 +1,12 @@
 @extends('cms.parent')
 
-@section('title' , 'Show data of artisan')
+@section('title' , 'Edit category')
 
 
-@section('main-title' , 'Show data of artisan')
+@section('main-title' , 'Edit category')
 
 
-@section('sub-title' , 'Show data of artisan')
+@section('sub-title' , 'Edit category')
 
 
 
@@ -15,15 +15,13 @@
 
 @endsection
 
-@section('scripts')
 
-@endsection
 
 @section('content')
 
   <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Show data of Artisan </h3>
+                <h3 class="card-title">Edit Category </h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -36,32 +34,33 @@
                       </div> --}}
 
                       <div class="form-group">
-                    <label for="artisan_name">artisan name</label>
+                   <label for="name"> category name</label>
                     <input type="text" class="form-control"
-                    id="artisan_name" disabled
-                    name="artisan_name"
-                    value="{{ $artisans->artisan_name}}"
+                    id="name"
+                    name="name"
+                    value="{{ $categories->name}}"
                     placeholder="Enter your name">
                   </div>
 
 
-                  <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control"
-                    id="email" disabled
-                    name="email"
-                    value="{{ $artisans->email }}"
-                    placeholder="Enter email">
-                  </div>
 
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control"
-                    id="password" disabled
-                    name="password"
-                    value="{{ $artisans->password }}"
-                    placeholder="Password">
-                  </div>
+
+
+
+
+
+
+
+
+<div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control"
+              id="description"
+              name="description"
+              rows="3"
+              placeholder="Tell us about ">{{ $categories->description }}</textarea>
+</div>
+
 
                   {{-- <div class="form-group">
                     <label for="exampleInputFile">File input</label>
@@ -84,12 +83,28 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Update</button>
-                   <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                  <button type="button" onclick="performUpdate({{ $categories->id }})" class="btn btn-primary">Update</button>
+                   <a href="{{ route('categories.index') }}"type="submit" class="btn btn-info">Go back</a>
                 </div>
               </form>
             </div>
 
-@endsection
+            @endsection
+                @section('scripts')
+                   <script>
+                 function performUpdate(id){
+                    let formData = new FormData() ;
+                         formData.append('name',document.getElementById('name').value);
 
+
+                         formData.append('description', document.getElementById('description').value);
+
+                        //  formData.append('_method', 'PUT');
+                     storeRoute('/cms/Admin/categories-update/' + id, formData);
+
+                 }
+
+
+                </script>
+            @endsection
 

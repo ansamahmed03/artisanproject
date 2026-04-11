@@ -270,7 +270,7 @@
 
 
 
-           <li class="nav-header">Content Management</li>
+
 
 
 
@@ -289,14 +289,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('cms.admin.artisans.create') }}" class="nav-link">
+                <a href="{{ route('artisans.create') }}" class="nav-link">
                   <i class="far fas fa-plus-circle"></i>
                   {{-- <i class="fas fa-plus-circle"></i> --}}
                   <p>Create</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('cms.admin.artisans.index') }}" class="nav-link">
+                <a href="{{ route('artisans.index') }}" class="nav-link">
                   <i class="far fas  fa-list-ul"></i>
                   <p>Index</p>
                 </a>
@@ -304,6 +304,74 @@
 
             </ul>
           </li>
+
+<li class="nav-header">Content Management</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class=" fas fa-solid fa-layer-group"></i>
+              {{-- <i class="fa-solid fa-layer-group"></i> --}}
+            {{-- <i class="fa-brands fa-artstation"></i>
+            <i class="fa-solid fa-palette"></i> --}}
+              {{-- <i class="fas fa-city"></i> --}}
+              <p>
+                Category
+                <i class="fas fa-angle-left right"></i>
+
+
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('categories.create') }}" class="nav-link">
+                  <i class="far fas fa-plus-circle"></i>
+                  {{-- <i class="fas fa-plus-circle"></i> --}}
+                  <p>Create</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('categories.index') }}" class="nav-link">
+                  <i class="far fas  fa-list-ul"></i>
+                  <p>Index</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

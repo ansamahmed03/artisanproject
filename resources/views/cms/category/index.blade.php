@@ -1,15 +1,15 @@
 @extends('cms.parent')
 
-@section('title' , 'Artisan')
+@section('title' , 'Category')
 
 
 
-@section('main-title' , 'Index Artisan')
+@section('main-title' , 'Index Category')
 
 
 
 
-@section('sub-title' , 'Index Artisan')
+@section('sub-title' , 'Index Category')
 
 
 
@@ -33,7 +33,7 @@
             <div class="card">
               <div class="card-header">
                 {{-- <h3 class="card-title">Artisan Table</h3> --}}
-                 <a href="{{ route('artisans.create') }}"type="submit" class="btn btn-info">Add new Artisan </a>
+                 <a href="{{ route('categories.create') }}"type="submit" class="btn btn-info">Add new category </a>
 
               </div>
               <!-- /.card-header -->
@@ -42,32 +42,32 @@
                   <thead>
                     <tr>
                       <th style="width: 10px">ID</th>
-                      <th class="text-center">Artisan name</th>
-                      <th class="text-center">store name</th>
+                      <th class="text-center">Category name</th>
+                      <th class="text-center">description</th>
                       <th class="text-center">Action</th>
 
                     </tr>
                   </thead>
                   <tbody>
 
-                    @foreach ($artisans as $artisan )
+                    @foreach ($categories as $category )
 
 
                     <tr>
-                      <td>{{ $artisan->id }}</td>
-                      <td>{{ $artisan->artisan_name }}</td>
-                      <td>{{ $artisan->store_name }}</td>
-                      <td class="text-center">
-    <a href="{{ route('artisans.show' , $artisan->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+                      <td>{{ $category->id }}</td>
+                      <td>{{ $category->name }}</td>
+                      <td>{{ $category->description }}</td>
+                    <td class="text-center">
+    <a href="{{ route('categories.show' , $category->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
         <i class="fas fa-eye"></i>
     </a>
 
-    <a href="{{ route('artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
+    <a href="{{ route('categories.edit' , $category->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
         <i class="fas fa-edit"></i>
     </a>
 
     <form action="#" method="POST" style="display:inline;">
-        <button type="button" onclick="performDestroy({{ $artisan->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
+        <button type="button" onclick="performDestroy({{ $category->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
             <i class="fas fa-trash-alt"></i>
         </button>
     </form>
@@ -92,7 +92,7 @@
                   <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                 </ul>
               </div> --}}
-              {{ $artisans->links() }}
+              {{ $categories->links() }}
             </div>
             <!-- /.card -->
 
@@ -121,7 +121,7 @@
 
          <script>
         function performDestroy(id,reference){
-            confirmDestroy('/cms/Admin/artisans/'+id, reference);
+            confirmDestroy('/cms/Admin/categories/'+id, reference);
 
 
 

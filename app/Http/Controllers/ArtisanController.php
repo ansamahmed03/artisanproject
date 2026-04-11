@@ -162,7 +162,7 @@ $artisans = Artisan::findOrFail($id);
             return response()->json([
                 'icon' => 'success',
                 'title' => 'updated succefully',
-                'redirect' => route('cms.admin.artisans.index') // هذا السطر هو الذي سيقوم بالتحويل
+                'redirect' => route('artisans.index') // هذا السطر هو الذي سيقوم بالتحويل
             ], 200);
         } else {
             return response()->json([

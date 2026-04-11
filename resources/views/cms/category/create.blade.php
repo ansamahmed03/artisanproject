@@ -1,12 +1,12 @@
 @extends('cms.parent')
 
-@section('title' , 'create artisan')
+@section('title' , 'create category')
 
 
-@section('main-title' , 'create artisan')
+@section('main-title' , 'create category')
 
 
-@section('sub-title' , 'create artisan')
+@section('sub-title' , 'create category')
 
 
 
@@ -19,7 +19,7 @@
 
   <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">create new Artisan</h3>
+                <h3 class="card-title">create new Category</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -32,14 +32,18 @@
                       </div> --}}
 
                       <div class="form-group">
-                    <label for="artisan_name">artisan name</label>
+                    <label for="name"> category name</label>
                     <input type="text" class="form-control"
-                    id="artisan_name"
-                    name="artisan_name"
-                    placeholder="Enter your name">
+                    id="name"
+                    name="name"
+                    placeholder="Enter your category">
                   </div>
+                  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description"></textarea>
+</div>
 
-
+{{--
                   <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control"
@@ -89,7 +93,7 @@
            placeholder="Enter bank account or IBAN">
 </div>
 
-
+ --}}
 
 
 
@@ -117,7 +121,7 @@
 
                 <div class="card-footer">
                   <button type="button" onclick="performStore()" class="btn btn-primary">Submit</button>
-                <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                <a href="{{ route('categories.index') }}"type="submit" class="btn btn-info">Go back</a>
 
                 </div>
               </form>
@@ -131,14 +135,11 @@
     <script>
      function performStore(){
      let formData = new FormData();
-     formData.append('artisan_name',document.getElementById('artisan_name').value);
-     formData.append('email',document.getElementById('email').value);
-     formData.append('password',document.getElementById('password').value);
-     formData.append('store_name', document.getElementById('store_name').value);
-     formData.append('bio', document.getElementById('bio').value);
-     formData.append('city', document.getElementById('city').value);
-     formData.append('bank_info', document.getElementById('bank_info').value);
-     store('/cms/Admin/artisans', formData)
+     formData.append('name',document.getElementById('name').value);
+
+     formData.append('description', document.getElementById('description').value);
+
+     store('/cms/Admin/categories', formData)
      }
 
 
