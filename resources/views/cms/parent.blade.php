@@ -234,6 +234,8 @@
           </li>
 
 
+
+
           <li class="nav-header">User Management</li>
 
 
@@ -305,30 +307,8 @@
             </ul>
           </li>
 
+
 <li class="nav-header">Content Management</li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -361,6 +341,65 @@
 
             </ul>
           </li>
+
+
+
+<li class="nav-header">System Managment</li>
+
+
+                  <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Country
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('countries.index') }}" class="nav-link">
+                  <i class="fas fa-list-ul nav-icon"></i>
+                  <p>Index</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('countries.create') }}" class="nav-link">
+                  <i class="nav-icon fas fa-plus-circle"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+
+ </ul>
+          </li>
+
+
+                  <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                city
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('countries.index') }}" class="nav-link">
+                  <i class="fas fa-list-ul nav-icon"></i>
+                  <p>Index</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('countries.create') }}" class="nav-link">
+                  <i class="nav-icon fas fa-plus-circle"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+
+ </ul>
+          </li>
+
+
+
 
 
 
