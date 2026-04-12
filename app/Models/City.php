@@ -9,4 +9,9 @@ class City extends Model
 {
     /** @use HasFactory<\Database\Factories\CityFactory> */
     use HasFactory;
+
+    public function Country(){
+
+    return $this->belongsTo(Country::class , "country_id" , "id");
+    }
 }

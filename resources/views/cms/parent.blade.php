@@ -383,13 +383,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('countries.index') }}" class="nav-link">
+                <a href="{{ route('cities.index') }}" class="nav-link">
                   <i class="fas fa-list-ul nav-icon"></i>
                   <p>Index</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('countries.create') }}" class="nav-link">
+                <a href="{{ route('cities.create') }}" class="nav-link">
                   <i class="nav-icon fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
@@ -485,10 +485,17 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
 
-    @yield('content')
-  </div>
+        <div id="error_alert" class="alert alert-danger" hidden>
+            <ul id="error_messages_ul"></ul>
+        </div>
+
+        @yield('content')
+
+      </div></section>
+    </div> ```
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>Copyright &copy; {{ now()->year }} - {{ now()->year+1 }} <a href="https://adminlte.io">{{ env('APP_NAME') }}</strong>

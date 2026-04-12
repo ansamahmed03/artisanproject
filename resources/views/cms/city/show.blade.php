@@ -1,8 +1,8 @@
 @extends('cms.parent')
 
-@section('create-title' , 'Create Country')
-@section('create', 'Create Country')
-@section('create', 'Create Country')
+@section('Show Data Of Country-title' , 'main-title')
+@section('Show Data Of Country', 'sub-title')
+@section('Show Data of Country', 'title')
 
 
 
@@ -11,14 +11,6 @@
 @endsection
 
 @section('content')
-
-<div class="container-fluid">
-    <div id="error_alert" class="alert alert-danger" hidden>
-        <ul id="error_messages_ul"></ul>
-    </div>
-
-    </div>
-
  <div class="container-fluid">
         <div class="row">
           <!-- left column -->
@@ -26,7 +18,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add Country</h3>
+                <h3 class="card-title">Show Data Of Country</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -35,9 +27,10 @@
                   <div   class="form-group">
                     <label for="country_name">Country Name</label>
                     <input  type="text"
-                    class="form-control"
+                    class="form-control" disabled
                      id="country_name"
                      name="country_name"
+                     value="{{ $countries->country_name}}"
                      placeholder="Enter Country Name">
 
 
@@ -45,11 +38,14 @@
                   <div  class="form-group">
                     <label for="code">Code</label>
                     <input type="text"
-                     class="form-control"
+                     class="form-control" disabled
                      id="code"
                      name="code"
-                      placeholder="Enter Code">
+                     value="{{ $countries->code }}"
+                   placeholder="Enter Code">
                   </div>
+
+
 
 
                   </div> <!-- -->
@@ -57,9 +53,11 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                   <button type="button" onclick="performStore()" class="btn btn-primary">Add</button>
-                     <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-primary">GO TO index</a>
+    <!--             <button type="submit" class="btn btn-primary">Add</button> -->
+                   <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-primary">GO Back</a>
                 </div>
+
+
               </form>
             </div>
             <!-- /.card -->
@@ -82,22 +80,8 @@
       </div
 
 
-
-
 @endsection
 
 @section('scripts')
-
-                <script>
-                    function performStore(){
-                        let formData = new FormData();
-
-                            formData.append('country_name',document.getElementById('country_name').value);
-                              formData.append('code',document.getElementById('code').value);
-                              store ('/cms/Admin/countries', formData)
-                        }
-
-
-                </script>
 
 @endsection
