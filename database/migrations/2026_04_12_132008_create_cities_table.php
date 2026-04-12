@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('street')->nullable();
+            $table->foreignId('country_id');
+            $table->foreign('country_id')->references('id')->on('countries')->cascadeOnDeleteonDelete('');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
