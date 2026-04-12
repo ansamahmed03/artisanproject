@@ -24,4 +24,21 @@ class Artisan extends Model
         'email',
         'bank_info',
     ];
+
+
+
+    public function user()
+{
+    return $this->morphOne(User::class, 'userable');
+}
+
+protected static function booted()
+{
+    static::deleting(function ($artisan) {
+        // سيتم حذف اليوزر تلقائياً بمجرد استدعاء حذف الأرتزان
+        if ($artisan->user) {
+            $artisan->user->delete();
+        }
+    });
+}
 }

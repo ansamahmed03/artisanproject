@@ -79,29 +79,63 @@ class ArtisanController extends Controller
             ], 400);
 
 
-        }else{
+         }else{
 
 
-        $artisans = new Artisan;
+    //        $artisans = new Artisan;
+    //        $artisans->artisan_name = $request->get('artisan_name');
+    //        $artisans->email = $request->get('email');
+    //        $artisans->password = $request->get('password');
+    //        $artisans->store_name = $request->input('store_name');
+    //        $artisans->city = $request->input('city');
+    //        $artisans->bio = $request->input('bio');
+    //        $artisans->bank_info = $request->input('bank_info');
+
+    //         $isSaved = $artisans->save();
+    //         return response()->json( [
+    //          'icon'=>'success' ,
+    //             'title' =>'created is succeful',
+
+    //         ],200);
+    //     }
+    // }
+
+
+                $artisans = new Artisan;
         $artisans->artisan_name = $request->get('artisan_name');
-        $artisans->email = $request->get('email');
-        $artisans->password = $request->get('password');
+        $artisans->email        = $request->get('email');
 
+        // ملاحظة: يفضل تشفير كلمة المرور للحماية
+        $artisans->password     = Hash::make($request->get('password'));
 
-        $artisans->store_name = $request->input('store_name');
-
-    $artisans->city = $request->input('city');
-    $artisans->bio = $request->input('bio');
-    $artisans->bank_info = $request->input('bank_info');
+        $artisans->store_name   = $request->input('store_name');
+        $artisans->city         = $request->input('city');
+        $artisans->bio          = $request->input('bio');
+        $artisans->bank_info    = $request->input('bank_info');
 
         $isSaved = $artisans->save();
-        return response()->json( [
-             'icon'=>'success' ,
-                'title' =>'created is succeful',
 
-            ],200);
+        if ($isSaved) {
+            // 2. السطر السحري: ربط هذا الأرتزان بجدول المستخدمين (Morph)
+            // سيقوم لارافيل تلقائياً بتعبئة userable_id برقم الأرتزان
+            // وتعبئة userable_type بمسار المودل (App\Models\Artisan)
+            $artisans->user()->create([
+                'name'     => $request->get('artisan_name'),
+                'email'    => $request->get('email'),
+                'password' => Hash::make($request->get('password')),
+            ]);
+
+            return response()->json([
+                'icon'  => 'success',
+                'title' => 'تم إنشاء الحساب والحرفي بنجاح',
+            ], 200);
+        } else {
+            return response()->json([
+                'icon'  => 'error',
+                'title' => 'فشل حفظ البيانات',
+            ], 500);
         }
-    }
+    }}
 
     /**
      * Display the specified resource.
@@ -140,30 +174,44 @@ class ArtisanController extends Controller
         ]);
         if(!$validator->fails()){
 
-$artisans = Artisan::findOrFail($id);
-    $artisans->artisan_name = $request->get('artisan_name');
-    $artisans->email = $request->get('email');
+             $artisans = Artisan::findOrFail($id);
+             $artisans->artisan_name = $request->get('artisan_name');
+             $artisans->email = $request->get('email');
 
-    if ($request->has('password') && !empty($request->get('password'))) {
-        $artisans->password = Hash::make($request->get('password'));
-    }
-    $artisans->store_name = $request->input('store_name');
-    $artisans->city = $request->input('city');
-    $artisans->bio = $request->input('bio');
-    $artisans->bank_info = $request->input('bank_info');
+            if ($request->has('password') && !empty($request->get('password'))) {
+             $artisans->password = Hash::make($request->get('password'));
+             }
+            $artisans->store_name = $request->input('store_name');
+            $artisans->city = $request->input('city');
+            $artisans->bio = $request->input('bio');
+            $artisans->bank_info = $request->input('bank_info');
 
-    $isUpdated = $artisans->save();
-//     return response()->json([
-//             'icon'  => $isUpdated ? 'success' : 'error',
-//             'title' => $isUpdated ? 'تم التحديث بنجاح' : 'فشل التحديث'
-//         ], $isUpdated ? 200 : 400);
-// return ['redirect'=>route('cms.admin.artisans.edit')];
+
+            $isUpdated = $artisans->save();
+                            //     return response()->json([
+                           //             'icon'  => $isUpdated ? 'success' : 'error',
+                            //             'title' => $isUpdated ? 'تم التحديث بنجاح' : 'فشل التحديث'
+                            //         ], $isUpdated ? 200 : 400);
+                            // return ['redirect'=>route('cms.admin.artisans.edit')];
              if ($isUpdated) {
-            return response()->json([
+                if ($artisans->user) { // نتحقق من وجود علاقة أولاً
+                $userData = [
+                    'name'  => $request->get('artisan_name'),
+                    'email' => $request->get('email'),
+                ];
+
+                // إذا قام بتغيير الباسورد، نحدثه في جدول اليوزر أيضاً
+                if (isset($newPassword)) {
+                    $userData['password'] = $newPassword;
+                }
+
+                $artisans->user->update($userData);
+            }
+              return response()->json([
                 'icon' => 'success',
                 'title' => 'updated succefully',
                 'redirect' => route('artisans.index') // هذا السطر هو الذي سيقوم بالتحويل
-            ], 200);
+             ], 200);
         } else {
             return response()->json([
                 'icon' => 'error',
@@ -186,8 +234,26 @@ $artisans = Artisan::findOrFail($id);
      */
     public function destroy($id)
     {
-        //
-        $artisans=Artisan::destroy($id);
+   $artisan = Artisan::findOrFail($id);
 
+    // حذف الحساب المرتبط (علاقة المورف)
+    if ($artisan->user) {
+        $artisan->user->delete();
     }
-}
+
+    // حذف الحرفي
+    $isDeleted = $artisan->delete();
+
+    // هذا الرد هو ما يجعل السطر يختفي من الصفحة
+    if ($isDeleted) {
+        return response()->json([
+            'icon' => 'success',
+            'title' => 'تم الحذف بنجاح'
+        ], 200);
+    } else {
+        return response()->json([
+            'icon' => 'error',
+            'title' => 'فشل الحذف'
+        ], 400);
+    }
+    }}
