@@ -1,12 +1,12 @@
 @extends('cms.parent')
 
-@section('title' , 'Show data of artisan')
+@section('title' , 'create admin')
 
 
-@section('main-title' , 'Show data of artisan')
+@section('main-title' , 'create admin')
 
 
-@section('sub-title' , 'Show data of artisan')
+@section('sub-title' , 'create admin')
 
 
 
@@ -15,15 +15,11 @@
 
 @endsection
 
-@section('scripts')
-
-@endsection
-
 @section('content')
 
   <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Show data of Artisan </h3>
+                <h3 class="card-title">create new Admin</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -36,11 +32,10 @@
                       </div> --}}
 
                       <div class="form-group">
-                    <label for="artisan_name">artisan name</label>
+                    <label for="full_name">admin name</label>
                     <input type="text" class="form-control"
-                    id="artisan_name" disabled
-                    name="artisan_name"
-                    value="{{ $artisans->artisan_name}}"
+                    id="full_name"
+                    name="full_name"
                     placeholder="Enter your name">
                   </div>
 
@@ -48,34 +43,49 @@
                   <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control"
-                    id="email" disabled
+                    id="email"
                     name="email"
-                    value="{{ $artisans->email }}"
                     placeholder="Enter email">
                   </div>
-                 <div class="form-group">
-                  <label for="store_name">Store Name</label>
-                   <input type="text" class="form-control" id="store_name" value="{{ $artisans->store_name }}" disabled>
-                  </div>
+
                   <div class="form-group">
-                      <label for="city">City</label>
-                      <input type="text" class="form-control" id="city" value="{{ $artisans->city }}" disabled>
-                     </div>
-
-                   <div class="form-group">
-                    <label for="bio">Bio</label>
-                     <textarea class="form-control" rows="3" disabled>{{ $artisans->bio }}</textarea>
-                     </div>
-
-
-                  {{-- <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control"
-                    id="password" disabled
+                    id="password"
                     name="password"
-                    value="{{ $artisans->password }}"
                     placeholder="Password">
-                  </div> --}}
+                  </div>
+
+
+
+
+                  {{-- <hr> <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="First_name">First Name</label>
+                    <input type="text" class="form-control" id="First_name" name="First_name" placeholder="First name">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="Last_name">Last Name</label>
+                    <input type="text" class="form-control" id="Last_name" name="Last_name" placeholder="Last name">
+                  </div>
+              </div>
+          </div> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                   {{-- <div class="form-group">
                     <label for="exampleInputFile">File input</label>
@@ -89,21 +99,39 @@
                       </div>
                     </div>
                   </div> --}}
-                  {{-- <div class="form-check">
+                  <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div> --}}
-
+                  </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  
-                   <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                  <button type="button" onclick="performStore()" class="btn btn-primary">Submit</button>
+                <a href="{{ route('admins.index') }}"type="submit" class="btn btn-info">Go back</a>
+
                 </div>
               </form>
             </div>
 
 @endsection
 
+
+
+@section('scripts')
+    <script>
+     function performStore(){
+     let formData = new FormData();
+     formData.append('full_name', document.getElementById('full_name').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('password', document.getElementById('password').value);
+    //  formData.append('First_name', document.getElementById('First_name').value);
+    //     formData.append('Last_name', document.getElementById('Last_name').value);
+
+     store('/cms/Admin/admins', formData)
+     }
+
+
+    </script>
+@endsection
 

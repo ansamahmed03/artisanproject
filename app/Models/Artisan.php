@@ -12,10 +12,7 @@ class Artisan extends Model
 
       protected $fillable = [
         'name',
-        'store_name',
-        'bio',
-        'city',
-        'bank_info',
+
 
     ];
 
@@ -27,18 +24,24 @@ class Artisan extends Model
 
 
 
-    public function user()
-{
+public function user() {
     return $this->morphOne(User::class, 'userable');
 }
-
 protected static function booted()
 {
     static::deleting(function ($artisan) {
+
+
         // سيتم حذف اليوزر تلقائياً بمجرد استدعاء حذف الأرتزان
         if ($artisan->user) {
             $artisan->user->delete();
         }
     });
+
+
+}
+public function city()
+{
+    return $this->belongsTo(City::class, 'city_id');
 }
 }

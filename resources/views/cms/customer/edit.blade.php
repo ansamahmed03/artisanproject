@@ -1,12 +1,12 @@
 @extends('cms.parent')
 
-@section('title' , 'Show data of artisan')
+@section('title' , 'Edit  Customer')
 
 
-@section('main-title' , 'Show data of artisan')
+@section('main-title' , 'Edit  Customer')
 
 
-@section('sub-title' , 'Show data of artisan')
+@section('sub-title' , 'Edit Customer')
 
 
 
@@ -15,15 +15,13 @@
 
 @endsection
 
-@section('scripts')
 
-@endsection
 
 @section('content')
 
   <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Show data of Artisan </h3>
+                <h3 class="card-title">Edit  Customer </h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -36,11 +34,11 @@
                       </div> --}}
 
                       <div class="form-group">
-                    <label for="artisan_name">artisan name</label>
+                    <label for="name"> Customer name</label>
                     <input type="text" class="form-control"
-                    id="artisan_name" disabled
-                    name="artisan_name"
-                    value="{{ $artisans->artisan_name}}"
+                    id="name"
+                    name="name"
+                    value="{{ $customers->name}}"
                     placeholder="Enter your name">
                   </div>
 
@@ -48,34 +46,27 @@
                   <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control"
-                    id="email" disabled
+                    id="email"
                     name="email"
-                    value="{{ $artisans->email }}"
+                    value="{{ $customers->email }}"
                     placeholder="Enter email">
                   </div>
-                 <div class="form-group">
-                  <label for="store_name">Store Name</label>
-                   <input type="text" class="form-control" id="store_name" value="{{ $artisans->store_name }}" disabled>
-                  </div>
+
                   <div class="form-group">
-                      <label for="city">City</label>
-                      <input type="text" class="form-control" id="city" value="{{ $artisans->city }}" disabled>
-                     </div>
-
-                   <div class="form-group">
-                    <label for="bio">Bio</label>
-                     <textarea class="form-control" rows="3" disabled>{{ $artisans->bio }}</textarea>
-                     </div>
-
-
-                  {{-- <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control"
-                    id="password" disabled
+                    id="password"
                     name="password"
-                    value="{{ $artisans->password }}"
+                    value="{{ $customers->password }}"
                     placeholder="Password">
-                  </div> --}}
+                  </div>
+
+
+
+
+
+
+
 
                   {{-- <div class="form-group">
                     <label for="exampleInputFile">File input</label>
@@ -89,21 +80,36 @@
                       </div>
                     </div>
                   </div> --}}
-                  {{-- <div class="form-check">
+                  <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div> --}}
+                  </div>
 
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  
-                   <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                  <button type="button" onclick="performUpdate({{ $customers->id }})" class="btn btn-primary">Update</button>
+                   <a href="{{ route('customers.index') }}"type="submit" class="btn btn-info">Go back</a>
                 </div>
               </form>
             </div>
 
-@endsection
+            @endsection
+                @section('scripts')
+                   <script>
+                 function performUpdate(id){
+                    let formData = new FormData() ;
+                         formData.append('name',document.getElementById('name').value);
+                         formData.append('email',document.getElementById('email').value);
+                         formData.append('password',document.getElementById('password').value);
 
+                        //  formData.append('_method', 'PUT');
+                     storeRoute('/cms/Admin/customers-update/' + id, formData);
+
+                 }
+
+
+                </script>
+            @endsection
 

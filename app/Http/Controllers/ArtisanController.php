@@ -16,7 +16,10 @@ class ArtisanController extends Controller
      */
     public function index()
     {
-        $artisans = Artisan::orderBy('id', 'desc')->paginate(10);
+
+$artisans = Artisan::with(['user'])->paginate(10);
+
+
         //وظيفتها ترجع فيو
 
         return response()->view('cms.artisan.index' , compact('artisans'));
@@ -50,23 +53,23 @@ class ArtisanController extends Controller
 
 
         ],[
-            'artisan_name.required' => 'يرجى إدخال اسم الحرفي',
-    'artisan_name.min'      => 'الاسم يجب أن يكون 3 حروف على الأقل',
+            'artisan_name.required' => 'Please enter the artisan name',
+    'artisan_name.min'      => 'The name must be at least 3 letters long',
 
-    'email.required'        => 'البريد الإلكتروني مطلوب',
-    'email.email'           => 'يرجى إدخال بريد إلكتروني صحيح',
-    'email.unique'          => 'هذا البريد الإلكتروني مسجل مسبقاً',
+    'email.required'        => ' Email address required',
+    'email.email'           => 'Please enter a valid email address',
+    'email.unique'          => 'This email address is already registered',
 
-    'password.required'     => 'كلمة المرور مطلوبة',
-    'password.min'          => 'كلمة المرور يجب ألا تقل عن 6 حروف',
+    'password.required'     => 'Password required',
+    'password.min'          => 'The password must be at least 6 characters long',
 
-    'store_name.required'   => 'اسم المتجر مطلوب',
-    'city.required'         => 'يرجى تحديد المدينة',
+    'store_name.required'   => 'Store name required',
+    'city.required'         => 'Please specify the city',
 
-    'bio.required'          => 'السيرة الذاتية مطلوبة',
-    'bio.min'               => 'السيرة الذاتية يجب أن تكون 10 حروف على الأقل',
+    'bio.required'          => 'bio required',
+    'bio.min'               => 'The bio must be at least 10 characters long',
 
-    'bank_info.required'    => 'بيانات البنك مطلوبة لضمان حقوقك المادية',
+    'bank_info.required'    => 'Bank details are required to guarantee your financial rights',
         ]
 
         );
@@ -127,12 +130,12 @@ class ArtisanController extends Controller
 
             return response()->json([
                 'icon'  => 'success',
-                'title' => 'تم إنشاء الحساب والحرفي بنجاح',
+                'title' => 'Account and artisan created successfully',
             ], 200);
         } else {
             return response()->json([
                 'icon'  => 'error',
-                'title' => 'فشل حفظ البيانات',
+                'title' => 'Data saving failed',
             ], 500);
         }
     }}
@@ -194,13 +197,12 @@ class ArtisanController extends Controller
                             //         ], $isUpdated ? 200 : 400);
                             // return ['redirect'=>route('cms.admin.artisans.edit')];
              if ($isUpdated) {
-                if ($artisans->user) { // نتحقق من وجود علاقة أولاً
+                if ($artisans->user) {
                 $userData = [
                     'name'  => $request->get('artisan_name'),
                     'email' => $request->get('email'),
                 ];
 
-                // إذا قام بتغيير الباسورد، نحدثه في جدول اليوزر أيضاً
                 if (isset($newPassword)) {
                     $userData['password'] = $newPassword;
                 }
@@ -210,7 +212,7 @@ class ArtisanController extends Controller
               return response()->json([
                 'icon' => 'success',
                 'title' => 'updated succefully',
-                'redirect' => route('artisans.index') // هذا السطر هو الذي سيقوم بالتحويل
+                'redirect' => route('artisans.index')
              ], 200);
         } else {
             return response()->json([
@@ -236,24 +238,24 @@ class ArtisanController extends Controller
     {
    $artisan = Artisan::findOrFail($id);
 
-    // حذف الحساب المرتبط (علاقة المورف)
+    // حذف اليوزر اللي هو ارتزان
     if ($artisan->user) {
         $artisan->user->delete();
     }
 
-    // حذف الحرفي
+    // حذف ارتزان
     $isDeleted = $artisan->delete();
 
-    // هذا الرد هو ما يجعل السطر يختفي من الصفحة
+
     if ($isDeleted) {
         return response()->json([
             'icon' => 'success',
-            'title' => 'تم الحذف بنجاح'
+            'title' => 'Deleted successfully'
         ], 200);
     } else {
         return response()->json([
             'icon' => 'error',
-            'title' => 'فشل الحذف'
+            'title' => 'Deletion failed'
         ], 400);
     }
     }}

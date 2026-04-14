@@ -1,8 +1,11 @@
 <?php
+
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,7 +30,12 @@ Route::resource('cities', CityController::class);
 Route::post('categories-update/{id}',[CategoryController::class , 'update'])->name('categories-update');
 Route::resource('categories' , CategoryController::class);
 
+Route::post('admins-update/{id}',[AdminController::class , 'update'])->name('admins-update');
+Route::resource('admins' , AdminController::class);
 
+
+Route::post('customers-update/{id}',[CustomerController::class , 'update'])->name('customers-update');
+Route::resource('customers' , CustomerController::class);
 }
 
 );

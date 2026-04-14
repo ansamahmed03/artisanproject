@@ -1,15 +1,15 @@
 @extends('cms.parent')
 
-@section('title' , 'Artisan')
+@section('title' , 'Admin')
 
 
 
-@section('main-title' , 'Index Artisan')
+@section('main-title' , 'Index Admin')
 
 
 
 
-@section('sub-title' , 'Index Artisan')
+@section('sub-title' , 'Index Admin')
 
 
 
@@ -33,7 +33,7 @@
             <div class="card">
               <div class="card-header">
                 {{-- <h3 class="card-title">Artisan Table</h3> --}}
-                 <a href="{{ route('artisans.create') }}"type="submit" class="btn btn-info">Add new Artisan </a>
+                 <a href="{{ route('admins.create') }}"type="submit" class="btn btn-info">Add new Admin </a>
 
               </div>
               <!-- /.card-header -->
@@ -42,8 +42,8 @@
                   <thead>
                     <tr>
                       <th style="width: 10px">ID</th>
-                      <th class="text-center">Artisan name</th>
-                      <th class="text-center">store name</th>
+                      <th class="text-center">Admin name</th>
+                      <th class="text-center">email</th>
 
                       <th class="text-center">Action</th>
 
@@ -51,25 +51,25 @@
                   </thead>
                   <tbody>
 
-                    @foreach ($artisans as $artisan )
+                    @foreach ($admins as $admin )
 
 
                     <tr>
-                      <td>{{ $artisan->id }}</td>
-                      <td>{{ $artisan->artisan_name }}</td>
+                      <td>{{ $admin->id }}</td>
+                      <td>{{ $admin->full_name }}</td>
 
-                      <td>{{ $artisan->store_name }}</td>
+                      <td>{{ $admin->email }}</td>
                       <td class="text-center">
-    <a href="{{ route('artisans.show' , $artisan->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+    <a href="{{ route('admins.show', $admin->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
         <i class="fas fa-eye"></i>
     </a>
 
-    <a href="{{ route('artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
+    <a href="{{ route('admins.edit' ,$admin->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
         <i class="fas fa-edit"></i>
     </a>
 
     <form action="#" method="POST" style="display:inline;">
-        <button type="button" onclick="performDestroy({{ $artisan->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
+        <button type="button" onclick="performDestroy({{ $admin->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
             <i class="fas fa-trash-alt"></i>
         </button>
     </form>
@@ -94,7 +94,7 @@
                   <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                 </ul>
               </div> --}}
-              {{ $artisans->links() }}
+              {{ $admins->links() }}
             </div>
             <!-- /.card -->
 
@@ -123,7 +123,7 @@
 
          <script>
         function performDestroy(id,reference){
-            confirmDestroy('/cms/Admin/artisans/'+id, reference);
+            confirmDestroy('/cms/Admin/admins/'+id, reference);
 
 
 

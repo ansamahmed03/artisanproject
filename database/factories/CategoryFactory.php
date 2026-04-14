@@ -17,8 +17,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
      return [
-        'name' => $this->faker->word(), // كلمة واحدة عشوائية للاسم
-        'description' => $this->faker->sentence(10), // جملة من 10 كلمات للوصف
+        'name' => $this->faker->word(),
+        'description' => $this->faker->paragraph(),
     ];
     }
 }

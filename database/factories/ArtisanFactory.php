@@ -19,11 +19,11 @@ class ArtisanFactory extends Factory
         return [
 'artisan_name'        => fake()->name(),
         'email'               => fake()->unique()->safeEmail(),
-        'password'            => bcrypt('password'), // أو اتركها null كما في الميجريشن
+        'password'            => bcrypt('password'), 
         'store_name'          => fake()->company(),
         'bio'                 => fake()->paragraph(),
         'city'                => fake()->city(),
-        'verification_status' => 'ON', // القيمة الافتراضية
+        'verification_status' => 'ON',
         'bank_info'           => fake()->iban('PS'),
         ];
     }

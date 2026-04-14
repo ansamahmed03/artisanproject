@@ -251,13 +251,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
+                <a href="{{ route('admins.create') }}" class="nav-link">
                   <i class="far fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
+                <a href="{{ route('admins.index') }}" class="nav-link">
                   <i class="far fas  fa-list-ul"></i>
                   {{-- <i class="fas fa-list-ul"></i> --}}
 
@@ -275,6 +275,38 @@
 
 
 
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              {{-- <i class="fas fa-user"></i> --}}
+              <p>
+                Customer
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('customers.create') }}" class="nav-link">
+                  <i class="far fas fa-plus-circle"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('customers.index') }}" class="nav-link">
+                  <i class="far fas  fa-list-ul"></i>
+                  {{-- <i class="fas fa-list-ul"></i> --}}
+
+
+                  <p>Index</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+
+
+
 
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -283,7 +315,7 @@
             <i class="fa-solid fa-palette"></i> --}}
               {{-- <i class="fas fa-city"></i> --}}
               <p>
-                Artisan
+                  Artisan
                 <i class="fas fa-angle-left right"></i>
 
 
@@ -308,9 +340,15 @@
           </li>
 
 
-<li class="nav-header">Content Management</li>
 
-          <li class="nav-item">
+
+
+
+
+
+<li class="nav-header">System Managment</li>
+
+    <li class="nav-item">
             <a href="#" class="nav-link">
               <i class=" fas fa-solid fa-layer-group"></i>
               {{-- <i class="fa-solid fa-layer-group"></i> --}}
@@ -341,12 +379,6 @@
 
             </ul>
           </li>
-
-
-
-<li class="nav-header">System Managment</li>
-
-
                   <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
