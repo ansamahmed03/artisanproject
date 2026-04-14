@@ -10,5 +10,4 @@ class City extends Model
     /** @use HasFactory<\Database\Factories\CityFactory> */
     use HasFactory;
 
-
 }
