@@ -13,6 +13,7 @@ class Artisan extends Model
 
       protected $fillable = [
         'name',
+        'city_id',
 
 
     ];

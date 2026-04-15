@@ -49,4 +49,7 @@ class User extends Authenticatable
 public function userable() {
     return $this->morphTo();
 }
+public function city() {
+    return $this->belongsTo(City::class);
+}
 }
