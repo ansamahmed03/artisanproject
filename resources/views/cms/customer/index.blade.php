@@ -34,6 +34,9 @@
               <div class="card-header">
                 {{-- <h3 class="card-title">Artisan Table</h3> --}}
                  <a href="{{ route('customers.create') }}"type="submit" class="btn btn-info">Add new Admin </a>
+                     <a href="{{route('customers_trashed')}}" class="btn btn-warning">
+                  <i class="fas fa-trash"></i> trashed
+                   </a>
 
               </div>
               <!-- /.card-header -->

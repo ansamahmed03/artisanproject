@@ -187,4 +187,37 @@ class CustomerController extends Controller
         ], 400);
     }
     }
+
+    public function trashed() {
+    $customers = Customer::onlyTrashed()->get();
+    return response()->view('cms.customer.trashed', compact('customers'));
+}
+
+public function restore($id) {
+    $customer = Customer::withTrashed()->findOrFail($id);
+    $customer->restore();
+    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
+}
+public function force($id) {
+    $customer = Customer::withTrashed()->findOrFail($id);
+    $customer->forceDelete();
+    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+}
+public function forceAll() {
+    // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
+    $customers = Customer::onlyTrashed()->get();
+
+    foreach($customers as $customer) {
+        // حذف اليوزر المرتبط في جدول users (إذا كان موجوداً)
+        if($customer->user) {
+            $customer->user()->forceDelete();
+        }
+        // حذف الأدمن نفسه نهائياً
+        $customer->forceDelete();
+    }
+
+    // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
+    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+}
 }

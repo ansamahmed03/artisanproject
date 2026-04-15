@@ -258,7 +258,12 @@
                   <p>Index</p>
                 </a>
               </li>
-
+                <li class="nav-item">
+                   <a href="{{route('admins_trashed')}}" class="nav-link">
+                    <i class="far fa-trash-alt nav-icon"></i>
+                    <p>trash </p>
+               </a>
+                 </li>
             </ul>
           </li>
 
@@ -293,6 +298,12 @@
                   <p>Index</p>
                 </a>
               </li>
+              <li class="nav-item">
+                   <a href="{{route('customers_trashed')}}" class="nav-link">
+                    <i class="far fa-trash-alt nav-icon"></i>
+                    <p>trash </p>
+               </a>
+                 </li>
 
             </ul>
           </li>
@@ -328,6 +339,12 @@
                   <p>Index</p>
                 </a>
               </li>
+               <li class="nav-item">
+                   <a href="{{route('artisans_trashed')}}" class="nav-link">
+                    <i class="far fa-trash-alt nav-icon"></i>
+                    <p>trash </p>
+               </a>
+                 </li>
 
             </ul>
           </li>
@@ -369,6 +386,12 @@
                   <p>Index</p>
                 </a>
               </li>
+                  <li class="nav-item">
+                   <a href="{{route('categories_trashed')}}" class="nav-link">
+                    <i class="far fa-trash-alt nav-icon"></i>
+                    <p>trash </p>
+               </a>
+                 </li>
 
             </ul>
           </li>

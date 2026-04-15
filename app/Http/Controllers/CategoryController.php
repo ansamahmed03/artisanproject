@@ -158,4 +158,39 @@ class CategoryController extends Controller
 
          $categories=Category::destroy($id);
     }
+
+    public function trashed() {
+    $categories = Category::onlyTrashed()->get();
+    return response()->view('cms.category.trashed', compact('categories'));
+}
+
+public function restore($id) {
+    $category = Category::withTrashed()->findOrFail($id);
+    $category->restore();
+    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
+}
+public function force($id) {
+    $category = Category::withTrashed()->findOrFail($id);
+    $category->forceDelete();
+    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+}
+public function forceAll() {
+    // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
+    $categories = Category::onlyTrashed()->get();
+
+    foreach($categories as $category) {
+        // حذف اليوزر المرتبط في جدول users (إذا كان موجوداً)
+        if($category->user) {
+            $category->user()->forceDelete();
+        }
+        // حذف الأدمن نفسه نهائياً
+        $category->forceDelete();
+    }
+
+    // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
+    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+}
+
+
 }

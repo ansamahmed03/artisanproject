@@ -34,7 +34,9 @@
               <div class="card-header">
                 {{-- <h3 class="card-title">Artisan Table</h3> --}}
                  <a href="{{ route('categories.create') }}"type="submit" class="btn btn-info">Add new category </a>
-
+                   <a href="{{route('categories_trashed')}}" class="btn btn-warning">
+                  <i class="fas fa-trash"></i> trashed
+                   </a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -43,7 +45,7 @@
                     <tr>
                       <th style="width: 10px">ID</th>
                       <th class="text-center">Category name</th>
-                      <th class="text-center">description</th>
+                      {{-- <th class="text-center">description</th> --}}
                       <th class="text-center">Action</th>
 
                     </tr>
@@ -56,7 +58,7 @@
                     <tr>
                       <td>{{ $category->id }}</td>
                       <td>{{ $category->name }}</td>
-                      <td>{{ $category->description }}</td>
+                      {{-- <td>{{ $category->description }}</td> --}}
                     <td class="text-center">
     <a href="{{ route('categories.show' , $category->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
         <i class="fas fa-eye"></i>

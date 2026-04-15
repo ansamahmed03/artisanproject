@@ -195,7 +195,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
                            //             'icon'  => $isUpdated ? 'success' : 'error',
                             //             'title' => $isUpdated ? 'تم التحديث بنجاح' : 'فشل التحديث'
                             //         ], $isUpdated ? 200 : 400);
-                            // return ['redirect'=>route('cms.admin.artisans.edit')];
+                            // return ['redirect'=>route('cms.Artisan.artisans.edit')];
              if ($isUpdated) {
                 if ($artisans->user) {
                 $userData = [
@@ -258,4 +258,40 @@ $artisans = Artisan::with(['user'])->paginate(10);
             'title' => 'Deletion failed'
         ], 400);
     }
-    }}
+    }
+
+       public function trashed() {
+    $artisans = Artisan::onlyTrashed()->get();
+    return response()->view('cms.artisan.trashed', compact('artisans'));
+}
+
+public function restore($id) {
+    $artisan = Artisan::withTrashed()->findOrFail($id);
+    $artisan->restore();
+    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
+}
+public function force($id) {
+    $artisan = Artisan::withTrashed()->findOrFail($id);
+    $artisan->forceDelete();
+    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+}
+public function forceAll() {
+    // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
+    $artisans = Artisan::onlyTrashed()->get();
+
+    foreach($artisans as $artisan) {
+        // حذف اليوزر المرتبط في جدول users (إذا كان موجوداً)
+        if($artisan->user) {
+            $artisan->user()->forceDelete();
+        }
+        // حذف الأدمن نفسه نهائياً
+        $artisan->forceDelete();
+    }
+
+    // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
+    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+}
+
+
+    }

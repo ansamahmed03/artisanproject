@@ -126,7 +126,7 @@ class AdminController extends Controller
 
 
             $isUpdated = $admins->save();
-                        
+
              if ($isUpdated) {
                 if ($admins->user) {
                 $userData = [
@@ -190,5 +190,36 @@ class AdminController extends Controller
         ], 400);
     }
     }
+public function trashed() {
+    $admins = Admin::onlyTrashed()->get();
+    return response()->view('cms.admin.trashed', compact('admins'));
+}
 
+public function restore($id) {
+    $admin = Admin::withTrashed()->findOrFail($id);
+    $admin->restore();
+    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
+}
+public function force($id) {
+    $admin = Admin::withTrashed()->findOrFail($id);
+    $admin->forceDelete();
+    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+}
+public function forceAll() {
+    // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
+    $admins = Admin::onlyTrashed()->get();
+
+    foreach($admins as $admin) {
+        // حذف اليوزر المرتبط في جدول users (إذا كان موجوداً)
+        if($admin->user) {
+            $admin->user()->forceDelete();
+        }
+        // حذف الأدمن نفسه نهائياً
+        $admin->forceDelete();
+    }
+
+    // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
+    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+}
 }
