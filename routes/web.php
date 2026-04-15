@@ -6,6 +6,7 @@ use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -65,5 +66,17 @@ Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->na
 Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
 Route::get('customers_force_all', [CustomerController::class, 'forceAll'])->name('customers_forceAll');
 Route::resource('customers' , CustomerController::class);
+
+
+
+
+
+Route::post('products_update/{id}', [ProductController::class,'update'])->name('products_update');
+Route::get('products_trashed', [ProductController::class,'trashed'])->name('products_trashed');
+Route::get('products_restore/{id}', [ProductController::class,'restore'])->name('products_restore');
+Route::get('products_force/{id}', [ProductController::class,'force'])->name('products_force');
+Route::get('force', [ProductController::class,'forceAll'])->name('products_forceAll');
+Route::resource('products', ProductController::class);
+
 }
 );

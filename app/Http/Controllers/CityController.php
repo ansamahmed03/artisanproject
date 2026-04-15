@@ -37,40 +37,47 @@ class CityController extends Controller
            return response()->view('cms.city.edit', compact('cities' , 'countries'));
     }
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name'       => 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
-            'street' => 'required|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u',
-            'country_id' => 'required|integer|exists:countries,id',
-        ], [
-            'name.required'     => 'The city name is required.',
-            'street.required'     => 'The street name is required.',
-            'name.regex'        => 'The city name must contain only letters.',
-            'name.min'          => 'The city name must be at least 3 characters.',
-            'street.regex'      => 'The street name format is invalid.',
-            'country_id.exists' => 'The selected country is invalid.',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'name'            => 'required|string|min:3|max:45',
+        'price'           => 'required|numeric|min:0',
+        'description'     => 'required|string|min:5',
+        'stock_quantity'  => 'required|integer|min:0',
+        'artisans_id'     => 'required|integer|exists:artisans,id',
+        'categories_id'   => 'required|integer|exists:categories,id',
+        'status'          => 'required|in:active,inactive',
+    ]);
 
-        if ($validator->fails()) {
-          return response()->json([
-         'icon'  => 'error',
-         'title' => $validator->getMessageBag()->first(), // ← بدون errors array
-    ], 400);
+    if ($validator->fails()) {
+        return response()->json([
+            'icon'  => 'error',
+            'title' => $validator->getMessageBag()->first(),
+        ], 400);
     }
 
-    $city             = new City();
-    $city->name       = $request->name;
-    $city->street     = $request->street;
-    $city->country_id = $request->country_id;
-    $city->save();
+    $product = new Product();
+    $product->name            = $request->name;
+    $product->price           = $request->price;
+    $product->description     = $request->description;
+    $product->stock_quantity  = $request->stock_quantity;
+    $product->artisans_id     = $request->artisans_id;
+    $product->categories_id   = $request->categories_id;
+    $product->status          = $request->status;
 
-    return response()->json([
-        'icon'    => 'success',
-        'title'   => 'Updated Successfully',
-        'message' => 'City created successfully',
-    ], 200);
+    $isSaved = $product->save();
+
+    if ($isSaved) {
+        return response()->json([
+            'icon'  => 'success',
+            'title' => 'Product created successfully',
+        ], 200);
+    } else {
+        return response()->json([
+            'icon'  => 'error',
+            'title' => 'Failed to create product',
+        ], 500);
+    }
 }
-
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
