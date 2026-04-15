@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Country;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class CountryController extends Controller
 {
@@ -15,7 +16,7 @@ class CountryController extends Controller
     public function index()
     {
         //
-        $countries = country::orderBy('id','desc')->simplePaginate(10);
+        $countries = country::withCount('City')->orderBy('id','desc')->withoutTrashed()->simplePaginate(10);
         return response()->view('cms.country.index' , compact('countries'));
     }
 
@@ -35,31 +36,33 @@ class CountryController extends Controller
     public function store(Request $request)
     {
         ////validation
-
           $validator = Validator::make($request->all(), [
 
-              'country_name'=> 'required|string|min:3|max:22',
-               'code'=> 'required|digits:4',
-          ] , [
+              'country_name'=> 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
+               'code'=> 'required|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u',
+          ],
+           [
 
 
-                'country_name.required'=> 'this colum is nedded',
-                'country_name.min'=> 'min 3',
-                 'code.required'=> 'this colum is nedded',
+            'country_name.required'     => 'The country name field is required.',
+            'code.required'              => 'The street name is required.',
+            'country_name.regex'        => 'The country name must contain only letters.',
+            'country_name.min'          => 'The country name must be at least 3 characters.',
+            'code.regex'      => 'The street name format is invalid.',
+
           ]);
 
 
            if( $validator->fails()){
             return response()->json([
-                'icon'=>'error',
-                'title'=> $validator->getMessageBag()->first(),
-                'errors' => $validator->errors()
+                 'icon'  => 'error',
+               'title' => $validator->getMessageBag()->first(),
                 ] , 400);
            }
          else{
          $countries = new Country();
          $countries->country_name = $request->get('country_name');
-         $countries->code = $request->input('code');
+         $countries->code = $request->get('code');
 
          $isSave = $countries->save();
            return response()->json([
@@ -94,42 +97,34 @@ class CountryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
 
         $validator = Validator::make($request->all(), [
 
           'country_name'=> 'required|string|min:3|max:22',
-               'code'=> 'required|digits:4',
+           'code'=> 'required|digits:4',
         ]);
 
        if ($validator->fails()) {
         return response()->json([
-            'icon'   => 'error',
-            'title'  => $validator->getMessageBag()->first(),
-            'errors' => $validator->errors()
+               'icon'  => 'error',
+               'title' => $validator->getMessageBag()->first(),
         ], 400);
     }
 
     // 3. البحث عن الدولة وتعديلها
-    $country = Country::findOrFail($id);
+    $country                = Country::findOrFail($id);
     $country->country_name = $request->get('country_name');
-    $country->code = $request->get('code');
+    $country->code         = $request->get('code');
 
-    $isUpdated = $country->save();
+    $country->save();
 
-    // 4. الرد عند النجاح (مع مفتاح الـ redirect ليستخدمه الـ JS)
-    if ($isUpdated) {
         return response()->json([
             'icon'     => 'success',
             'title'    => 'Updated Successfully',
             'redirect' => route('countries.index')
         ], 200);
-    } else {
-        return response()->json([
-            'icon'  => 'error',
-            'title' => 'Failed to update!'
-        ], 500);
-    }
+
+
     }
     /**
      * Remove the specified resource from storage.
@@ -140,4 +135,40 @@ class CountryController extends Controller
 
        $countries = Country::destroy($id);
     }
+
+
+      public function trashed()
+    {
+        //
+
+       $countries = Country::onlyTrashed()->orderBy('deleted_at','desc')->get();
+
+       return response()->view('cms.country.trashed', compact('countries'));
+    }
+
+
+  public function restore($id)
+    {
+       $countries = Country::onlyTrashed()->findOrFail($id)-> restore();
+
+       return back()->with('success','Success');
+    }
+
+
+
+      public function force($id)
+    {
+       $countries = Country::onlyTrashed()->findOrFail($id)-> forceDelete();
+
+       return back()->with('success','Success');
+    }
+
+          public function forceAll()
+    {
+       $countries = Country::onlyTrashed()->forceDelete();
+
+       return back()->with('success','Success');
+    }
+
+
 }

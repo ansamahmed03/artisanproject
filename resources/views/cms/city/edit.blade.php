@@ -4,26 +4,17 @@
 @section('Edit', 'Edit City')
 
 @section('styles')
+
 @endsection
 
 @section('content')
-<div id="error_alert" class="alert alert-danger" hidden>
-    <ul id="error_messages_ul" style="margin-bottom: 0;"></ul>
-</div>
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div id="error_alert" class="alert alert-danger" hidden>
-                    <ul id="error_messages_ul"></ul>
-                </div>
-
-                <div class="card card-primary">
+             <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Edit City</h3>
                     </div>
-                    <form id="create-form">
+
+                    <form>
+
                         <div class="card-body">
 
                              <div class="row">
@@ -80,7 +71,7 @@
              formData.append('name',document.getElementById('name').value);
              formData.append('street',document.getElementById('street').value);
              formData.append('country_id',document.getElementById('country_id').value);
-             formData.append('_method', 'PUT');
+            // formData.append('_method', 'PUT');
                      storeRoute('/cms/Admin/cities_update/'+id ,formData)
     }
 </script>

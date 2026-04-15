@@ -1,8 +1,8 @@
 @extends('cms.parent')
 
-@section('Edit-title' , 'main-title')
-@section('edit', 'sub-title')
-@section('Edit', 'title')
+@section('main-title' , 'Edit-title')
+@section('sub-title', 'edit')
+@section('title', 'edit')
 
 
 
@@ -51,8 +51,8 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="botton" onclick="performUpdate({{ $countries->id }})" class="btn btn-primary">Update</button>
-                   <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-primary">GO Back</a>
+                  <button type="button" onclick="performUpdate({{ $countries->id }})" class="btn btn-primary">Update</button>
+                   <a  href="{{ route('countries.index') }}"  class="btn btn-primary">GO Back</a>
                 </div>
 
 
@@ -89,6 +89,7 @@
              formData.append('country_name',document.getElementById('country_name').value);
              formData.append('code',document.getElementById('code').value);
 
+             location.reload();
                      storeRoute('/cms/Admin/countries_update/'+id ,formData)
 
 

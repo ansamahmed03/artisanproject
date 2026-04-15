@@ -30,21 +30,29 @@
                     class="form-control" disabled
                      id="country_name"
                      name="country_name"
-                     value="{{ $countries->country_name}}"
+                     value="{{ $cities->country->country_name}}"
                      placeholder="Enter Country Name">
 
 
-                  </div>
-                  <div  class="form-group">
-                    <label for="code">Code</label>
-                    <input type="text"
-                     class="form-control" disabled
-                     id="code"
-                     name="code"
-                     value="{{ $countries->code }}"
-                   placeholder="Enter Code">
-                  </div>
+                <div class="form-group">
+    <label for="name">City Name</label>
+    <input type="text"
+    class="form-control" disabled
+    id="name"
+    name="name"
+    value="{{ $cities->name }}"  {{-- ✅ --}}
+    placeholder="Enter City Name">
+</div>
 
+<div class="form-group">
+    <label for="street">Street</label>
+    <input type="text"
+    class="form-control" disabled
+    id="street"
+    name="street"
+    value="{{ $cities->street }}"  {{-- ✅ --}}
+    placeholder="Enter Street">
+</div>
 
 
 
@@ -54,7 +62,7 @@
 
                 <div class="card-footer">
     <!--             <button type="submit" class="btn btn-primary">Add</button> -->
-                   <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-primary">GO Back</a>
+                   <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-primary">GO To index</a>
                 </div>
 
 

@@ -166,8 +166,8 @@ $artisans = Artisan::with(['user'])->paginate(10);
     public function update(Request $request,$id)
     {
         $validator = Validator($request->all(),[
-             'artisan_name'=> 'required |string|min:3|max:20',
-           'email' => 'required|email|unique:artisans,email,' . $id,
+            'artisan_name'=> 'required |string|min:3|max:20',
+            'email' => 'required|email|unique:artisans,email,' . $id,
             'password'     => 'nullable|string|min:6',
             'store_name'   => 'required|string|min:3|max:50',
             'city'         => 'required|string|max:30',

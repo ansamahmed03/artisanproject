@@ -8,157 +8,139 @@ use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-
-         $cities = city::orderBy('id','desc')->simplePaginate(10);
-        return response()->view('cms.city.index' , compact('cities'));
+        $cities = City::with('country')->orderBy('id', 'desc')->withoutTrashed()->simplePaginate(10); // ✅ Capital C
+        return response()->view('cms.city.index', compact('cities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-                $countries = Country::all();
-                return response()->view('cms.city.create' , compact('countries'));
-
+        $countries = Country::all();
+        return response()->view('cms.city.create', compact('countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
+{
+    // جلب المدينة مع علاقة الدولة التابعة لها
+    $cities = City::with('country')->findOrFail($id);
+
+    // عرض الصفحة (تأكد من إنشاء ملف الـ blade في هذا المسار)
+    return response()->view('cms.city.show', compact('cities'));
+}
+
+
+       public function edit($id)
     {
-           $validator = Validator::make($request->all(), [
-
-
-            'name' => 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
-            'street'   => 'nullable|required|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u',
-            'country_id' => 'required|integer|exists:countries,id' , //نأكد من انه موجود في الكونتري
-          ] , [
-
-// رسائل الخطأ المخصصة
-'name.required'     => 'The city name is required.',
-    'name.regex'        => 'The city name must contain only letters.',
-    'name.min'          => 'The city name must be at least 3 characters.',
-    'street.required'   => 'The street address is required.',
-    'street.regex'      => 'The street name format is invalid.',
-    'country_id.exists' => 'The selected country is invalid.',
-          ]);
-
-
-           if( $validator->fails()){
-            return response()->json([
-                'icon'    => 'error',
-                'title'   => 'خطأ في المدخلات',
-                'message' => $validator->getMessageBag()->first(),
-                'errors'  => $validator->errors()
-        ], 400);
-           }
-
-         else{
-         $cities = new City();
-         $cities->name = $request->get('name');
-         $cities->street = $request->get('street');
-          $cities->country_id = $request->get('country_id');
-
-         $isSave = $cities->save();
-           return response()->json([
-               'icon'=>'success',
-               'title'   => 'success',
-              'message'=> 'created is sucssesfully' ]  , 200);
-          }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-          $cities = City::findOrFail($id);
+        $cities = City::findOrFail($id);
           $countries = Country::all();
            return response()->view('cms.city.edit', compact('cities' , 'countries'));
-
-           $countries = Country::all();
-
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name'       => 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
+            'street' => 'required|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u',
+            'country_id' => 'required|integer|exists:countries,id',
+        ], [
+            'name.required'     => 'The city name is required.',
+            'street.required'     => 'The street name is required.',
+            'name.regex'        => 'The city name must contain only letters.',
+            'name.min'          => 'The city name must be at least 3 characters.',
+            'street.regex'      => 'The street name format is invalid.',
+            'country_id.exists' => 'The selected country is invalid.',
+        ]);
 
-           $validator = Validator::make($request->all(), [
-
-
-            'name' => 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
-            'street'   => 'nullable|required|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u',
-            'country_id' => 'required|integer|exists:countries,id' , //نأكد من انه موجود في الكونتري
-          ] , [
-
-// رسائل الخطأ المخصصة
-'name.required'     => 'The city name is required.',
-    'name.regex'        => 'The city name must contain only letters.',
-    'name.min'          => 'The city name must be at least 3 characters.',
-    'street.required'   => 'The street address is required.',
-    'street.regex'      => 'The street name format is invalid.',
-    'country_id.exists' => 'The selected country is invalid.',
-          ]);
-
-
-
-
-           if(! $validator->fails()){
-           $cities =  City::findOrFail( $id );
-         $cities->name = $request->get('name');
-         $cities->street = $request->get('street');
-          $cities->country_id = $request->get('country_id');
-
-       
-         $isUpdate = $cities->save();
-           return response()->json([
-               'icon'=>'success',
-               'title'   => 'success',
-              'message'=> 'updated is sucssesfully' ]  , 200);
-
-           }
-
-         else{
-
-               return response()->json([
-                'icon'    => 'error',
-                'title'   => 'خطأ في المدخلات',
-                'message' => $validator->getMessageBag()->first(),
-                'errors'  => $validator->errors()
-        ], 400);
-          }
+        if ($validator->fails()) {
+          return response()->json([
+         'icon'  => 'error',
+         'title' => $validator->getMessageBag()->first(), // ← بدون errors array
+    ], 400);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    $city             = new City();
+    $city->name       = $request->name;
+    $city->street     = $request->street;
+    $city->country_id = $request->country_id;
+    $city->save();
+
+    return response()->json([
+        'icon'    => 'success',
+        'title'   => 'Updated Successfully',
+        'message' => 'City created successfully',
+    ], 200);
+}
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'       => 'required|string|min:3|max:22|regex:/^[\pL\s\-]+$/u',
+            'street'     => 'nullable|string|min:5|max:50|regex:/^[\pL\s\-0-9]+$/u', // ✅ نفس التصحيح
+            'country_id' => 'required|integer|exists:countries,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+        'icon'  => 'error',
+        'title' => $validator->getMessageBag()->first(), // ← بدون errors array
+    ], 400);
+        }
+
+        $city             = City::findOrFail($id);
+        $city->name       = $request->name;
+        $city->street     = $request->street;
+        $city->country_id = $request->country_id;
+        $city->save();
+
+        return response()->json([
+            'icon'     => 'success',
+            'title'    => 'Updated Successfully',
+            'redirect' => route('cities.index')
+        ], 200);
+    }
+
     public function destroy(string $id)
     {
+        City::destroy($id);
+
+        return response()->json([
+            'icon'    => 'success',
+            'title'   => 'Deleted Successfully',
+        ], 200);
+    }
+
+      public function trashed()
+    {
         //
 
+       $cities = City::onlyTrashed()->orderBy('deleted_at','desc')->get();
 
-      $cities = City::destroy($id);
+       return response()->view('cms.city.trashed', compact('cities'));
     }
+
+
+  public function restore($id)
+    {
+       $cities = City::onlyTrashed()->findOrFail($id)-> restore();
+
+       return back()->with('success','Success');
+    }
+
+
+
+      public function force($id)
+    {
+       $cities = City::onlyTrashed()->findOrFail($id)-> forceDelete();
+
+       return back()->with('success','Success');
+    }
+
+          public function forceAll()
+    {
+       $cities = City::onlyTrashed()->forceDelete();
+
+       return back()->with('success','Success');
+    }
+
+
 }

@@ -4,100 +4,119 @@ function store(url, data) {
             showMessage(response.data);
             clearForm();
             clearAndHideErrors();
+
         })
         .catch(function (error) {
-            if (error.response && error.response.data.errors !== undefined) {
+
+            if (error.response.data.errors !== undefined) {
                 showErrorMessages(error.response.data.errors);
-            } else if (error.response) {
+            } else {
                 showMessage(error.response.data);
             }
         });
+
 }
 
 function storepart(url, data) {
+
     axios.post(url, data)
+
         .then(function (response) {
             showMessage(response.data);
             clearForm();
             clearAndHideErrors();
+
+        })
+
+        .catch(function (error) {
+
+            if (error.response.data.errors !== undefined) {
+                showErrorMessages(error.response.data.errors);
+            } else {
+
+                showMessage(error.response.data);
+            }
+        });
+
+}
+function storeRoute(url, data) {
+    axios.post(url, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+})
+        .then(function (response) {
+                window.location = response.data.redirect;
+             // showMessage(response.data);
+            // clearForm();
+            // clearAndHideErrors();
+
         })
         .catch(function (error) {
-            if (error.response && error.response.data.errors !== undefined) {
+
+            if (error.response.data.errors !== undefined) {
                 showErrorMessages(error.response.data.errors);
-            } else if (error.response) {
+            } else {
+
                 showMessage(error.response.data);
             }
         });
 }
+function storeRedirect (url, data, redirectUrl) {
+    axios.post( url, data)
+        .then(function (response) {
+            console.log(response);
+            if (redirectUrl != null)
+                window.location.href = redirectUrl;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+}
 
-function storeRoute(url, data) {
-    axios.post(url, data, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-    .then(function (response) {
+function update (url, data, redirectUrl) {
+    axios.put( url, data)
+
+        .then(function (response) {
+            console.log(response);
+
+            if (redirectUrl != null)
+                window.location.href = redirectUrl;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+}
+function updateRoute (url, data) {
+    axios.put( url, data)
+
+        .then(function (response) {
+            console.log(response);
+
         window.location = response.data.redirect;
-    })
-    .catch(function (error) {
-        if (error.response && error.response.data.errors !== undefined) {
-            showErrorMessages(error.response.data.errors);
-        } else if (error.response) {
-            showMessage(error.response.data);
-        }
-    });
-}
 
-function storeRedirect(url, data, redirectUrl) {
-    axios.post(url, data)
-        .then(function (response) {
-            if (redirectUrl != null)
-                window.location.href = redirectUrl;
-        })
-        .catch(function (error) {
-            console.log(error.response);
-            if (error.response) showMessage(error.response.data);
-        });
-}
-
-function update(url, data, redirectUrl) {
-    axios.put(url, data)
-        .then(function (response) {
-            if (redirectUrl != null)
-                window.location.href = redirectUrl;
-        })
-        .catch(function (error) {
-            console.log(error.response);
-            if (error.response) showMessage(error.response.data);
-        });
-}
-
-function updateRoute(url, data) {
-    axios.put(url, data)
-        .then(function (response) {
-            window.location = response.data.redirect;
-        })
-        .catch(function (error) {
-            console.log(error.response);
-            if (error.response) showMessage(error.response.data);
-        });
-}
-
-function updateReload(url, data, redirectUrl) {
-    axios.put(url, data)
-        .then(function (response) {
-            location.reload();
         })
         .catch(function (error) {
             console.log(error.response);
         });
 }
-
+function updateReload (url, data, redirectUrl) {
+    axios.put( url, data)
+        .then(function (response) {
+            console.log(response);
+            location.reload()
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+}
 function updatePage(url, data) {
     axios.post(url, data)
         .then(function (response) {
-            location.reload();
-        })
+            console.log(response);
+            location.reload()
+            // showMessage(response.data);
+         })
         .catch(function (error) {
             console.log(error.response);
         });
@@ -116,73 +135,81 @@ function confirmDestroy(url, td) {
     }).then((result) => {
         if (result.isConfirmed) {
             destroy(url, td);
-        }
-    });
-}
-
-function destroy(url, td) {
-    axios.delete(url)
-        .then(function (response) {
-            td.closest('tr').remove();
             Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: 'تمت عملية الحذف بنجاح',
                 showConfirmButton: false,
                 timer: 1500
-            });
+              })
+
+        }else{
+
+            Swal.fire({
+                    icon: 'error',
+                    title: 'فشلت عملية الحذف .',
+                    showConfirmButton: false,
+                    timer: 1500
+
+                  })
+        }
+    });
+}
+
+
+function destroy(url, td) {
+    axios.delete(url)
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            td.closest('tr').remove();
+            // showToaster(response.data.message, true);
         })
         .catch(function (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'فشلت عملية الحذف',
-                showConfirmButton: false,
-                timer: 1500
-            });
+            // handle error
+            console.log(error.response);
+            // showToaster(error.response.data.message, false);
+        })
+        .then(function () {
+            // always executed
         });
 }
 
-function showErrorMessages(errors) {
-    let errorAlert = document.getElementById('error_alert');
-    if (errorAlert) {
-        errorAlert.hidden = false;
-        var errorMessagesUl = document.getElementById("error_messages_ul");
-        errorMessagesUl.innerHTML = '';
 
-        for (var key of Object.keys(errors)) {
-            var newLI = document.createElement('li');
-            // التأكد من جلب نص الخطأ الأول لكل حقل
-            newLI.appendChild(document.createTextNode(errors[key][0]));
-            errorMessagesUl.appendChild(newLI);
-        }
+
+
+function showErrorMessages(errors) {
+
+    document.getElementById('error_alert').hidden = false
+    var errorMessagesUl = document.getElementById("error_messages_ul");
+    errorMessagesUl.innerHTML = '';
+
+    for (var key of Object.keys(errors)) {
+        var newLI = document.createElement('li');
+        newLI.appendChild(document.createTextNode(errors[key]));
+        errorMessagesUl.appendChild(newLI);
     }
 }
 
 function clearAndHideErrors() {
-    let errorAlert = document.getElementById('error_alert');
-    if (errorAlert) {
-        errorAlert.hidden = true;
-        var errorMessagesUl = document.getElementById("error_messages_ul");
-        errorMessagesUl.innerHTML = '';
-    }
+    document.getElementById('error_alert').hidden = true
+    var errorMessagesUl = document.getElementById("error_messages_ul");
+    errorMessagesUl.innerHTML = '';
 }
 
 function clearForm() {
-    // يحاول البحث عن الفورم سواء كان الـ ID بـ (_) أو (-)
-    let form = document.getElementById("create_form") || document.getElementById("create-form");
-    if (form) {
-        form.reset();
-    }
+    document.getElementById("create_form").reset();
 }
 
 function showMessage(data) {
+    console.log(data);
     Swal.fire({
         position: 'center',
-        // إذا لم يرسل السيرفر أيقونة، نحددها بناءً على وجود رسالة نجاح أو خطأ
-        icon: data.icon || (data.errors ? 'error' : 'success'),
-        // إذا كان هناك title نعرضه، وإلا نعرض الـ message القادمة من السيرفر
-        title: data.title || data.message || 'Error!',
+        icon: data.icon,
+        title: data.title,
         showConfirmButton: false,
         timer: 1500
-    });
+    })
 }
+
+

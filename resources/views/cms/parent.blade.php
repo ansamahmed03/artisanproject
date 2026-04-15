@@ -229,14 +229,7 @@
                 </a>
               </li>
 
-
-            </ul>
-          </li>
-
-
-
-
-          <li class="nav-header">User Management</li>
+   <li class="nav-header">User Management</li>
 
 
 
@@ -454,17 +447,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
           <li class="nav-header">Setting</li>
           <li class="nav-item">
             <a href="iframe.html" class="nav-link">
@@ -517,17 +499,10 @@
     </div>
     <!-- /.content-header -->
 
-    <section class="content">
-      <div class="container-fluid">
+    <!-- Main content -->
 
-        <div id="error_alert" class="alert alert-danger" hidden>
-            <ul id="error_messages_ul"></ul>
-        </div>
-
-        @yield('content')
-
-      </div></section>
-    </div> ```
+    @yield('content')
+  </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>Copyright &copy; {{ now()->year }} - {{ now()->year+1 }} <a href="https://adminlte.io">{{ env('APP_NAME') }}</strong>

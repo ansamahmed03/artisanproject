@@ -15,12 +15,28 @@
 
            <div class="container-fluid">
         <div class="row">
+
+
           <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Country Table</h3>
-              </div>
-               <a  href="{{ route('countries.create') }}" type="submit" class="btn btn-primary , ">Create</a>
+
+
+
+<div class="card-header">
+    <div class="d-flex align-items-center" style="gap: 5px;">
+
+<a href="{{ route('countries.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to index Countries
+        </a>
+              <a href="{{ route('countries.create') }}" class="btn btn-info text-white">
+                 <i class="fas fa-plus-circle"></i> Create New Country
+          </a>
+            <a href="{{ route('countries_forceAll') }}" class="btn btn-danger">
+    <i class="fas fa-fire-alt"></i> Empty Trash
+</a>
+    </div>
+</div>
+
+
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered">
@@ -29,7 +45,7 @@
                       <th class="text-center" style="width: 10px">ID</th>
                       <th class="text-center">Country name</th>
                       <th class="text-center">Code</th>
-                      <th class="text-center">Number of Cities</th>
+
                       <th class="text-center" style="width: 40px">Action</th>
                     </tr>
                   </thead>
@@ -45,17 +61,16 @@
                       <td>
                              <div class="btn-group">
 
-                            <a href="{{ route('countries.show' , $country->id) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
-                             <i class="fas fa-eye"></i>
-                              </a>
-
-                               <a href="{{ route('countries.edit' , $country->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
-                                   <i class="fas fa-edit"></i>
+                                 <a href="{{ route('countries_restore'  , $country->id) }}" class="btn btn-sm" style="color: #2D6A4F;" title="restore">
+                             <i class="fas fa-sync" ></i>
                                   </a>
 
-                             <button type="button" onclick="performDestroy({{$country->id  }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete" >
-                              <i class="fas fa-trash-alt"></i>
-                                </button>
+                                  </a>
+                             <a href="{{ route('countries_force' , $country->id ) }}" class="btn btn-sm" style="color: #c0392b;" title="force Delete">
+                                   <i class="fas fa-skull-crossbones"></i>
+                                  </a>
+
+
                                 </div>
                     </td>
 
@@ -91,7 +106,7 @@
         <script>
             function performDestroy(id , reference){
 
-                 confirmDestroy ('/cms/Admin/countries/' +id , reference);
+                 confirmDestroy ('/cms/Admin/countries_force/' +id , reference);
             }
 
 
