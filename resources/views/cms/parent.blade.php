@@ -229,7 +229,7 @@
                 </a>
               </li>
 
-   <li class="nav-header">User Management</li>
+   <li class="nav-header">Users Management</li>
 
 
 
@@ -269,7 +269,39 @@
 
 
 
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              {{-- <i class="fas fa-user"></i> --}}
+              <p>
+                Team
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('teams.create') }}" class="nav-link">
+                  <i class="far fas fa-plus-circle"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('teams.index') }}" class="nav-link">
+                  <i class="far fas  fa-list-ul"></i>
+                  {{-- <i class="fas fa-list-ul"></i> --}}
 
+
+                  <p>Index</p>
+                </a>
+              </li>
+                <li class="nav-item">
+                   <a href="{{route('teams_trashed')}}" class="nav-link">
+                    <i class="far fa-trash-alt nav-icon"></i>
+                    <p>trash </p>
+               </a>
+                 </li>
+            </ul>
+          </li>
 
 
 
@@ -278,7 +310,8 @@
 
            <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
+                <i class="nav-icon fas fa-id-card"></i>
+              {{-- <i class="nav-icon fas fa-user"></i> --}}
               {{-- <i class="fas fa-user"></i> --}}
               <p>
                 Customer
