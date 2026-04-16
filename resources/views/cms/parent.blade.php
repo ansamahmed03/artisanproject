@@ -461,6 +461,85 @@
             </a>
         </li>
     </ul>
+
+  <li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-shopping-cart"></i>
+        <p>
+            Orders
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('orders.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create Order</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('orders.index') }}" class="nav-link">
+                <i class="fas fa-list nav-icon"></i>
+                <p>All Orders</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-file-invoice"></i>
+        <p>
+            Order Items
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('order-items.create') }}" class="nav-link">
+                <i class="fas fa-search nav-icon"></i>
+                <p>create Items</p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('order-items.index') }}" class="nav-link">
+                <i class="fas fa-search nav-icon"></i>
+                <p>View All Items</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-map-marked-alt"></i>
+        <p>
+            Addresses
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+
+             <a href="{{ route('addresses.create') }}" class="nav-link">
+                <i class="fas fa-plus nav-icon"></i>
+                <p>Add New Address</p>
+            </a>
+        </li>
+        <li class="nav-item">
+             <a href="{{ route('addresses.index') }}" class="nav-link">
+                <i class="fas fa-list nav-icon"></i>
+                <p>All Addresses</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
 </li>
 
 

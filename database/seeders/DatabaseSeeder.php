@@ -2,34 +2,36 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1. نشغل فقط الـ Seeders اللي ما فيها مشاكل (تبعونك)
+        // إذا كان الـ ProductSeeder تبعك ما بنادي حدا، خليه. إذا خايف منه، الغيه واستخدم الـ Factory هون
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-     
-    \App\Models\Category::factory(5)->create();
+        // 2. تعبئة البيانات مباشرة باستخدام الـ Factories (أضمن حل لك)
 
-    \App\Models\Artisan::factory(10)->create()->each(function ($artisan) {
-        $artisan->user()->create([
-            'name' => $artisan->artisan_name,
-            'email' => $artisan->email,
-            'password' => bcrypt('password'),
-        ]);
-    });
+        // إنشاء كاتيجوري (بدون مناداة السيدا تبعهم)
+        \App\Models\Category::factory(5)->create();
+
+        // إنشاء حرفيين (بدون مناداة السيدا تبعهم)
+        \App\Models\Artisan::factory(10)->create()->each(function ($artisan) {
+            $artisan->user()->create([
+                'name' => $artisan->artisan_name,
+                'email' => $artisan->email,
+                'password' => bcrypt('password'),
+            ]);
+        });
+
+        // 3. تعبئة بياناتك أنت (المنتجات والطلبات)
+        \App\Models\Product::factory(30)->create();
+        \App\Models\Customer::factory(10)->create();
+        \App\Models\Order::factory(15)->create();
+        \App\Models\OrderItem::factory(50)->create();
     }
 }

@@ -14,6 +14,12 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         //
+        $this->call([
+        CategorySeeder::class,
+        ArtisanSeeder::class,
+        ProductSeeder::class, // هاد بكون الأخير لأنه بيعتمد عليهم
+    ]);
          Product::factory(50)->create();
+
     }
 }

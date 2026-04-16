@@ -1,12 +1,12 @@
 @extends('cms.parent')
 
-@section('title' , 'Show data of artisan')
+@section('title' , 'Show data of Product')
 
 
-@section('main-title' , 'Show data of artisan')
+@section('main-title' , 'Show data of Product')
 
 
-@section('sub-title' , 'Show data of artisan')
+@section('sub-title' , 'Show data of Product')
 
 
 
@@ -70,7 +70,7 @@
                     <a href="{{ route('products.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Go To Index
                     </a>
-                  
+
                 </div>
             </div>
         </div>
