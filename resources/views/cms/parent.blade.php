@@ -269,6 +269,40 @@
 
 
 
+          <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-user-shield"></i>
+        <p>
+            Admins
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('admins.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create Admin</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('admins.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>All Admins</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('admins_trashed') }}" class="nav-link">
+                <i class="fas fa-trash-alt nav-icon"></i>
+                <p>Trash</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>

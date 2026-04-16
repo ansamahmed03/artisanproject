@@ -32,6 +32,10 @@ public function artisan()
 }
 
 
+public function reviews()
+{
+    return $this->morphMany(Review::class, 'reviewable');
+}
 /**public function images()
 {
     return $this->morphMany(Image::class, 'imageable');

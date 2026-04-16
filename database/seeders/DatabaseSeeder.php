@@ -28,10 +28,11 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
-        // 3. تعبئة بياناتك أنت (المنتجات والطلبات)
+        // 3. تعبئة بياناتك  (المنتجات والطلبات)
         \App\Models\Product::factory(30)->create();
         \App\Models\Customer::factory(10)->create();
         \App\Models\Order::factory(15)->create();
         \App\Models\OrderItem::factory(50)->create();
+         \App\Models\Review::factory(40)->create();
     }
 }
