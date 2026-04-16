@@ -1,15 +1,15 @@
 @extends('cms.parent')
 
-@section('title' , 'Artisan')
+@section('title' , 'Product')
 
 
 
-@section('main-title' , 'Index Artisan')
+@section('main-title' , 'Index Product')
 
 
 
 
-@section('sub-title' , 'Index Artisan')
+@section('sub-title' , 'Index Product')
 
 
 

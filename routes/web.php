@@ -7,6 +7,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +27,7 @@ Route::get('artisans_restore/{id}', [ArtisanController::class, 'restore'])->name
 Route::get('artisans_force/{id}', [ArtisanController::class, 'force'])->name('artisans_force');
 Route::get('artisans_force_all', [ArtisanController::class, 'forceAll'])->name('artisans_forceAll');
 Route::resource('artisans' , ArtisanController::class);
+
 
 
 
@@ -77,6 +81,32 @@ Route::get('products_restore/{id}', [ProductController::class,'restore'])->name(
 Route::get('products_force/{id}', [ProductController::class,'force'])->name('products_force');
 Route::get('force', [ProductController::class,'forceAll'])->name('products_forceAll');
 Route::resource('products', ProductController::class);
+
+
+
+    Route::resource('orders', OrderController::class);
+    Route::post('orders_update/{id}', [OrderController::class,'update'])->name('products_update');
+    Route::get('orders_trashed',          [OrderController::class, 'trashed'])->name('orders_trashed');
+    Route::get('orders_restore/{id}',     [OrderController::class, 'restore'])->name('orders_restore');
+    Route::get('orders_force/{id}',       [OrderController::class, 'force'])->name('orders_force');
+    Route::get('orders_forceAll',         [OrderController::class, 'forceAll'])->name('orders_forceAll');
+
+
+  Route::resource('order-items', OrderItemController::class);
+  Route::post('order-items_update/{id}', [OrderItemController::class,'update'])->name('order-items_update');
+  Route::get('order-items_trashed',          [OrderItemController::class, 'trashed'])->name('order-items_trashed');
+  Route::get('order-items_restore/{id}',     [OrderItemController::class, 'restore'])->name('order-items_restore');
+  Route::get('order-items_force/{id}',       [OrderItemController::class, 'force'])->name('order-items_force');
+  Route::get('order-items_forceAll',         [OrderItemController::class, 'forceAll'])->name('order-items_forceAll');
+
+
+
+    Route::resource('addresses', AddressController::class);
+    Route::post('addresses_update/{id}', [AddressController::class,'update'])->name('addresses_update');
+    Route::get('addresses_trashed',          [AddressController::class, 'trashed'])->name('addresses_trashed');
+    Route::get('addresses_restore/{id}',     [AddressController::class, 'restore'])->name('addresses_restore');
+    Route::get('addressesforce/{id}',       [AddressController::class, 'force'])->name('addresses_force');
+    Route::get('addresses_forceAll',         [AddressController::class, 'forceAll'])->name('addresses_forceAll');
 
 }
 );
