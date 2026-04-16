@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
@@ -84,6 +85,12 @@ Route::resource('products', ProductController::class);
 
 
 
+Route::post('teams-update/{id}',[TeamController::class , 'update'])->name('teams-update');
+Route::get('teams_trashed', [TeamController::class, 'trashed'])->name('teams_trashed');
+Route::get('teams_restore/{id}', [TeamController::class, 'restore'])->name('teams_restore');
+Route::get('teams_force/{id}', [TeamController::class, 'force'])->name('teams_force');
+Route::get('teams_force_all', [TeamController::class, 'forceAll'])->name('teams_forceAll');
+Route::resource('teams' , TeamController::class);
     Route::resource('orders', OrderController::class);
     Route::post('orders_update/{id}', [OrderController::class,'update'])->name('products_update');
     Route::get('orders_trashed',          [OrderController::class, 'trashed'])->name('orders_trashed');
