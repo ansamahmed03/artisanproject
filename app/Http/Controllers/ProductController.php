@@ -15,8 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-         $products = Product::with(['category', 'artisan'])
+
+         $products = Product::with(['category', 'artisan' ,'images'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate(10);
          return response()->view('cms.product.index', compact('products'));

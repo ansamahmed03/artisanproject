@@ -2,22 +2,29 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Order;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    public function run(): void
-    {
-        // 1. نشغل فقط الـ Seeders اللي ما فيها مشاكل (تبعونك)
-        // إذا كان الـ ProductSeeder تبعك ما بنادي حدا، خليه. إذا خايف منه، الغيه واستخدم الـ Factory هون
+public function run(): void
+{
+    \App\Models\Category::factory(20)->create();
 
-        // 2. تعبئة البيانات مباشرة باستخدام الـ Factories (أضمن حل لك)
+    \App\Models\Artisan::factory(20)->create();
 
-        // إنشاء كاتيجوري (بدون مناداة السيدا تبعهم)
-        \App\Models\Category::factory(5)->create();
+    // كل منتج إله صورة primary واحدة
+    Product::factory(30)->create()->each(function ($product) {
+     ProductImage::factory()->create([
+            'product_id' => $product->id,
+            'is_primary' => 1
+        ]);
+    });
 
         // إنشاء حرفيين (بدون مناداة السيدا تبعهم)
         \App\Models\Artisan::factory(10)->create()->each(function ($artisan) {
@@ -35,4 +42,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\OrderItem::factory(50)->create();
          \App\Models\Review::factory(40)->create();
     }
+   // \App\Models\Customer::factory(10)->create();
+
+
+
 }

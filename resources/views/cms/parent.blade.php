@@ -494,6 +494,31 @@
                 <p>index Product</p>
             </a>
         </li>
+
+    </ul>
+
+  </li> <li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-images"></i>
+        <p>
+            Product Images
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+     <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('product-images.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Upload Image</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('product-images.index') }}" class="nav-link">
+                <i class="fas fa-th-list nav-icon"></i>
+                <p>View All Images</p>
+            </a>
+        </li>
+     
     </ul>
 
   <li class="nav-item">
@@ -574,41 +599,7 @@
 </li>
 
 
-</li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</li
 
 
 
