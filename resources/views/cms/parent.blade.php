@@ -273,6 +273,9 @@
 
 
 
+
+
+
            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
@@ -350,12 +353,6 @@
           </li>
 
 
-
-
-
-
-
-
 <li class="nav-header">System Managment</li>
 
     <li class="nav-item">
@@ -395,6 +392,83 @@
 
             </ul>
           </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <li class="nav-header">Products Management</li>
+          <li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-box-open"></i> <p>
+            Products
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('products.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create Product</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('products.index') }}" class="nav-link">
+                <i class="fas fa-th-list nav-icon"></i>
+                <p>index Product</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
