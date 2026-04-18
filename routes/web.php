@@ -108,5 +108,12 @@ Route::resource('products', ProductController::class);
     Route::get('addressesforce/{id}',       [AddressController::class, 'force'])->name('addresses_force');
     Route::get('addresses_forceAll',         [AddressController::class, 'forceAll'])->name('addresses_forceAll');
 
+Route::post('product-images_update/{id}',  [ProductImageController::class, 'update'])->name('product-images_update');
+Route::get('product-images_trashed',        [ProductImageController::class, 'trashed'])->name('product-images_trashed');
+Route::get('product-images_restore/{id}',   [ProductImageController::class, 'restore'])->name('product-images_restore');
+Route::get('product-images_force/{id}',     [ProductImageController::class, 'force'])->name('product-images_force');
+Route::get('product-images_forceAll',       [ProductImageController::class, 'forceAll'])->name('product-images_forceAll');
+Route::resource('product-images', ProductImageController::class);
+
 }
 );

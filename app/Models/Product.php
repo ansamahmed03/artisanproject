@@ -32,6 +32,12 @@ public function artisan()
 }
 
 
+
+public function images()
+{
+    return $this->hasMany(ProductImage::class);
+}
+
 /**public function images()
 {
     return $this->morphMany(Image::class, 'imageable');
