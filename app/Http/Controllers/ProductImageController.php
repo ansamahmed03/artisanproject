@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductImageController extends Controller
 {
-    public function index()
-    {
-        $images = ProductImage::with('product')
-                  ->orderBy('id', 'desc')
-                  ->simplePaginate(10);
-        return response()->view('cms.product-image.index', compact('images'));
-    }
+   public function index()
+{
+    $images = ProductImage::with([
+        'product' => fn($q) => $q->withTrashed()
+    ])
+    ->orderBy('id', 'desc')
+    ->simplePaginate(10);
+    return response()->view('cms.product-image.index', compact('images'));
+}
 
     public function create()
     {
@@ -115,14 +117,16 @@ class ProductImageController extends Controller
         ], 200);
     }
 
-    public function trashed()
-    {
-        $images = ProductImage::with('product')
-                  ->onlyTrashed()
-                  ->orderBy('deleted_at', 'desc')
-                  ->get();
-        return response()->view('cms.product-image.trashed', compact('images'));
-    }
+   public function trashed()
+{
+    $images = ProductImage::with([
+        'product' => fn($q) => $q->withTrashed()
+    ])
+    ->onlyTrashed()
+    ->orderBy('deleted_at', 'desc')
+    ->get();
+    return response()->view('cms.product-image.trashed', compact('images'));
+}
 
     public function restore($id)
     {
