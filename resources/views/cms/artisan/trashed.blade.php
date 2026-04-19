@@ -33,7 +33,7 @@
 </div>
     <div class="d-flex align-items-center" style="gap: 5px;">
 
-<a href="{{ route('artisans.index') }}" class="btn btn-secondary">
+<a href="{{ route('artisans.index', ['guard' => request()->segment(2)]) }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to index artisans
         </a>
               <a href="{{ route('artisans.create') }}" class="btn btn-info text-white">

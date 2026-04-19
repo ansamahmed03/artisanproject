@@ -72,7 +72,7 @@
 
     <div class="card-footer">
         <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-warning">Edit Team Data</a>
-        <a href="{{ route('teams.index') }}" class="btn btn-info">Go back</a>
+        <a href="{{ route('teams.index', ['guard' => request()->segment(2)]) }}" class="btn btn-info">Go back</a>
     </div>
 </div>
 @endsection

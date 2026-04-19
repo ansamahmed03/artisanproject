@@ -7,6 +7,8 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+
 class AdminController extends Controller
 {
     /**
@@ -28,7 +30,11 @@ class AdminController extends Controller
     public function create()
     {
         //
-        return response()->view('cms.admin.create');
+        $roles = \Spatie\Permission\Models\Role::where('guard_name', 'admin')->get();
+        $roles = Role::where('guard_name', 'admin')->get();
+        return response()->view('cms.admin.create', [
+        'roles' => $roles
+    ]);
     }
 
     /**
@@ -40,6 +46,7 @@ class AdminController extends Controller
         'full_name' => 'required|string|min:3|max:20',
         'email'     => 'required|email|unique:admins,email',
         'password'  => 'required|string|min:6',
+        'role_id' => 'required|integer|exists:roles,id',
     ]);
 
     if ($validator->fails()) {
@@ -56,6 +63,8 @@ class AdminController extends Controller
         $isSaved = $admin->save();
 
         if ($isSaved) {
+            $role = Role::findOrFail($request->get('role_id'));
+            $admin->assignRole($role->name);
             // هنا لارافيل سيقوم بتعبئة actor_id و actor_type تلقائياً
             $admin->user()->create([
                 'name'     => $request->get('full_name'),
@@ -222,4 +231,11 @@ public function forceAll() {
     // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
     return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
 }
+
+// public function __construct()
+// {
+//     $this->middleware('permission:Index Admin', ['only' => ['index']]);
+//     $this->middleware('permission:Create Admin', ['only' => ['create', 'store']]);
+// }
+
 }

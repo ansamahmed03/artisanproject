@@ -98,8 +98,8 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  
-                   <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+
+                   <a href="{{ route('artisans.index', ['guard' => request()->segment(2)]) }}" type="submit" class="btn btn-info">Go back</a>
                 </div>
               </form>
             </div>

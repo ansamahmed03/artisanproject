@@ -119,7 +119,7 @@
 
                 <div class="card-footer">
                   <button type="button" onclick="performUpdate({{ $artisans->id }})" class="btn btn-primary">Update</button>
-                   <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                   <a href="{{ route('artisans.index', ['guard' => request()->segment(2)]) }}" type="submit" class="btn btn-info">Go back</a>
                 </div>
               </form>
             </div>

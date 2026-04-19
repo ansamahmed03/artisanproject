@@ -54,7 +54,7 @@
 
                 <div class="card-footer">
 
-                   <a href="{{ route('customers.index') }}"type="submit" class="btn btn-info">Go back</a>
+                   <a href="{{ route('customers.index', ['guard' => request()->segment(2)]) }}"type="submit" class="btn btn-info">Go back</a>
                 </div>
               </form>
             </div>
