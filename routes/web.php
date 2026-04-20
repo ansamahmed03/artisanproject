@@ -97,7 +97,12 @@ Route::get('customers_force_all', [CustomerController::class, 'forceAll'])->name
     Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
     Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
 
-
+Route::post('wishlists-update/{id}',[WishlistController::class , 'update'])->name('wishlists-update');
+Route::get('wishlists_trashed', [WishlistController::class, 'trashed'])->name('wishlists_trashed');
+Route::get('wishlists_restore/{id}', [WishlistController::class, 'restore'])->name('wishlists_restore');
+Route::get('wishlists_force/{id}', [WishlistController::class, 'force'])->name('wishlists_force');
+Route::get('wishlists_force_all', [WishlistController::class, 'forceAll'])->name('wishlists_forceAll');
+Route::resource('wishlists' , WishlistController::class);
 
 
 Route::post('products_update/{id}', [ProductController::class,'update'])->name('products_update');
