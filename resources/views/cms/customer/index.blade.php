@@ -33,7 +33,7 @@
             <div class="card">
               <div class="card-header">
                 {{-- <h3 class="card-title">Artisan Table</h3> --}}
-                 <a href="{{ route('customers.create') }}"type="submit" class="btn btn-info">Add new Admin </a>
+                 <a href="{{ route('customers.create') }}"type="submit" class="btn btn-info">Add new Customer </a>
                      <a href="{{route('customers_trashed')}}" class="btn btn-warning">
                   <i class="fas fa-trash"></i> trashed
                    </a>
@@ -63,10 +63,10 @@
 
                       <td>{{ $customer->email }}</td>
                       <td class="text-center">
-    <a href="{{ route('customers.show', $customer->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+    <a href="{{ route('customers.show', ['guard' => request()->segment(2), 'id' => $customer->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
         <i class="fas fa-eye"></i>
     </a>
-
+@if(auth('admin')->check())
     <a href="{{ route('customers.edit' ,$customer->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
         <i class="fas fa-edit"></i>
     </a>
@@ -76,6 +76,7 @@
             <i class="fas fa-trash-alt"></i>
         </button>
     </form>
+    @endif
 </td>
 
 

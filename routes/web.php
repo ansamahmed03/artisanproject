@@ -7,11 +7,16 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,18 +28,34 @@ Route::get('/', [FrontController::class, 'home'])->name('front.home');
 Route::get('/products', [FrontController::class, 'products'])->name('front.products');
 Route::get('/products/{id}', [FrontController::class, 'productShow'])->name('front.product.show');
 
-Route::prefix('cms/Admin')->group(function(){
+Route::prefix('cms/')->middleware('guest:admin,artisan,team,customer')->group(function(){
+   Route::get('login', [UserAuthController::class, 'showLogin'])->name('view.login');
+
+   Route::post('login', [UserAuthController::class, 'login'])->name('cms.login');
+
+
+});
 
 
 
-Route::view('temp','cms.temp');
-Route::post('artisans-update/{id}',[ArtisanController::class , 'update'])->name('artisans-update');
-Route::get('artisans_trashed', [ArtisanController::class, 'trashed'])->name('artisans_trashed');
-Route::get('artisans_restore/{id}', [ArtisanController::class, 'restore'])->name('artisans_restore');
-Route::get('artisans_force/{id}', [ArtisanController::class, 'force'])->name('artisans_force');
-Route::get('artisans_force_all', [ArtisanController::class, 'forceAll'])->name('artisans_forceAll');
-Route::resource('artisans' , ArtisanController::class);
+Route::prefix('cms/Admin')->middleware('auth:admin,artisan,team,customer')->group(function(){
 
+// Route::get('home', [DashboardController::class, 'index'])->name('cms.home');
+Route::get('artisans/create', [ArtisanController::class, 'create'])->name('artisans.create');
+    Route::post('artisans', [ArtisanController::class, 'store'])->name('artisans.store');
+
+    // 2. مسارات سلة المحذوفات: لازم تكون قبل مسارات الـ ID
+    Route::get('artisans_trashed', [ArtisanController::class, 'trashed'])->name('artisans_trashed');
+    Route::get('artisans_restore/{id}', [ArtisanController::class, 'restore'])->name('artisans_restore');
+    Route::get('artisans_force/{id}', [ArtisanController::class, 'force'])->name('artisans_force');
+    Route::get('artisans_force_all', [ArtisanController::class, 'forceAll'])->name('artisans_forceAll');
+
+    // 3. مسارات التعديل والحذف: خليها في الآخر لأن فيها {id}
+    Route::get('artisans/{id}/edit', [ArtisanController::class, 'edit'])->name('artisans.edit');
+    Route::post('artisans-update/{id}', [ArtisanController::class, 'update'])->name('artisans-update');
+    Route::delete('artisans/{id}', [ArtisanController::class, 'destroy'])->name('artisans.destroy');
+
+    Route::view('temp','cms.temp');
 
 Route::post('admins-update/{id}',[AdminController::class , 'update'])->name('admins-update');
 Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
@@ -83,14 +104,16 @@ Route::resource('categories' , CategoryController::class);
 
 
 
-Route::post('customers-update/{id}',[CustomerController::class , 'update'])->name('customers-update');
+Route::get('customers/create', [CustomerController::class, 'create'])->name('customers.create');
+Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
+Route::get('customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+Route::post('customers-update/{id}', [CustomerController::class, 'update'])->name('customers-update');
+Route::delete('customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 Route::get('customers_trashed', [CustomerController::class, 'trashed'])->name('customers_trashed');
-Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
-Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
 Route::get('customers_force_all', [CustomerController::class, 'forceAll'])->name('customers_forceAll');
-Route::resource('customers' , CustomerController::class);
-
-
+ Route::get('customers_trashed', [CustomerController::class, 'trashed'])->name('customers_trashed');
+    Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
+    Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
 
 Route::resource('addresses', AddressController::class);
 Route::post('addresses_update/{id}', [AddressController::class,'update'])->name('addresses_update');
@@ -139,9 +162,38 @@ Route::get('orders_forceAll',         [OrderController::class, 'forceAll'])->nam
 ///////////////
 
 
+
+     Route::resource('permissions', PermissionController::class);
+     Route::post('permissions_update/{id}', [PermissionController::class,'update'])->name('permissions_update');
+
+     Route::resource('roles', RoleController::class);
+     Route::post('roles_update/{id}', [RoleController::class,'update'])->name('roless_update');
+
+     Route::resource('roles', RoleController::class);
+     Route::post('roles_update/{id}', [RoleController::class,'update'])->name('roless_update');
+
+     // لعرض الصفحة
+       Route::resource('roles.permissions', RolePermissionController::class);
+// لحفظ الصلاحية (Request من نوع Post للـ Checkbox)
+    //    Route::post('role-permissions', [RoleController::class, 'updateRolePermission']);
+
+
+
 }
 
 
 
 
 );
+Route::prefix('cms/{guard}')->middleware('auth:admin,team,customer,artisan')->group(function() {
+    Route::get('home', [DashboardController::class, 'index'])->name('cms.home');
+
+    // مسارات العرض مسموحة للجميع
+    Route::get('artisans', [ArtisanController::class, 'index'])->name('artisans.index');
+    Route::get('artisans/{id}', [ArtisanController::class, 'show'])->name('artisans.show');
+    Route::get('teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::get('teams/{id}', [TeamController::class, 'show'])->name('teams.show');
+    Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+});
+Route::get('cms/logout', [UserAuthController::class, 'logout'])->name('logout');

@@ -32,7 +32,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
     {
         //نننl
 
-        return response()->view('cms.artisan.create');
+        return view('cms.artisan.create');
     }
 
     /**
@@ -143,7 +143,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($guard, $id)
     {
         //
         $artisans = Artisan::findOrFail($id);
@@ -212,7 +212,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
               return response()->json([
                 'icon' => 'success',
                 'title' => 'updated succefully',
-                'redirect' => route('artisans.index')
+               'redirect' => route('artisans.index', ['guard' => 'Admin'])
              ], 200);
         } else {
             return response()->json([

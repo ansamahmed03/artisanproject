@@ -62,10 +62,12 @@
 
                       <td>{{ $artisan->store_name }}</td>
                       <td class="text-center">
-    <a href="{{ route('artisans.show' , $artisan->id ) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
-        <i class="fas fa-eye"></i>
-    </a>
 
+<a href="{{ route('artisans.show', ['guard' => request()->segment(2), 'id' => $artisan->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+    <i class="fas fa-eye"></i>
+</a>        
+    </a>
+         @if(auth('admin')->check())
     <a href="{{ route('artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
         <i class="fas fa-edit"></i>
     </a>
@@ -75,6 +77,7 @@
             <i class="fas fa-trash-alt"></i>
         </button>
     </form>
+    @endif
 </td>
 
 

@@ -13,11 +13,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    @if(auth('admin')->check())
                     <div class="card-header">
+
                         <a href="{{ route('teams.create') }}" class="btn btn-info">Add new Team</a>
                         <a href="{{ route('teams_trashed') }}" class="btn btn-warning">
                             <i class="fas fa-trash"></i> Trashed
                         </a>
+                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -62,9 +65,10 @@
                                           @endif
                                             </td>
                                     <td class="text-center">
-                                        <a href="{{ route('teams.show', $team->id) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+                                        <a href="{{ route('teams.show', ['guard' => request()->segment(2), 'id' => $team->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @if(auth('admin')->check())
 
                                         <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-sm" style="color: #3498db;" title="edit">
                                             <i class="fas fa-edit"></i>
@@ -73,6 +77,7 @@
                                         <button type="button" onclick="performDestroy({{ $team->id }}, this)" class="btn btn-sm" style="color: #e74c3c;" title="delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

@@ -38,6 +38,17 @@
                     name="full_name"
                     placeholder="Enter your name">
                   </div>
+                  
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Role Name</label>
+            <select class="form-control select2" id="role_id" style="width: 100%;">
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
 
 
                   <div class="form-group">
@@ -103,7 +114,7 @@
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                   </div>
-                </div>
+
                 <!-- /.card-body -->
 
                 <div class="card-footer">
@@ -125,6 +136,7 @@
      formData.append('full_name', document.getElementById('full_name').value);
         formData.append('email', document.getElementById('email').value);
         formData.append('password', document.getElementById('password').value);
+        formData.append('role_id', document.getElementById('role_id').value);
     //  formData.append('First_name', document.getElementById('First_name').value);
     //     formData.append('Last_name', document.getElementById('Last_name').value);
 

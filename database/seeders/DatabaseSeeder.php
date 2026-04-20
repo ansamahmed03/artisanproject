@@ -6,7 +6,10 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+<<<<<<< HEAD
 use App\Models\Order;
+=======
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,7 +29,7 @@ public function run(): void
         ]);
     });
 
-/** 
+/**
     $this->call([
         UserSeeder::class, // تأكد من وجود مستخدمين أولاً
         NotificationSeeder::class,
@@ -56,4 +59,5 @@ public function run(): void
 
 
 
+}
 }

@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Artisan extends Model
+class Artisan extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\ArtisanFactory> */
-    use HasFactory , SoftDeletes;
+    use HasFactory , HasRoles, SoftDeletes;
 
       protected $fillable = [
         'name',
