@@ -39,8 +39,7 @@
                             <td class="text-center">
                                 <img src="{{ asset('storage/' . $image->image_path) }}" width="80" height="60" style="object-fit:cover; border-radius:5px;">
                             </td>
-                            <td class="text-center">{{ $image->product->name }}</td>
-                            <td class="text-center">
+<td class="text-center">{{ optional($image->product)->name ?? 'Deleted Product' }}</td>                            <td class="text-center">
                                 @if($image->is_primary)
                                     <span class="badge badge-success">Primary</span>
                                 @else

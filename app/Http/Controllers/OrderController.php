@@ -31,12 +31,12 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id'          => 'required|integer|exists:customers,id',
-            'address_id'           => 'required|integer|exists:addresses,id',
-            'order_status'         => 'required|in:pending,processing,shipped,delivered,cancelled',
-            'items'                => 'required|array|min:1',
-            'items.*.product_id'   => 'required|integer|exists:products,id',
-            'items.*.quantity'     => 'required|integer|min:1',
+            'customer_id'        => 'required|integer|exists:customers,id',
+            'address_id'         => 'required|integer|exists:addresses,id',
+            'order_status'       => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'items'              => 'required|array|min:1',
+            'items.*.product_id' => 'required|integer|exists:products,id',
+            'items.*.quantity'   => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -48,22 +48,19 @@ class OrderController extends Controller
 
         DB::beginTransaction();
         try {
-            // احسب الـ total_price
             $total = 0;
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
                 $total  += $product->price * $item['quantity'];
             }
 
-            // اعمل الأوردر
-            $order = new Order();
-            $order->customer_id   = $request->customer_id;
-            $order->address_id    = $request->address_id;
-            $order->order_status  = $request->order_status;
-            $order->total_price   = $total;
+            $order               = new Order();
+            $order->customer_id  = $request->customer_id;
+            $order->address_id   = $request->address_id;
+            $order->order_status = $request->order_status;
+            $order->total_price  = $total;
             $order->save();
 
-            // اعمل الـ order items
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
                 OrderItem::create([
@@ -91,7 +88,15 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['customer', 'address', 'orderItems.product'])->findOrFail($id);
+        $order = Order::with([
+            'customer',
+            'address',
+            'orderItems' => function($query) {
+                $query->with(['product' => function($q) {
+                    $q->withTrashed();
+                }]);
+            }
+        ])->findOrFail($id);
         return response()->view('cms.order.show', compact('order'));
     }
 
@@ -107,12 +112,12 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id'          => 'required|integer|exists:customers,id',
-            'address_id'           => 'required|integer|exists:addresses,id',
-            'order_status'         => 'required|in:pending,processing,shipped,delivered,cancelled',
-            'items'                => 'required|array|min:1',
-            'items.*.product_id'   => 'required|integer|exists:products,id',
-            'items.*.quantity'     => 'required|integer|min:1',
+            'customer_id'        => 'required|integer|exists:customers,id',
+            'address_id'         => 'required|integer|exists:addresses,id',
+            'order_status'       => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'items'              => 'required|array|min:1',
+            'items.*.product_id' => 'required|integer|exists:products,id',
+            'items.*.quantity'   => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -126,7 +131,6 @@ class OrderController extends Controller
         try {
             $order = Order::findOrFail($id);
 
-            // احسب الـ total جديد
             $total = 0;
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
@@ -139,7 +143,6 @@ class OrderController extends Controller
             $order->total_price  = $total;
             $order->save();
 
-            // امسح الـ items القديمة واعمل جديدة
             $order->orderItems()->delete();
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
@@ -167,14 +170,19 @@ class OrderController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        Order::destroy($id);
-        return response()->json([
-            'icon'  => 'success',
-            'title' => 'Deleted Successfully',
-        ], 200);
-    }
+  public function destroy($id)
+{
+    // أول شي احذفي الـ items قبل الـ order
+    OrderItem::where('order_id', $id)->delete();
+
+    // ثم احذفي الـ order
+    Order::findOrFail($id)->delete();
+
+    return response()->json([
+        'icon'  => 'success',
+        'title' => 'Deleted Successfully',
+    ], 200);
+}
 
     public function trashed()
     {
@@ -187,19 +195,27 @@ class OrderController extends Controller
 
     public function restore($id)
     {
-        Order::onlyTrashed()->findOrFail($id)->restore();
+        $order = Order::onlyTrashed()->findOrFail($id);
+        OrderItem::onlyTrashed()->where('order_id', $id)->restore();
+        $order->restore();
         return back()->with('success', 'Restored Successfully');
     }
 
     public function force($id)
     {
-        Order::onlyTrashed()->findOrFail($id)->forceDelete();
+        $order = Order::onlyTrashed()->findOrFail($id);
+        OrderItem::onlyTrashed()->where('order_id', $id)->forceDelete();
+        $order->forceDelete();
         return back()->with('success', 'Deleted Successfully');
     }
 
     public function forceAll()
     {
-        Order::onlyTrashed()->forceDelete();
+        $orders = Order::onlyTrashed()->get();
+        foreach ($orders as $order) {
+            OrderItem::onlyTrashed()->where('order_id', $order->id)->forceDelete();
+            $order->forceDelete();
+        }
         return back()->with('success', 'All Deleted Successfully');
     }
 }

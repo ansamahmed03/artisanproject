@@ -269,37 +269,6 @@
 
 
 
-          <li class="nav-item has-treeview">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-user-shield"></i>
-        <p>
-            Admins
-            <i class="fas fa-angle-left right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('admins.create') }}" class="nav-link">
-                <i class="fas fa-plus-circle nav-icon"></i>
-                <p>Create Admin</p>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="{{ route('admins.index') }}" class="nav-link">
-                <i class="fas fa-list-ul nav-icon"></i>
-                <p>All Admins</p>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="{{ route('admins_trashed') }}" class="nav-link">
-                <i class="fas fa-trash-alt nav-icon"></i>
-                <p>Trash</p>
-            </a>
-        </li>
-    </ul>
-</li>
 
 
 
@@ -334,6 +303,17 @@
                     <p>trash </p>
                </a>
                  </li>
+
+
+
+
+
+
+
+
+
+
+
             </ul>
           </li>
 
@@ -419,6 +399,87 @@
             </ul>
           </li>
 
+                    <li class="nav-item">
+  <a href="#" class="nav-link">
+    <i class="nav-icon fas fa-star"></i>
+    <p>
+      Reviews
+      <i class="fas fa-angle-left right"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="{{ route('reviews.create') }}" class="nav-link">
+        <i class="fas fa-plus-circle nav-icon"></i>
+        <p>Create Review</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{{ route('reviews.index') }}" class="nav-link">
+        <i class="fas fa-list-ul nav-icon"></i>
+        <p>Index</p>
+      </a>
+    </li>
+
+
+
+  </ul>
+</li>
+
+
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-heart"></i> <p>
+            Wishlist
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('wishlists.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>View All Wishlists</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('wishlists.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Add to Wishlist</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('wishlists_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Bin</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <li class="nav-header">System Managment</li>
 
@@ -460,7 +521,35 @@
             </ul>
           </li>
 
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-bell"></i> <p>
+            Notifications
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+         <li class="nav-item">
+            <a href="{{ route('notifications.create') }}" class="nav-link">
+                <i class="far fas fa-paper-plane nav-icon"></i>
+                <p>Send Notification</p>
+            </a>
+        </li>
 
+            <li class="nav-item">
+            <a href="{{ route('notifications.index') }}" class="nav-link">
+                <i class="far fas fa-list-ul nav-icon"></i>
+                <p>All Notifications</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash</p>
+            </a>
+        </li>
+    </ul>
+</li>
 
 
 
@@ -493,11 +582,18 @@
                 <i class="fas fa-th-list nav-icon"></i>
                 <p>index Product</p>
             </a>
-        </li>
 
+
+        <li class="nav-item">
+            <a href="{{ route('products_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Product</p>
+            </a>
+        </li>
+        </li>
     </ul>
 
-  </li> <li class="nav-item">
+<li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-images"></i>
         <p>
@@ -505,21 +601,31 @@
             <i class="fas fa-angle-left right"></i>
         </p>
     </a>
-     <ul class="nav nav-treeview">
+
+    <ul class="nav nav-treeview">
         <li class="nav-item">
             <a href="{{ route('product-images.create') }}" class="nav-link">
                 <i class="fas fa-plus-circle nav-icon"></i>
                 <p>Upload Image</p>
             </a>
         </li>
+
         <li class="nav-item">
             <a href="{{ route('product-images.index') }}" class="nav-link">
-                <i class="fas fa-th-list nav-icon"></i>
+                <i class="fas fa-list-ul nav-icon"></i>
                 <p>View All Images</p>
             </a>
         </li>
-     
+
+        <li class="nav-item">
+            <a href="{{ route('product-images_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Images</p>
+            </a>
+        </li>
     </ul>
+</li>
+
 
   <li class="nav-item">
     <a href="#" class="nav-link">
@@ -540,6 +646,12 @@
             <a href="{{ route('orders.index') }}" class="nav-link">
                 <i class="fas fa-list nav-icon"></i>
                 <p>All Orders</p>
+            </a>
+        </li>
+          <li class="nav-item">
+            <a href="{{ route('orders_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Orders</p>
             </a>
         </li>
     </ul>
@@ -568,6 +680,50 @@
                 <p>View All Items</p>
             </a>
         </li>
+
+         <li class="nav-item">
+            <a href="{{ route('order-items_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Orders</p>
+            </a>
+        </li>
+        </ul>
+</li>
+
+
+
+
+
+
+
+        <li class="nav-item">
+  <a href="#" class="nav-link">
+    <i class="nav-icon fas fa-calendar-check"></i>
+    <p>
+      Bookings
+      <i class="fas fa-angle-left right"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    {{-- رابط إنشاء حجز جديد --}}
+    <li class="nav-item">
+      <a href="{{ route('bookings.create') }}" class="nav-link">
+        <i class="fas fa-plus-circle nav-icon"></i>
+        <p>Create Booking</p>
+      </a>
+    </li>
+
+    {{-- رابط عرض قائمة الحجوزات --}}
+    <li class="nav-item">
+      <a href="{{ route('bookings.index') }}" class="nav-link">
+        <i class="fas fa-list-ul nav-icon"></i>
+        <p>Index</p>
+      </a>
+    </li>
+
+
+  </ul>
+</li>
     </ul>
 </li>
 
@@ -599,7 +755,41 @@
 </li>
 
 
-</li
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

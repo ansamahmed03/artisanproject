@@ -44,6 +44,10 @@ public function images()
 }
 
 
+public function product() {
+    // adding withTrashed() ensures the product is loaded even if soft-deleted
+    return $this->belongsTo(Product::class, 'Products_id')->withTrashed();
+}
 /**public function images()
 {
     return $this->morphMany(Image::class, 'imageable');

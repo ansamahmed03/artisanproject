@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -10,8 +12,11 @@ class CityController extends Controller
 {
     public function index()
     {
-        $cities = City::with('country')->orderBy('id', 'desc')->withoutTrashed()->simplePaginate(10); // ✅ Capital C
-        return response()->view('cms.city.index', compact('cities'));
+$cities = City::with(['country' => function($q) {
+    $q->withTrashed();
+}])
+->orderBy('id', 'desc')
+->simplePaginate(10);        return response()->view('cms.city.index', compact('cities'));
     }
 
     public function create()
@@ -99,48 +104,75 @@ class CityController extends Controller
         ], 200);
     }
 
-    public function destroy(string $id)
-    {
-        City::destroy($id);
+    public function destroy($id)
+{
+    $city = City::findOrFail($id);
 
-        return response()->json([
-            'icon'    => 'success',
-            'title'   => 'Deleted Successfully',
-        ], 200);
-    }
+    // ترشيد الـ addresses التابعة لها
+    Address::where('city_id', $id)->delete();
+
+    $city->delete();
+
+    return response()->json([
+        'icon'  => 'success',
+        'title' => 'Deleted Successfully',
+    ], 200);
+}
+
 
       public function trashed()
     {
         //
+     $cities = City::with(['country' => function($q) {
+        $q->withTrashed();
+     }])
+        ->onlyTrashed()
+        ->orderBy('deleted_at', 'desc')
+        ->get();
 
-       $cities = City::onlyTrashed()->orderBy('deleted_at','desc')->get();
 
        return response()->view('cms.city.trashed', compact('cities'));
     }
 
+    public function byCountry($id)
+{
+    $cities = City::where('country_id', $id)->get(['id', 'name', 'street']);
+    return response()->json($cities);
+}
 
   public function restore($id)
-    {
-       $cities = City::onlyTrashed()->findOrFail($id)-> restore();
+{
+    $city = City::onlyTrashed()->findOrFail($id);
 
-       return back()->with('success','Success');
+    // استرجع الـ addresses معها
+    Address::onlyTrashed()->where('city_id', $id)->restore();
+
+    $city->restore();
+
+    return back()->with('success', 'Restored Successfully');
+}
+
+public function force($id)
+{
+    $city = City::onlyTrashed()->findOrFail($id);
+
+    Address::onlyTrashed()->where('city_id', $id)->forceDelete();
+
+    $city->forceDelete();
+
+    return back()->with('success', 'Deleted Successfully');
+}
+
+public function forceAll()
+{
+    $cities = City::onlyTrashed()->get();
+    foreach ($cities as $city) {
+        Address::onlyTrashed()->where('city_id', $city->id)->forceDelete();
+        $city->forceDelete();
     }
 
-
-
-      public function force($id)
-    {
-       $cities = City::onlyTrashed()->findOrFail($id)-> forceDelete();
-
-       return back()->with('success','Success');
-    }
-
-          public function forceAll()
-    {
-       $cities = City::onlyTrashed()->forceDelete();
-
-       return back()->with('success','Success');
-    }
+    return back()->with('success', 'All Deleted Successfully');
+}
 
 
 }

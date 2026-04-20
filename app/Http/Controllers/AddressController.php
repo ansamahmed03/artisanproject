@@ -11,16 +11,19 @@ class AddressController extends Controller
 {
     public function index()
     {
-        $addresses = Address::with('city')
-            ->orderBy('id', 'desc')
-            ->simplePaginate(10);
+     $addresses = Address::with(['city' => function($q) {
+    $q->withTrashed();
+}])
+->orderBy('id', 'desc')
+->simplePaginate(10);
         return response()->view('cms.address.index', compact('addresses'));
     }
 
     public function create()
     {
-        $cities = City::all();
-        return response()->view('cms.address.create', compact('cities'));
+        $cities    = City::all();
+    $countries = \App\Models\Country::all();
+    return response()->view('cms.address.create', compact('cities', 'countries'));
     }
 
     public function store(Request $request)
@@ -60,17 +63,27 @@ class AddressController extends Controller
     }
 
     public function show($id)
-    {
-        $address = Address::with('city')->findOrFail($id);
-        return response()->view('cms.address.show', compact('address'));
-    }
+{
+    $address = Address::with(['city' => function($q) {
+        $q->withTrashed()->with(['country' => function($q) {
+            $q->withTrashed();
+        }]);
+    }])->findOrFail($id);
+
+    return response()->view('cms.address.show', compact('address'));
+}
 
     public function edit($id)
-    {
-        $address = Address::findOrFail($id);
-        $cities  = City::all();
-        return response()->view('cms.address.edit', compact('address', 'cities'));
-    }
+{
+    $address   = Address::with(['city' => function($q) {
+        $q->withTrashed()->with(['country' => function($q) {
+            $q->withTrashed();
+        }]);
+    }])->findOrFail($id);
+
+    $countries = \App\Models\Country::all();
+    return response()->view('cms.address.edit', compact('address', 'countries'));
+}
 
     public function update(Request $request, $id)
     {
@@ -113,7 +126,9 @@ class AddressController extends Controller
 
 public function trashed()
 {
-    $addresses = Address::with('city')
+    $addresses = Address::with(['city' => function($q) {
+        $q->withTrashed();
+    }])
         ->onlyTrashed()
         ->orderBy('deleted_at', 'desc')
         ->get();

@@ -86,7 +86,7 @@
                                         <span class="badge badge-warning">Pending</span>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $product->category->name }}</td>
+                                    <td class="text-center">{{ $product->category?->name }}</td>
                                 <td class="text-center">{{ $product->artisan->artisan_name }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">

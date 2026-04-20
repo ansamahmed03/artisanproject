@@ -1,8 +1,8 @@
  @extends('cms.parent')
 
-@section('main-title' , 'Trashed')
-@section('sub-title', 'Trashed')
-@section('title', 'trashed')
+@section('main-title' , 'Trashed Country')
+@section('sub-title', 'Trashed Country')
+@section('title', 'trashed Country')
 
 
 

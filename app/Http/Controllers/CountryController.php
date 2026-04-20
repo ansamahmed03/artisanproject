@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\City;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,10 +47,10 @@ class CountryController extends Controller
 
 
             'country_name.required'     => 'The country name field is required.',
-            'code.required'              => 'The street name is required.',
+            'code.required'              => 'The code  is required.',
             'country_name.regex'        => 'The country name must contain only letters.',
             'country_name.min'          => 'The country name must be at least 3 characters.',
-            'code.regex'      => 'The street name format is invalid.',
+            'code.regex'      => 'The code format is invalid.',
 
           ]);
 
@@ -129,12 +131,25 @@ class CountryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
-    {
-        //
+    public function destroy($id)
+{
+    $country = Country::findOrFail($id);
 
-       $countries = Country::destroy($id);
+    // جيب كل المدن وحذفها مع الـ addresses
+    $cities = City::where('country_id', $id)->get();
+    foreach ($cities as $city) {
+        Address::where('city_id', $city->id)->delete(); // ترشيد الـ addresses
+        $city->delete(); // ترشيد المدينة
     }
+
+    $country->delete();
+
+    return response()->json([
+        'icon'  => 'success',
+        'title' => 'Deleted Successfully',
+    ], 200);
+}
+
 
 
       public function trashed()
@@ -148,27 +163,47 @@ class CountryController extends Controller
 
 
   public function restore($id)
-    {
-       $countries = Country::onlyTrashed()->findOrFail($id)-> restore();
+{
+    $country = Country::onlyTrashed()->findOrFail($id);
 
-       return back()->with('success','Success');
+    // استرجع المدن والـ addresses معه
+    $cities = City::onlyTrashed()->where('country_id', $id)->get();
+    foreach ($cities as $city) {
+        Address::onlyTrashed()->where('city_id', $city->id)->restore();
+        $city->restore();
     }
 
+    $country->restore();
 
+    return back()->with('success', 'Restored Successfully');
+}
+public function force($id)
+{
+    $country = Country::onlyTrashed()->findOrFail($id);
 
-      public function force($id)
-    {
-       $countries = Country::onlyTrashed()->findOrFail($id)-> forceDelete();
-
-       return back()->with('success','Success');
+    $cities = City::onlyTrashed()->where('country_id', $id)->get();
+    foreach ($cities as $city) {
+        Address::onlyTrashed()->where('city_id', $city->id)->forceDelete();
+        $city->forceDelete();
     }
 
-          public function forceAll()
-    {
-       $countries = Country::onlyTrashed()->forceDelete();
+    $country->forceDelete();
 
-       return back()->with('success','Success');
+    return back()->with('success', 'Deleted Successfully');
+}
+
+public function forceAll()
+{
+    $countries = Country::onlyTrashed()->get();
+    foreach ($countries as $country) {
+        $cities = City::onlyTrashed()->where('country_id', $country->id)->get();
+        foreach ($cities as $city) {
+            Address::onlyTrashed()->where('city_id', $city->id)->forceDelete();
+            $city->forceDelete();
+        }
+        $country->forceDelete();
     }
 
-
+    return back()->with('success', 'All Deleted Successfully');
+}
 }

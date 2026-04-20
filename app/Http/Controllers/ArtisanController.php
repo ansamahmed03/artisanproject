@@ -258,6 +258,32 @@ $artisans = Artisan::with(['user'])->paginate(10);
             'title' => 'Deletion failed'
         ], 400);
     }
+
+
+    ///////////////////////////////////////////////
+    $artisan->notifications()->delete();
+
+    // 2. حذف اليوزر المرتبط به
+    if ($artisan->user) {
+        $artisan->user->delete();
+    }
+
+    // 3. حذف الارتزان نفسه
+    $isDeleted = $artisan->delete();
+
+    if ($isDeleted) {
+        return response()->json([
+            'icon' => 'success',
+            'title' => 'Deleted successfully'
+        ], 200);
+    } else {
+        return response()->json([
+            'icon' => 'error',
+            'title' => 'Deletion failed'
+        ], 400);
+    }
+    ////////////////////////////////////////////////////////
+
     }
 
        public function trashed() {
