@@ -1,7 +1,3 @@
- وصلنا للمحطة الأخيرة! قمت بتعديل صفحة الـ Trashed لتناسب التيم (Teams)، مع تنظيف الروابط وتوحيد مسميات الـ JavaScript لتعمل مع الـ TeamController.
-
-ملف الـ Trashed المعدل (trashed.blade.php)
-HTML
 @extends('cms.parent')
 
 @section('main-title' , 'Teams Trash')
@@ -19,7 +15,7 @@ HTML
 
                 <div class="card-header border-0">
                     <div class="d-flex align-items-center" style="gap: 10px;">
-                        <a href="{{ route('teams.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('teams.index', ['guard' => 'Admin']) }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to Teams
                         </a>
                         <button type="button" onclick="confirmForceAll()" class="btn btn-danger">

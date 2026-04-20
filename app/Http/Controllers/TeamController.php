@@ -13,14 +13,12 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($guard)
     {
         //
 
-        $teams=Team::with('user')->paginate(10);
-
-
-       return view('cms.team.index', compact('teams'));
+   $teams = Team::paginate(10);
+    return response()->view('cms.team.index', compact('teams'));
     }
 
     /**
@@ -94,10 +92,10 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($guard,$id)
     {
         //
-      $team = Team::findOrFail($id);
+   $team = Team::findOrFail($id);
     return response()->view('cms.team.show', compact('team'));
     }
 
@@ -169,7 +167,7 @@ class TeamController extends Controller
             return response()->json([
                 'icon'     => 'success',
                 'title'    => 'Updated successfully',
-                'redirect' => route('teams.index') // تأكد من اسم الـ Route
+               'redirect' => route('teams.index', ['guard' => 'Admin']) // تأكد من اسم الـ Route
             ], 200);
         } else {
             return response()->json([

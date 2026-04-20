@@ -117,7 +117,7 @@
 
                 <div class="card-footer">
                   <button type="button" onclick="performStore()" class="btn btn-primary">Submit</button>
-                <a href="{{ route('artisans.index') }}"type="submit" class="btn btn-info">Go back</a>
+                <a href="{{ route('artisans.index', ['guard' => 'Admin']) }}" type="submit" class="btn btn-info">Go back</a>
 
                 </div>
               </form>

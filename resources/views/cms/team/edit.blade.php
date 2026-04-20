@@ -78,7 +78,7 @@
 
         <div class="card-footer">
             <button type="button" onclick="performUpdate({{ $teams->id }})" class="btn btn-primary">Update</button>
-            <a href="{{ route('teams.index') }}" class="btn btn-info">Go back</a>
+            <a href="{{ route('teams.index', ['guard' => 'Admin']) }}" class="btn btn-info">Go back</a>
         </div>
     </form>
 </div>
@@ -89,7 +89,7 @@
     function performUpdate(id) {
         let formData = new FormData();
         // لارافيل يحتاج _method للحذف أو التعديل عند استخدام FormData
-        formData.append('_method', 'PUT');
+        // formData.append('_method', 'PUT');
 
         formData.append('team_name', document.getElementById('team_name').value);
         formData.append('email', document.getElementById('email').value);
@@ -105,7 +105,7 @@
         }
 
         // الرابط يجب أن يتطابق مع الـ Update في الـ Controller
-        storeRoute('/cms/Admin/teams/' + id, formData);
+          storeRoute('/cms/Admin/teams-update/' + id, formData);
     }
 </script>
 @endsection

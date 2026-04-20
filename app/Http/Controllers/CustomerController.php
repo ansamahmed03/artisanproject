@@ -10,7 +10,7 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($guard)
     {
         //
           $customers=Customer::with('user')->paginate(10);
@@ -75,7 +75,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($guard, $id)
     {
         //
          $customers = Customer::findOrFail($id);
@@ -139,7 +139,7 @@ class CustomerController extends Controller
               return response()->json([
                 'icon' => 'success',
                 'title' => 'updated succefully',
-                'redirect' => route('customers.index')
+                'redirect' => route('customers.index', ['guard' => 'Admin'])
              ], 200);
         } else {
             return response()->json([

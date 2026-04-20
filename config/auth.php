@@ -36,10 +36,32 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+
+          'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins',
+    ],
+     'customer' => [
+        'driver' => 'session',
+        'provider' => 'customers',
+    ],
+    'artisan' => [
+        'driver' => 'session',
+        'provider' => 'artisans',
+    ],
+    'team' => [
+        'driver' => 'session',
+        'provider' => 'teams',
+    ],
+        // 'web' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        // ],
     ],
 
     /*
@@ -60,10 +82,37 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
+
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class,
+    ],
+       'customers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Customer::class,
+    ],
+
+    'artisans' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Artisan::class,
+    ],
+     'teams' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Team::class,
+    ],
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\User::class),
+        // ],
+        //   'admins' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\Admin::class),
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',

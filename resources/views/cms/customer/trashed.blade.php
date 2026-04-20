@@ -33,13 +33,13 @@
 </div>
     <div class="d-flex align-items-center" style="gap: 5px;">
 
-<a href="{{ route('customers.index') }}" class="btn btn-secondary">
+<a href="{{ route('customers.index', ['guard' => 'Admin']) }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to index customers
         </a>
-              <a href="{{ route('customers.create') }}" class="btn btn-info text-white">
+              <a href="{{ route('customers.create', ['guard' => 'Admin']) }}" class="btn btn-info text-white">
                  <i class="fas fa-plus-circle"></i> Create New customers
           </a>
-            <a href="{{ route('customers_forceAll') }}" class="btn btn-danger">
+            <a href="{{ route('customers_forceAll', ['guard' => 'Admin']) }}" class="btn btn-danger">
     <i class="fas fa-fire-alt"></i> Empty Trash
 </a>
     </div>
@@ -70,7 +70,7 @@
                       <td>
                              <div class="btn-group">
 
-                                 <a href="{{ route('customers_restore'  , $customer->id) }}" class="btn btn-sm" style="color: #2D6A4F;" title="restore">
+                                 <a href="{{ route('customers_restore', ['guard' => 'Admin', 'id' => $customer->id]) }}" class="btn btn-sm" style="color: #2D6A4F;" title="restore">
                              <i class="fas fa-sync" ></i>
                                   </a>
 
