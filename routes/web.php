@@ -122,5 +122,12 @@ Route::get('product-images_force/{id}',     [ProductImageController::class, 'for
 Route::get('product-images_forceAll',       [ProductImageController::class, 'forceAll'])->name('product-images_forceAll');
 Route::resource('product-images', ProductImageController::class);
 
+
+Route::resource('reviews', ReviewController::class);
+Route::get('reviews_trashed',      [ReviewController::class, 'trashed'])->name('reviews_trashed');
+Route::get('reviews_restore/{id}', [ReviewController::class, 'restore'])->name('reviews_restore');
+Route::get('reviews_force/{id}',   [ReviewController::class, 'force'])->name('reviews_force');
+Route::get('reviews_forceAll',     [ReviewController::class, 'forceAll'])->name('reviews_forceAll');
+
 }
 );
