@@ -18,10 +18,6 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductImageController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\BookingController;
 
 
 //Route::get('/', function () {
@@ -138,7 +134,19 @@ Route::resource('products', ProductController::class);
 
 
 
+Route::post('wishlists-update/{id}',[WishlistController::class , 'update'])->name('wishlists-update');
 
+Route::get('wishlists_trashed', [WishlistController::class, 'trashed'])->name('wishlists_trashed');
+Route::get('wishlists_restore/{id}', [WishlistController::class, 'restore'])->name('wishlists_restore');
+Route::get('wishlists_force/{id}', [WishlistController::class, 'force'])->name('wishlists_force');
+Route::get('wishlists_force_all', [WishlistController::class, 'forceAll'])->name('wishlists_forceAll');
+Route::resource('wishlists' , WishlistController::class);
+
+Route::resource('reviews', ReviewController::class);
+Route::get('reviews_trashed',      [ReviewController::class, 'trashed'])->name('reviews_trashed');
+Route::get('reviews_restore/{id}', [ReviewController::class, 'restore'])->name('reviews_restore');
+Route::get('reviews_force/{id}',   [ReviewController::class, 'force'])->name('reviews_force');
+Route::get('reviews_forceAll',     [ReviewController::class, 'forceAll'])->name('reviews_forceAll');
 
 
 
