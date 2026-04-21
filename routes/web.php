@@ -17,6 +17,10 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\BookingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -139,7 +143,13 @@ Route::get('teams_trashed', [TeamController::class, 'trashed'])->name('teams_tra
   Route::get('order-items_force/{id}',       [OrderItemController::class, 'force'])->name('order-items_force');
   Route::get('order-items_forceAll',         [OrderItemController::class, 'forceAll'])->name('order-items_forceAll');
 
+Route::resource('bookings', BookingController::class);
 
+  Route::post('bookings_update/{id}', [BookingController::class,'update'])->name('bookings_update');
+Route::get('bookings_trashed',      [BookingController::class, 'trashed'])->name('bookings_trashed');
+Route::get('bookings_restore/{id}', [BookingController::class, 'restore'])->name('bookings_restore');
+Route::get('bookings_force/{id}',   [BookingController::class, 'force'])->name('bookings_force');
+Route::get('bookings_forceAll',     [BookingController::class, 'forceAll'])->name('bookings_forceAll');
 
     Route::resource('addresses', AddressController::class);
     Route::post('addresses_update/{id}', [AddressController::class,'update'])->name('addresses_update');
