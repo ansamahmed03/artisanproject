@@ -105,11 +105,11 @@
 
 @section('scripts')
 <script>
-    function addRow() {
-        const template = document.getElementById('item-template').content.cloneNode(true);
-        document.getElementById('items-container').appendChild(template);
-    }
-
+  function addRow() {
+    const template = document.getElementById('item-template');
+    const clone = template.content.cloneNode(true);
+    document.getElementById('items-container').appendChild(clone);
+}
     function removeRow(btn) {
         const rows = document.querySelectorAll('.item-row');
         if (rows.length > 1) btn.closest('.item-row').remove();

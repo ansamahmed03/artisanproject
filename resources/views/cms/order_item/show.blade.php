@@ -16,12 +16,12 @@
                     <div class="form-group">
                         <label>Order</label>
                         <input type="text" class="form-control" disabled
-                            value="Order #{{ $item->order_id }} — {{ $item->order->customer->email }}">
+                            value="Order #{{ optional($item->order)->id ?? 'Deleted Order' }} — {{ $item->order->customer->email }}">
                     </div>
 
                     <div class="form-group">
                         <label>Product</label>
-                        <input type="text" class="form-control" disabled value="{{ $item->product->name }}">
+                        <input type="text" class="form-control" disabled value="{{ optional($item->product)->name ?? 'Deleted Product' }}">
                     </div>
 
                     <div class="form-group">

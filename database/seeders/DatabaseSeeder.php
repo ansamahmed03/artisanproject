@@ -6,6 +6,10 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+<<<<<<< HEAD
+use App\Models\Order;
+=======
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,8 +29,35 @@ public function run(): void
         ]);
     });
 
+/**
+    $this->call([
+        UserSeeder::class, // تأكد من وجود مستخدمين أولاً
+        NotificationSeeder::class,
+    ]);
+    **/
+        // إنشاء حرفيين (بدون مناداة السيدا تبعهم)
+        \App\Models\Artisan::factory(10)->create()->each(function ($artisan) {
+            $artisan->user()->create([
+                'name' => $artisan->artisan_name,
+                'email' => $artisan->email,
+                'password' => bcrypt('password'),
+            ]);
+        });
+
+
+
+
+        // 3. تعبئة بياناتك  (المنتجات والطلبات)
+        \App\Models\Product::factory(30)->create();
+        \App\Models\Customer::factory(10)->create();
+        \App\Models\Order::factory(15)->create();
+        \App\Models\OrderItem::factory(50)->create();
+         \App\Models\Review::factory(40)->create();
+         \App\Models\Booking::factory(20)->create();
+    }
    // \App\Models\Customer::factory(10)->create();
-    \App\Models\Order::factory(15)->create();
-    \App\Models\OrderItem::factory(50)->create();
+
+
+
 }
 }

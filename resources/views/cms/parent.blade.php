@@ -354,8 +354,15 @@
           @endif
 
 
+<<<<<<< HEAD
+
+
+
+
+=======
            @if(auth('admin')->check() || auth('team')->check())
            @canany(['Index Team', 'Create Team'])
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -390,7 +397,17 @@
                     <p>trash </p>
                </a>
                  </li>
-                 @endif
+
+
+
+
+
+
+
+
+
+
+
             </ul>
           </li>
           @endcanany
@@ -490,7 +507,36 @@
           @endif
 
 
+<<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="nav-header">System Managment</li>
+=======
 {{-- <li class="nav-header">System Managment</li> --}}
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
 
 
 
@@ -546,7 +592,24 @@
 
             </ul>
           </li>
+<<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <li class="nav-header">Products Management</li>
+=======
             @if(auth('admin')->check() || auth('artisan')->check())
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
           <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-box-open"></i> <p>
@@ -568,10 +631,22 @@
                 <i class="fas fa-th-list nav-icon"></i>
                 <p>index Product</p>
             </a>
+
+
+        <li class="nav-item">
+            <a href="{{ route('products_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Product</p>
+            </a>
+        </li>
         </li>
 
     </ul>
 
+<<<<<<< HEAD
+
+
+=======
   </li> <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-images"></i>
@@ -593,9 +668,10 @@
                 <p>View All Images</p>
             </a>
         </li>
-     
+
     </ul>
  @if(auth('admin')->check() || auth('customer')->check())
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
   <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -615,6 +691,12 @@
             <a href="{{ route('orders.index') }}" class="nav-link">
                 <i class="fas fa-list nav-icon"></i>
                 <p>All Orders</p>
+            </a>
+        </li>
+          <li class="nav-item">
+            <a href="{{ route('orders_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Orders</p>
             </a>
         </li>
     </ul>
@@ -643,14 +725,30 @@
                 <p>View All Items</p>
             </a>
         </li>
-    </ul>
+
+         <li class="nav-item">
+            <a href="{{ route('order-items_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Orders</p>
+            </a>
+        </li>
+        </ul>
 </li>
 
 
 @endif
 @endif
 
+<<<<<<< HEAD
+
+
+
+
+
+
+=======
 @if(auth('admin')->check())
+>>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-map-marked-alt"></i>

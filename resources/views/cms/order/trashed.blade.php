@@ -34,13 +34,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($orders as $order)
+                               @foreach($orders as $order)
                             <tr>
                                 <td class="text-center">{{ $order->id }}</td>
-                                <td class="text-center">{{ $order->customer->email }}</td>
+                                <td class="text-center">{{ $order->customer->email ?? 'Deleted Customer' }}</td>
                                 <td class="text-center">${{ $order->total_price }}</td>
-                                <td class="text-center">{{ ucfirst($order->order_status) }}</td>
-                                <td class="text-center">{{ $order->deleted_at->format('Y-m-d H:i') }}</td>
+                                <td class="text-center">{{ $order->orderItems->count() }}</td>
+                                <td class="text-center">
+                                    @php
+                                        $colors = [
+                                            'pending'    => 'warning',
+                                            'processing' => 'info',
+                                            'shipped'    => 'primary',
+                                            'delivered'  => 'success',
+                                            'cancelled'  => 'danger',
+                                        ];
+                                    @endphp
+                                    <span class="badge badge-{{ $colors[$order->order_status] }}">
+                                        {{ ucfirst($order->order_status) }}
+                                    </span>
+                                </td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="{{ route('orders_restore', $order->id) }}"

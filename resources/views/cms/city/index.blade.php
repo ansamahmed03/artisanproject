@@ -20,20 +20,20 @@
 
               <div class="card-header">
                  <a href="{{ route('cities.create') }}" class="btn btn-info" style="color: white;">
-                 <i class="fas fa-plus-circle"></i> Create New Country
+                 <i class="fas fa-plus-circle"></i> Create New City
                    </a>
                <a href="{{ route('cities_trashed') }}" class="btn btn-success">
                      <i class="fas fa-trash-restore"></i> Trashed
                  </a>
               </div>
- <div class="card-body"> 
+ <div class="card-body">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 10px">ID</th>
                                 <th class="text-center">City Name</th>
                                 <th class="text-center">Street</th>
-                                  <th class="text-center">Country Name</th>
+<td class="text-center">{{ $city->country->country_name ?? 'Deleted Country' }}</td>
                                 <th class="text-center" style="width: 150px">Action</th>
 
                             </tr>

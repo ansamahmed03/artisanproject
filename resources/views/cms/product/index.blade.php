@@ -44,6 +44,7 @@
                             <tr>
                                 <th class="text-center" style="width: 10px">ID</th>
                                 <th class="text-center">Product Name</th>
+                                <th class="text-center">Image</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Stock</th>
                                 <th class="text-center">Status</th>
@@ -57,6 +58,23 @@
                             <tr>
                                 <td class="text-center">{{ $product->id }}</td>
                                 <td class="text-center">{{ $product->name }}</td>
+<td class="text-center">
+    @if($product->images->count() > 0)
+        @php $firstImage = $product->images->first(); @endphp
+
+        {{-- هنا قمنا بحذف img-circle واستبداله بكلاسات تجعلها مربعة --}}
+        <img src="{{ asset('storage/' . $firstImage->image_path) }}"
+             width="100" height="70" {{-- جرب تغيير الأرقام لتناسبك --}}
+             class="img-bordered-sm img-size-64" {{-- كلاسات AdminLTE بديلة --}}
+             style="border-radius: 5px; object-fit: cover;" {{-- ستايل يدوي لجوانب ناعمة --}}
+             alt="Product Image">
+    @else
+        <img src="{{ asset('assets/img/default-product.png') }}"
+             width="70" height="70"
+             style="border-radius: 5px;"
+             alt="No Image">
+    @endif
+</td>
                                 <td class="text-center">{{ $product->price }}</td>
                                 <td class="text-center">{{ $product->stock_quantity }}</td>
                                 <td class="text-center">
@@ -68,7 +86,7 @@
                                         <span class="badge badge-warning">Pending</span>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $product->category->name }}</td>
+                                    <td class="text-center">{{ $product->category?->name }}</td>
                                 <td class="text-center">{{ $product->artisan->artisan_name }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">

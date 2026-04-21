@@ -8,6 +8,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\PermissionController;
@@ -22,9 +23,14 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BookingController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+//Route::get('/', function () {
+  ///  return view('welcome');
+//});
+Route::get('/', [FrontController::class, 'home'])->name('front.home');
+Route::get('/', [FrontController::class, 'home'])->name('front.home');
+Route::get('/products', [FrontController::class, 'products'])->name('front.products');
+Route::get('/products/{id}', [FrontController::class, 'productShow'])->name('front.product.show');
 
 Route::prefix('cms/')->middleware('guest:admin,artisan,team,customer')->group(function(){
    Route::get('login', [UserAuthController::class, 'showLogin'])->name('view.login');
@@ -55,14 +61,32 @@ Route::get('artisans/create', [ArtisanController::class, 'create'])->name('artis
 
     Route::view('temp','cms.temp');
 
+Route::post('admins-update/{id}',[AdminController::class , 'update'])->name('admins-update');
+Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
+Route::get('admins_restore/{id}', [AdminController::class, 'restore'])->name('admins_restore');
+Route::get('admins_force/{id}', [AdminController::class, 'force'])->name('admins_force');
+Route::get('admins_force_all', [AdminController::class, 'forceAll'])->name('admins_forceAll');
+Route::resource('admins' , AdminController::class);
+
+
+Route::post('teams-update/{id}',[TeamController::class , 'update'])->name('teams-update');
+Route::get('teams_trashed', [TeamController::class, 'trashed'])->name('teams_trashed');
+Route::get('teams_restore/{id}', [TeamController::class, 'restore'])->name('teams_restore');
+Route::get('teams_force/{id}', [TeamController::class, 'force'])->name('teams_force');
+Route::get('teams_force_all', [TeamController::class, 'forceAll'])->name('teams_forceAll');
+Route::resource('teams' , TeamController::class);
+
+
+
+
+
 
 
 Route::post('countries_update/{id}', [CountryController::class,'update'])->name('countries_update');
 Route::get('countries_trashed', [CountryController::class,'trashed'])->name('countries_trashed');
 Route::get('countries_restore/{id}', [CountryController::class,'restore'])->name('countries_restore');
 Route::get('countries_force/{id}', [CountryController::class,'force'])->name('countries_force');
-//Route::get('force', [CountryController::class,'forceAll'])->name('countries_forceAll');
-Route::get('cms/Admin/countries_force_all', [CountryController::class, 'forceAll'])->name('countries_forceAll');
+Route::get('countries_forceAll', [CountryController::class, 'forceAll'])->name('countries_forceAll');
 Route::resource('countries', CountryController::class);
 
 
@@ -70,7 +94,7 @@ Route::post('cities_update/{id}', [CityController::class,'update'])->name('citie
 Route::get('cities_trashed', [CityController::class,'trashed'])->name('cities_trashed');
 Route::get('cities_restore/{id}', [CityController::class,'restore'])->name('cities_restore');
 Route::get('cities_force/{id}', [CityController::class,'force'])->name('cities_force');
-Route::get('force', [CityController::class,'forceAll'])->name('cities_forceAll');
+Route::get('cities_forceAll', [CityController::class,'forceAll'])->name('cities_forceAll');
 Route::resource('cities', CityController::class);
 
 
@@ -81,12 +105,6 @@ Route::get('categories_force/{id}', [CategoryController::class, 'force'])->name(
 Route::get('categories_force_all', [CategoryController::class, 'forceAll'])->name('categories_forceAll');
 Route::resource('categories' , CategoryController::class);
 
-Route::post('admins-update/{id}',[AdminController::class , 'update'])->name('admins-update');
-Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
-Route::get('admins_restore/{id}', [AdminController::class, 'restore'])->name('admins_restore');
-Route::get('admins_force/{id}', [AdminController::class, 'force'])->name('admins_force');
-Route::get('admins_force_all', [AdminController::class, 'forceAll'])->name('admins_forceAll');
-Route::resource('admins' , AdminController::class);
 
 
 
@@ -101,39 +119,36 @@ Route::get('customers_force_all', [CustomerController::class, 'forceAll'])->name
     Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
     Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
 
-Route::post('wishlists-update/{id}',[WishlistController::class , 'update'])->name('wishlists-update');
-Route::get('wishlists_trashed', [WishlistController::class, 'trashed'])->name('wishlists_trashed');
-Route::get('wishlists_restore/{id}', [WishlistController::class, 'restore'])->name('wishlists_restore');
-Route::get('wishlists_force/{id}', [WishlistController::class, 'force'])->name('wishlists_force');
-Route::get('wishlists_force_all', [WishlistController::class, 'forceAll'])->name('wishlists_forceAll');
-Route::resource('wishlists' , WishlistController::class);
+Route::resource('addresses', AddressController::class);
+Route::post('addresses_update/{id}', [AddressController::class,'update'])->name('addresses_update');
+Route::get('addresses_trashed',          [AddressController::class, 'trashed'])->name('addresses_trashed');
+Route::get('addresses_restore/{id}',     [AddressController::class, 'restore'])->name('addresses_restore');
+Route::get('addressesforce/{id}',       [AddressController::class, 'force'])->name('addresses_force');
+Route::get('addresses_forceAll',         [AddressController::class, 'forceAll'])->name('addresses_forceAll');
+Route::get('cities-by-country/{id}', [CityController::class, 'byCountry'])->name('cities.byCountry');
 
 
 Route::post('products_update/{id}', [ProductController::class,'update'])->name('products_update');
 Route::get('products_trashed', [ProductController::class,'trashed'])->name('products_trashed');
 Route::get('products_restore/{id}', [ProductController::class,'restore'])->name('products_restore');
 Route::get('products_force/{id}', [ProductController::class,'force'])->name('products_force');
-Route::get('force', [ProductController::class,'forceAll'])->name('products_forceAll');
+Route::get('products_forceAll', [ProductController::class,'forceAll'])->name('products_forceAll');
 Route::resource('products', ProductController::class);
 
 
 
-// 1. مسارات الإضافة للتيم (أولاً)
-Route::get('teams/create', [TeamController::class, 'create'])->name('teams.create');
-Route::post('teams', [TeamController::class, 'store'])->name('teams.store');
 
-// 2. مسارات التعديل والحذف للتيم (ثانياً)
-Route::get('teams/{id}/edit', [TeamController::class, 'edit'])->name('teams.edit');
-Route::post('teams-update/{id}', [TeamController::class, 'update'])->name('teams-update');
-Route::delete('teams/{id}', [TeamController::class, 'destroy'])->name('teams.destroy');
-Route::get('teams_trashed', [TeamController::class, 'trashed'])->name('teams_trashed');
 
-    Route::resource('orders', OrderController::class);
-    Route::post('orders_update/{id}', [OrderController::class,'update'])->name('products_update');
-    Route::get('orders_trashed',          [OrderController::class, 'trashed'])->name('orders_trashed');
-    Route::get('orders_restore/{id}',     [OrderController::class, 'restore'])->name('orders_restore');
-    Route::get('orders_force/{id}',       [OrderController::class, 'force'])->name('orders_force');
-    Route::get('orders_forceAll',         [OrderController::class, 'forceAll'])->name('orders_forceAll');
+
+
+
+Route::resource('orders', OrderController::class);
+Route::post('orders_update/{id}', [OrderController::class,'update'])->name('products_update');
+Route::get('orders_trashed',          [OrderController::class, 'trashed'])->name('orders_trashed');
+Route::get('orders_restore/{id}',     [OrderController::class, 'restore'])->name('orders_restore');
+Route::get('orders_force/{id}',       [OrderController::class, 'force'])->name('orders_force');
+Route::get('orders_forceAll',         [OrderController::class, 'forceAll'])->name('orders_forceAll');
+
 
 
   Route::resource('order-items', OrderItemController::class);
@@ -151,12 +166,11 @@ Route::get('bookings_restore/{id}', [BookingController::class, 'restore'])->name
 Route::get('bookings_force/{id}',   [BookingController::class, 'force'])->name('bookings_force');
 Route::get('bookings_forceAll',     [BookingController::class, 'forceAll'])->name('bookings_forceAll');
 
-    Route::resource('addresses', AddressController::class);
-    Route::post('addresses_update/{id}', [AddressController::class,'update'])->name('addresses_update');
-    Route::get('addresses_trashed',          [AddressController::class, 'trashed'])->name('addresses_trashed');
-    Route::get('addresses_restore/{id}',     [AddressController::class, 'restore'])->name('addresses_restore');
-    Route::get('addressesforce/{id}',       [AddressController::class, 'force'])->name('addresses_force');
-    Route::get('addresses_forceAll',         [AddressController::class, 'forceAll'])->name('addresses_forceAll');
+
+
+
+///////////////
+
 
 
      Route::resource('permissions', PermissionController::class);
@@ -176,6 +190,9 @@ Route::get('bookings_forceAll',     [BookingController::class, 'forceAll'])->nam
 
 
 }
+
+
+
 
 );
 Route::prefix('cms/{guard}')->middleware('auth:admin,team,customer,artisan')->group(function() {

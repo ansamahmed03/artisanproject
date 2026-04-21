@@ -2,24 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
+use App\Models\Notification;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProductSeeder extends Seeder
+class NotificationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //
-        $this->call([
-        CategorySeeder::class,
-        ArtisanSeeder::class,
-   
-    ]);
-         Product::factory(50)->create();
-
+        // لإنشاء 50 إشعار وهمي مثلاً
+        Notification::factory()->count(50)->create();
     }
 }

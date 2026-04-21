@@ -1,7 +1,7 @@
  @extends('cms.parent')
 
-@section('main-title' , 'Trashed')
-@section('sub-title', 'Trashed')
+@section('main-title' , 'Trashed City')
+@section('sub-title', 'Trashed City')
 @section('title', 'trashed')
 
 
@@ -57,7 +57,7 @@
                          <td class="text-center">{{ $city->id }}</td>
                                 <td class="text-center">{{ $city->name }}</td>
                                 <td class="text-center">{{ $city->street }}</td>
-                                <td class="text-center">{{ $city->country->country_name }}</td>
+                                <td class="text-center">{{ $city->country->country_name ?? 'Deleted City' }}</td>
 
                       <td>
                              <div class="btn-group">

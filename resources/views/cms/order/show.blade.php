@@ -20,8 +20,7 @@
 
                     <div class="form-group">
                         <label>Address</label>
-                        <input type="text" class="form-control" disabled value="{{ $order->address->street }}">
-                    </div>
+                    <input type="text" class="form-control" disabled value="{{ $order->address->street ?? 'Deleted Address' }}">                    </div>
 
                     <div class="form-group">
                         <label>Status</label>
@@ -47,7 +46,7 @@
                         <tbody>
                             @foreach($order->orderItems as $item)
                             <tr>
-                                <td>{{ $item->product->name }}</td>
+                                <td class="text-center">{{ $item->product->name ?? 'Deleted Product' }}
                                 <td>${{ $item->price }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>${{ $item->price * $item->quantity }}</td>

@@ -12,9 +12,9 @@
                     <a href="{{ route('order-items.create') }}" class="btn btn-info" style="color:white;">
                         <i class="fas fa-plus-circle"></i> Create New Item
                     </a>
-                      <a href="{{ route('orders_trashed') }}" class="btn btn-success">
-                        <i class="fas fa-trash-restore"></i> Trashed
-                    </a>
+<a href="{{ route('order-items_trashed') }}" class="btn btn-success">
+    <i class="fas fa-trash-restore"></i> Trashed
+</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -33,8 +33,12 @@
                             @foreach($items as $item)
                             <tr>
                                 <td class="text-center">{{ $item->id }}</td>
-                                <td class="text-center">#{{ $item->order_id }}</td>
-                                <td class="text-center">{{ $item->product->name }}</td>
+                                <td class="text-center">#{{ optional($item->order)->id ?? 'Deleted Order' }}</td>
+                                <td class="text-center">{{ $item->product->name ?? 'Deleted Product' }}
+                                    @if(!$item->product || $item->product->trashed())
+            <span class="badge badge-danger">Deleted</span>
+        @endif
+    </td>
                                 <td class="text-center">${{ $item->price }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
                                 <td class="text-center">${{ $item->price * $item->quantity }}</td>

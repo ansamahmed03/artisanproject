@@ -14,6 +14,34 @@
                 <form>
                     <div class="card-body">
 
+                        {{-- اختار الدولة --}}
+                        <div class="form-group">
+                            <label>Country</label>
+                            <select class="form-control" id="country_id">
+                                <option value="">-- Select Country --</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->id }}"
+                                        @if($address->city && $address->city->country_id == $country->id) selected @endif>
+                                        {{ $country->country_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- المدن --}}
+                        <div class="form-group">
+                            <label>City</label>
+                            <select class="form-control" id="city_id">
+                                <option value="">-- Select City --</option>
+                                {{-- المدينة الحالية تظهر افتراضي --}}
+                                @if($address->city)
+                                    <option value="{{ $address->city->id }}" selected>
+                                        {{ $address->city->name }}
+                                    </option>
+                                @endif
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label>Street</label>
                             <input type="text" class="form-control" id="street" value="{{ $address->street }}">
@@ -21,18 +49,7 @@
 
                         <div class="form-group">
                             <label>Postal Code</label>
-                            <input type="text" class="form-control" id="postal_code" value="{{ $address->postal_code }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>City</label>
-                            <select class="form-control" id="city_id">
-                                @foreach($cities as $city)
-                                    <option value="{{ $city->id }}" @if($city->id == $address->city_id) selected @endif>
-                                        {{ $city->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" id="postal_code" value="{{ $address->postal_code ?? '' }}">
                         </div>
 
                         <div class="form-group">
@@ -57,6 +74,32 @@
 
 @section('scripts')
 <script>
+    // لما تتغير الدولة جيب مدنها
+    document.getElementById('country_id').addEventListener('change', function() {
+        let countryId = this.value;
+        let citySelect = document.getElementById('city_id');
+
+        citySelect.innerHTML = '<option value="">-- Select City --</option>';
+        document.getElementById('street').value = '';
+
+        if (!countryId) return;
+
+        fetch('/cms/Admin/cities-by-country/' + countryId)
+            .then(res => res.json())
+            .then(cities => {
+                cities.forEach(city => {
+                    citySelect.innerHTML += `<option value="${city.id}" data-street="${city.street}">${city.name}</option>`;
+                });
+            });
+    });
+
+    // لما تتغير المدينة حدّث الشارع
+    document.getElementById('city_id').addEventListener('change', function() {
+        let selected = this.options[this.selectedIndex];
+        let street = selected.getAttribute('data-street');
+        if (street) document.getElementById('street').value = street;
+    });
+
     function performUpdate(id) {
         let formData = new FormData();
         formData.append('street',      document.getElementById('street').value);

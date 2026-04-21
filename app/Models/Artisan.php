@@ -29,6 +29,9 @@ class Artisan extends Authenticatable
 
 
 
+
+
+
 public function user() {
     return $this->morphOne(User::class, 'userable');
 }
@@ -55,4 +58,20 @@ public function products()
 {
     return $this->hasMany(Product::class);
 }
+
+
+public function reviews()
+{
+    return $this->morphMany(Review::class, 'reviewable');
+}
+
+
+
+    /////////////////
+public function notifications()
+{
+    return $this->morphMany(Notification::class, 'notifiable');
+}
+///////////////////////////
+
 }

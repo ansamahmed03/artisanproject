@@ -19,7 +19,7 @@
                             <select class="form-control" id="order_id">
                                 @foreach($orders as $order)
                                     <option value="{{ $order->id }}">
-                                        Order #{{ $order->id }} — {{ $order->customer->email }}
+                                        Order #{{ $order->id }} — {{ $order->customer->email ?? 'Deleted Customer' }}
                                     </option>
                                 @endforeach
                             </select>

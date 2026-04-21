@@ -41,7 +41,7 @@
                                         <span class="badge badge-secondary">No</span>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $address->city->name }}</td>
+<td class="text-center">{{ $address->city->name ?? 'Deleted City' }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="{{ route('addresses.show', $address->id) }}" class="btn btn-sm" style="color:#2ecc71;">

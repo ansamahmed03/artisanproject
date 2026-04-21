@@ -37,27 +37,31 @@
                             <input type="number" class="form-control" id="stock_quantity" value="{{ $products->stock_quantity }}">
                         </div>
 
-                        <div class="form-group">
-                            <label>Artisan</label>
-                            <select class="form-control" id="artisan_id">
-                                @foreach($artisans as $artisan)
-                                    <option value="{{ $artisan->id }}" @if($artisan->id == $products->artisan_id) selected @endif>
-                                        {{ $artisan->artisan_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                   <div class="form-group">
+    <label>Artisan</label>
+    <select class="form-control" id="artisan_id" name="artisan_id">
+        <option value="">-- Select Artisan --</option>
+        @foreach($artisans as $artisan)
+            <option value="{{ $artisan->id }}"
+                @if($artisan->id == $products->artisan_id) selected @endif>
+                {{ $artisan->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select class="form-control" id="category_id">
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" @if($category->id == $products->category_id) selected @endif>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+<div class="form-group">
+    <label>Category</label>
+    <select class="form-control" id="category_id" name="category_id">
+        <option value="">-- Select Category --</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}"
+                @if($category->id == $products->category_id) selected @endif>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
                         <div class="form-group">
                             <label>Status</label>

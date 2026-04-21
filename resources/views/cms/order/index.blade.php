@@ -32,7 +32,7 @@
                             @foreach($orders as $order)
                             <tr>
                                 <td class="text-center">{{ $order->id }}</td>
-                                <td class="text-center">{{ $order->customer->email }}</td>
+                                <td class="text-center">{{ $order->customer->email ?? 'Deleted Customer' }}</td>
                                 <td class="text-center">${{ $order->total_price }}</td>
                                 <td class="text-center">{{ $order->orderItems->count() }}</td>
                                 <td class="text-center">

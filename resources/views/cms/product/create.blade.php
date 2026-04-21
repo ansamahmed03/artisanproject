@@ -58,21 +58,26 @@
            id="stock_quantity"
            name="stock_quantity">
   </div>
+{{-- ✅ صح --}}
+<div class="form-group">
+    <label for="artisan_id">Artisan</label>
+    <select class="form-control" id="artisan_id" name="artisan_id">
+        <option value="">-- Select Artisan --</option>
+        @foreach($artisans as $artisan)
+            <option value="{{ $artisan->id }}">{{ $artisan->artisan_name }}</option>
+        @endforeach
+    </select>
+</div>
 
-  <div class="form-group">
-    <label for="artisans_id">Artisan</label>
-    <input type="number" class="form-control"
-           id="artisan_id"
-           name="artisan_id">
-  </div>
-
-  <div class="form-group">
-    <label for="categories_id">Category</label>
-    <input type="number" class="form-control"
-           id="category_id"
-           name="category_id">
-  </div>
-
+<div class="form-group">
+    <label for="category_id">Category</label>
+    <select class="form-control" id="category_id" name="category_id">
+        <option value="">-- Select Category --</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+</div>
   <div class="form-group">
     <label for="status">Status</label>
     <select class="form-control" id="status" name="status">
