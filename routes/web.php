@@ -18,7 +18,11 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NotificationController;
 
 //Route::get('/', function () {
   ///  return view('welcome');
@@ -73,7 +77,13 @@ Route::get('teams_force_all', [TeamController::class, 'forceAll'])->name('teams_
 Route::resource('teams' , TeamController::class);
 
 
-
+Route::post('notifications-update/{id}',[NotificationController::class , 'update'])->name('notifications-update');
+Route::get('notifications_trashed', [NotificationController::class, 'trashed'])->name('notifications_trashed');
+Route::get('notifications_restore/{id}', [NotificationController::class, 'restore'])->name('notifications_restore');
+Route::get('notifications_force/{id}', [NotificationController::class, 'force'])->name('notifications_force');
+Route::get('notifications_force_all', [NotificationController::class, 'forceAll'])->name('notifications_forceAll');
+Route::get('notifications-recipients/{type}', [NotificationController::class, 'recipients'])->name('notifications.recipients');
+Route::resource('notifications' , NotificationController::class);
 
 
 
