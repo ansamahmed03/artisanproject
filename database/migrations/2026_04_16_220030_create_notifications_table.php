@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+      Schema::create('notifications', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-    $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+    $table->string('title', 45);
+    $table->string('message', 45);
+    $table->tinyInteger('is_read')->default(0);
+ //   $table->date('created_at');
+    $table->foreignId('users_id')->constrained('users')->cascadeOnDelete();
     $table->softDeletes();
     $table->timestamps();
 });
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('notifications');
     }
 };

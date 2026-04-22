@@ -86,8 +86,8 @@
     <h1>Where Tradition Meets Contemporary Craftsmanship</h1>
     <p>Explore unique handmade pieces from skilled artisans. Each item tells a story of heritage, passion, and exceptional craftsmanship.</p>
     <div class="hero-btns">
-        <a href="#" class="btn-green">Explore products</a>
-        <a href="#" class="btn-ghost">Book a team</a>
+        <a href="{{ route('front.products') }}" class="btn-green">Explore products</a>
+         <a href="#" class="btn-ghost">Book a team</a>
     </div>
 </div>
 
@@ -112,22 +112,36 @@
 </div>
 
 {{-- Categories --}}
+
 <div class="section" style="background:#fff;">
     <div class="section-header">
         <span class="section-title">Browse by category</span>
-        <a href="#" class="see-all">See all →</a>
+        <a href="{{ route('front.products') }}" class="see-all">See all →</a>
     </div>
     <div class="cats-grid">
+        @php
+        $images = [
+            'Pottery'    => 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=200',
+             'Embroidery' => 'https://images.unsplash.com/photo-1606722590583-6951b5ea92ad?w=200',
+            'Woodwork'   => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200',
+            'Jewelry'    => 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=200',
+            'Glasswork'  => 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=200',
+        ];
+        @endphp
+
         @foreach($categories as $cat)
-        <a href="#" class="cat-card">
-            <div class="cat-icon"><i class="fas fa-shapes"></i></div>
-            <div class="cat-name">{{ $cat->name }}</div>
-            <div class="cat-count">{{ $cat->products_count ?? '0' }} items</div>
-        </a>
+       <a href="{{ route('front.products', ['category' => $cat->id]) }}" class="cat-card">
+    <div style="width:80px;height:80px;overflow:hidden;border-radius:12px;margin:0 auto 12px;">
+        <img src="{{ $images[$cat->name] ?? '' }}"
+             style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div class="cat-name">{{ $cat->name }}</div>
+    <div class="cat-count">{{ $cat->products_count ?? 0 }} items</div>
+</a>
         @endforeach
+
     </div>
 </div>
-
 {{-- Featured Products --}}
 <div class="section">
     <div class="section-header">
@@ -147,7 +161,7 @@
             <div class="prod-body">
                 <div class="prod-cat">{{ $product->category->name ?? '' }}</div>
                 <div class="prod-name">{{ $product->name }}</div>
-                <div class="prod-artisan">by {{ $product->artisan->name ?? '' }}</div>
+                <div class="prod-artisan">by {{ $product->artisan->artisan_name ?? '' }}</div>
                 <div class="prod-footer">
                     <span class="prod-price">${{ $product->price }}</span>
                     <span class="prod-stars">★★★★★</span>

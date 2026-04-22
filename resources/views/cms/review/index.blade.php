@@ -1,4 +1,4 @@
-@@extends('cms.parent')
+@extends('cms.parent')
 @section('title', 'Reviews')
 @section('main-title', 'Index Reviews')
 @section('sub-title', 'Index Reviews')

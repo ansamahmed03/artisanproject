@@ -16,6 +16,26 @@ class Customer extends Authenticatable
 public function user() {
     return $this->morphOne(User::class, 'userable');
 }
-//
+//////////////////////////////////////
 
+public function orders()
+{
+    return $this->hasMany(Order::class);
+}
+
+public function bookings()
+{
+    return $this->hasMany(Booking::class);
+}
+
+public function wishlists()
+{
+    return $this->hasMany(Wishlist::class);
+} 
+
+public function carts()
+{
+    return $this->hasMany(Cart::class);
+}
+//////////////////////////////////////////
 }

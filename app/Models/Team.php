@@ -20,6 +20,11 @@ public function city()
         return $this->belongsTo(City::class);
     }
 
-
+/////////////////////////////////
+public function bookings()
+{
+    return $this->hasMany(Booking::class);
+}
+/////////////////////////
 
 }

@@ -65,7 +65,7 @@
                                           @endif
                                             </td>
                                     <td class="text-center">
-                                        <a href="{{ route('teams.show', ['guard' => request()->segment(2), 'id' => $team->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
+                                       <a href="{{ route('teams.show', ['guard' => request()->segment(2), 'team' => $team->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @if(auth('admin')->check())

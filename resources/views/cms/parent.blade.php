@@ -354,15 +354,13 @@
           @endif
 
 
-<<<<<<< HEAD
 
 
 
 
-=======
            @if(auth('admin')->check() || auth('team')->check())
            @canany(['Index Team', 'Create Team'])
->>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -507,11 +505,6 @@
           @endif
 
 
-<<<<<<< HEAD
-
-
-
-
 
 
 
@@ -534,9 +527,72 @@
 
 
 <li class="nav-header">System Managment</li>
-=======
+
+                    <li class="nav-item">
+  <a href="#" class="nav-link">
+    <i class="nav-icon fas fa-star"></i>
+    <p>
+      Reviews
+      <i class="fas fa-angle-left right"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="{{ route('reviews.create') }}" class="nav-link">
+        <i class="fas fa-plus-circle nav-icon"></i>
+        <p>Create Review</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{{ route('reviews.index') }}" class="nav-link">
+        <i class="fas fa-list-ul nav-icon"></i>
+        <p>Index</p>
+      </a>
+    </li>
+
+
+
+  </ul>
+</li>
+
+
+
+
+
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-heart"></i> <p>
+            Wishlist
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('wishlists.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>View All Wishlists</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('wishlists.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Add to Wishlist</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('wishlists_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash Bin</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
 {{-- <li class="nav-header">System Managment</li> --}}
->>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
+
 
 
 
@@ -592,11 +648,6 @@
 
             </ul>
           </li>
-<<<<<<< HEAD
-
-
-
-
 
 
 
@@ -607,9 +658,9 @@
 
 
           <li class="nav-header">Products Management</li>
-=======
+
             @if(auth('admin')->check() || auth('artisan')->check())
->>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
+
           <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-box-open"></i> <p>
@@ -643,10 +694,7 @@
 
     </ul>
 
-<<<<<<< HEAD
 
-
-=======
   </li> <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-images"></i>
@@ -671,7 +719,7 @@
 
     </ul>
  @if(auth('admin')->check() || auth('customer')->check())
->>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
+
   <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -739,16 +787,12 @@
 @endif
 @endif
 
-<<<<<<< HEAD
 
 
 
 
-
-
-=======
 @if(auth('admin')->check())
->>>>>>> c3389a13c9731288a16e9b69de1b64015a0a86a2
+
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-map-marked-alt"></i>
@@ -773,10 +817,6 @@
         </li>
     </ul>
 </li>
-
-
-</li
-
 
 
 
@@ -857,7 +897,7 @@
 
 
 
-
+@endif
           <li class="nav-header">Setting</li>
           <li class="nav-item">
             <a href="iframe.html" class="nav-link">

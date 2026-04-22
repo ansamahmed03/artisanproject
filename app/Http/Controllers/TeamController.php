@@ -13,7 +13,7 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($guard)
+    public function index($guard = null)
     {
         //
 

@@ -44,7 +44,7 @@
         @foreach($artisans as $artisan)
             <option value="{{ $artisan->id }}"
                 @if($artisan->id == $products->artisan_id) selected @endif>
-                {{ $artisan->name }}
+                {{ $artisan->artisan_name }}
             </option>
         @endforeach
     </select>

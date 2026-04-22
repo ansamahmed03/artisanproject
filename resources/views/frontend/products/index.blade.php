@@ -85,7 +85,7 @@
 <div class="filter-option">
     <label>
         <input type="checkbox" name="category[]" value="{{ $cat->id }}"
-            {{ in_array($cat->id, request('category', [])) ? 'checked' : '' }}
+{{ in_array($cat->id, (array) request('category', [])) ? 'checked' : '' }}
             onchange="document.getElementById('filterForm').submit()">
         {{ $cat->name }}
     </label>
@@ -96,11 +96,11 @@
 
             <div class="filter-card">
                 <h3>Price Range</h3>
-                <input type="range" class="price-slider" min="0" max="1000" step="10"
-                    value="{{ request('max_price', 1000) }}" id="priceRange"
-                    oninput="document.getElementById('priceVal').textContent = '$'+this.value"
-                    onchange="document.getElementById('filterForm').submit()">
-                <input type="hidden" name="max_price" id="maxPriceInput" value="{{ request('max_price', 1000) }}">
+            <input type="range" class="price-slider" min="0" max="1000" step="10"
+    value="{{ request('max_price', 1000) }}" id="priceRange"
+    oninput="document.getElementById('priceVal').textContent = '$'+this.value"
+    onchange="document.getElementById('maxPriceInput').value = this.value; document.getElementById('filterForm').submit()">
+<input type="hidden" name="max_price" id="maxPriceInput" value="{{ request('max_price', 1000) }}">
                 <div class="price-labels">
                     <span>$0</span>
                     <span id="priceVal">${{ request('max_price', 1000) }}</span>
@@ -137,9 +137,15 @@
                     @else
                         <i class="fas fa-image prod-img-placeholder"></i>
                     @endif
-                    <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(this)">
-                        <i class="fas fa-heart"></i>
-                    </button>
+                    @auth('customer')
+<form action="{{ route('front.wishlist.toggle') }}" method="POST" onclick="event.stopPropagation()">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <button type="submit" class="wishlist-btn active" style="opacity:1;">
+        <i class="fas fa-heart"></i>
+    </button>
+</form>
+@endauth
                 </div>
                 <div class="prod-body">
                     <div class="prod-cat">{{ $product->category->name ?? '' }}</div>

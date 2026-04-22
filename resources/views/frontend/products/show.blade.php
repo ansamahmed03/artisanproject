@@ -115,14 +115,35 @@
             <h1 class="prod-title">{{ $product->name }}</h1>
 
             <div class="prod-artisan-row">
-                <div class="artisan-av">{{ strtoupper(substr($product->artisan->name ?? 'A', 0, 2)) }}</div>
-                <span class="artisan-name">by {{ $product->artisan->name ?? 'Unknown Artisan' }}</span>
+                <div class="artisan-av">{{ strtoupper(substr($product->artisan->artisan_name  ?? 'A', 0, 2)) }}</div>
+                <span class="artisan-name">by {{ $product->artisan->artisan_name  ?? 'Unknown Artisan' }}</span>
             </div>
+{{-- احسب المتوسط --}}
 
-            <div class="prod-rating">
-                <span class="stars">★★★★★</span>
-                <span class="rating-count">({{ $product->reviews->count() }} reviews)</span>
-            </div>
+@php
+    $avgRating = $product->reviews->count() > 0
+        ? round($product->reviews->avg('rating'), 1)
+        : 0;
+@endphp
+
+<div class="prod-rating">
+    <span class="stars">
+        @for($i = 1; $i <= 5; $i++)
+            @if($i <= $avgRating)
+                <span style="color:#F4A261">★</span>
+            @else
+                <span style="color:#ddd">★</span>
+            @endif
+        @endfor
+    </span>
+    <span class="rating-count">
+        @if($product->reviews->count() > 0)
+            ({{ $avgRating }} / 5 — {{ $product->reviews->count() }} reviews)
+        @else
+            (No reviews yet)
+        @endif
+    </span>
+</div>
 
             <div class="prod-price-big">${{ number_format($product->price, 2) }}</div>
 
@@ -143,29 +164,52 @@
                 </div>
                 <div class="prod-meta-row">
                     <span>Artisan</span>
-                    <span>{{ $product->artisan->name ?? '-' }}</span>
+                    <span>{{ $product->artisan->artisan_name ?? '-' }}</span>
                 </div>
             </div>
 
             {{-- Quantity --}}
-            <div class="qty-row">
-                <span class="qty-label">Quantity</span>
-                <div class="qty-control">
-                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                    <input type="number" class="qty-input" id="qty" value="1" min="1" max="{{ $product->stock_quantity }}">
-                    <button class="qty-btn" onclick="changeQty(1)">+</button>
-                </div>
-            </div>
+          <form action="{{ route('front.cart.add') }}" method="POST" id="cartForm">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-            {{-- Actions --}}
-            <div class="action-btns">
-                <button class="btn-cart">
-                    <i class="fas fa-shopping-bag"></i> Add to Cart
-                </button>
-                <button class="btn-wish" id="wishBtn" onclick="toggleWishlist()">
+    <div class="qty-row">
+        <span class="qty-label">Quantity</span>
+        <div class="qty-control">
+            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input type="number" class="qty-input" id="qty" name="quantity" value="1" min="1" max="{{ $product->stock_quantity }}">
+            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+    </div>
+
+
+          {{-- Actions --}}
+    <div class="action-btns">
+        @auth('customer')
+            <button type="submit" class="btn-cart">
+                <i class="fas fa-shopping-bag"></i> Add to Cart
+            </button>
+        @else
+            <a href="{{ route('front.login') }}" class="btn-cart" style="text-align:center;text-decoration:none;">
+                <i class="fas fa-shopping-bag"></i> Add to Cart
+            </a>
+        @endauth
+
+        {{-- Wishlist --}}
+        @auth('customer')
+            <form action="{{ route('front.wishlist.toggle') }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <button type="submit" class="btn-wish {{ $isWishlisted ? 'active' : '' }}" id="wishBtn">
                     <i class="fas fa-heart"></i>
                 </button>
-            </div>
+            </form>
+        @else
+            <a href="{{ route('front.login') }}" class="btn-wish">
+                <i class="fas fa-heart"></i>
+            </a>
+        @endauth
+    </div>
         </div>
     </div>
 
