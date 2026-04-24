@@ -227,5 +227,108 @@ public function contact()
     return view('frontend.contact');
 }
 
+public function contactSend(Request $request)
+{
+    $request->validate([
+        'first_name' => 'required|string|min:2|max:50',
+        'last_name'  => 'required|string|min:2|max:50',
+        'email'      => 'required|email',
+        'subject'    => 'required|string|min:3|max:100',
+        'message'    => 'required|string|min:10|max:1000',
+    ]);
 
+    // حفظ الرسالة في الـ database (اختياري - شوف الملاحظة)
+    // ContactMessage::create($request->only(...));
+
+    // أو بس إرجع success message
+    return back()->with('success', 'Your message has been sent successfully! We\'ll get back to you within 24 hours.');
+}
+
+
+public function search(Request $request)
+{
+    $q = trim($request->get('q'));
+
+    if (!$q) return redirect()->route('front.home');
+
+    $products = Product::with(['category', 'artisan', 'images'])
+        ->where('status', 'available')
+        ->where(function($query) use ($q) {
+            $query->where('name', 'LIKE', "%$q%")
+                  ->orWhere('description', 'LIKE', "%$q%");
+        })->take(6)->get();
+
+  $artisans = Artisan::where(function($query) use ($q) {
+        $query->where('artisan_name', 'LIKE', "%$q%")
+              ->orWhere('store_name', 'LIKE', "%$q%")
+              ->orWhere('bio', 'LIKE', "%$q%");
+    })->take(4)->get();
+
+$teams = Team::where(function($query) use ($q) {
+         $query->where('team_name', 'LIKE', "%$q%");
+    })->where('status', 'active')
+    ->take(4)->get();
+
+    return view('frontend.search', compact('products', 'artisans', 'teams', 'q'));
+}
+
+
+
+public function addReview(Request $request)
+{
+    if (!auth('customer')->check()) {
+        return back()->with('error', 'Please login first');
+    }
+
+    $request->validate([
+        'comment'    => 'required|string|min:2',
+        'rating'     => 'required|integer|min:1|max:5',
+        'product_id' => 'required|exists:products,id',
+    ]);
+
+    \App\Models\Review::create([
+        'comment'         => $request->comment,
+        'rating'          => $request->rating,
+
+        // التعديل هنا: أضفنا حرف s لـ customers_id ليطابق قاعدة البيانات
+        'customers_id'    => auth('customer')->id(),
+
+        'reviewable_id'   => $request->product_id,
+        'reviewable_type' => 'App\Models\Product',
+    ]);
+
+    return back()->with('success', 'Review added successfully!');
+}
+
+
+
+
+
+
+
+
+
+
+public function addArtisanReview(Request $request)
+{
+    if (!auth('customer')->check()) {
+        return back()->with('error', 'Please login first');
+    }
+
+    $request->validate([
+        'comment'    => 'required|string|min:2',
+        'rating'     => 'required|integer|min:1|max:5',
+        'artisan_id' => 'required|exists:artisans,id',
+    ]);
+
+    \App\Models\Review::create([
+        'comment'         => $request->comment,
+        'rating'          => $request->rating,
+        'customers_id'    => auth('customer')->id(),
+        'reviewable_id'   => $request->artisan_id,
+        'reviewable_type' => 'App\Models\Artisan',
+    ]);
+
+    return back()->with('success', 'Review added successfully!');
+}
 }

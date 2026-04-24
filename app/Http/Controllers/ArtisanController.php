@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artisan;
+use App\Models\City;
 //use Dotenv\Validator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ArtisanController extends Controller
     public function index()
     {
 
-$artisans = Artisan::with(['user'])->paginate(10);
+      $artisans = Artisan::with(['user'])->paginate(10);
 
 
         //وظيفتها ترجع فيو
@@ -31,8 +32,8 @@ $artisans = Artisan::with(['user'])->paginate(10);
     public function create()
     {
         //نننl
-
-        return view('cms.artisan.create');
+$cities = City::all(); // جلب كل المدن
+    return response()->view('cms.artisan.create', compact('cities'));
     }
 
     /**
@@ -47,13 +48,15 @@ $artisans = Artisan::with(['user'])->paginate(10);
             'email'        => 'required|email|unique:artisans,email',
             'password'     => 'required|string|min:6',
             'store_name'   => 'required|string|min:3|max:50',
-            'city'         => 'required|string|max:30',
+             'city' => 'nullable|string|max:30',
+            // 'city'         => 'required|string|max:30',
             'bio'          => 'required|string|min:10',
             'bank_info'    => 'required|string|min:10',
+            'city_id' => 'nullable|exists:cities,id',
 
 
         ],[
-            'artisan_name.required' => 'Please enter the artisan name',
+    'artisan_name.required' => 'Please enter the artisan name',
     'artisan_name.min'      => 'The name must be at least 3 letters long',
 
     'email.required'        => ' Email address required',
@@ -64,7 +67,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
     'password.min'          => 'The password must be at least 6 characters long',
 
     'store_name.required'   => 'Store name required',
-    'city.required'         => 'Please specify the city',
+    // 'city.required'         => 'Please specify the city',
 
     'bio.required'          => 'bio required',
     'bio.min'               => 'The bio must be at least 10 characters long',
@@ -104,7 +107,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
     // }
 
 
-                $artisans = new Artisan;
+         $artisans = new Artisan;
         $artisans->artisan_name = $request->get('artisan_name');
         $artisans->email        = $request->get('email');
 
@@ -112,7 +115,14 @@ $artisans = Artisan::with(['user'])->paginate(10);
         $artisans->password     = Hash::make($request->get('password'));
 
         $artisans->store_name   = $request->input('store_name');
-        $artisans->city         = $request->input('city');
+     if ($request->filled('city_id')) {
+    $cityModel = City::find($request->city_id);
+    $artisans->city_id = $cityModel->id;
+    $artisans->city    = $cityModel->name; // تخزين الاسم في حقل النص
+} else {
+    $artisans->city_id = null;
+    $artisans->city    = 'سيتي'; // القيمة الافتراضية
+}
         $artisans->bio          = $request->input('bio');
         $artisans->bank_info    = $request->input('bank_info');
 
@@ -127,7 +137,7 @@ $artisans = Artisan::with(['user'])->paginate(10);
                 'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);
-
+                 $artisans->assignRole('artisan');
             return response()->json([
                 'icon'  => 'success',
                 'title' => 'Account and artisan created successfully',
@@ -156,8 +166,9 @@ $artisans = Artisan::with(['user'])->paginate(10);
     public function edit($id)
     {
         //
-        $artisans = Artisan::findOrFail($id);
-        return response()->view('cms.artisan.edit' , compact('artisans'));
+      $artisans = Artisan::findOrFail($id);
+    $cities = City::all(); // <-- لازم تكون موجودة
+    return response()->view('cms.artisan.edit', compact('artisans', 'cities'));
     }
 
     /**
@@ -170,10 +181,10 @@ $artisans = Artisan::with(['user'])->paginate(10);
             'email' => 'required|email|unique:artisans,email,' . $id,
             'password'     => 'nullable|string|min:6',
             'store_name'   => 'required|string|min:3|max:50',
-            'city'         => 'required|string|max:30',
+            'city_id'      => 'nullable|exists:cities,id',
             'bio'          => 'required|string|min:10',
             'bank_info'    => 'required|string|min:10',
-
+           'city' => 'nullable|string|max:30',
         ]);
         if(!$validator->fails()){
 
@@ -185,7 +196,15 @@ $artisans = Artisan::with(['user'])->paginate(10);
              $artisans->password = Hash::make($request->get('password'));
              }
             $artisans->store_name = $request->input('store_name');
-            $artisans->city = $request->input('city');
+            // $artisans->city = $request->input('city');
+            if ($request->filled('city_id')) {
+        $cityModel = City::find($request->city_id);
+        $artisans->city_id = $cityModel->id;
+        $artisans->city    = $cityModel->name; // تحديث الاسم النصي بناءً على الاختيار
+    } else {
+        $artisans->city_id = null;
+        $artisans->city    = 'سيتي'; // القيمة الافتراضية
+    }
             $artisans->bio = $request->input('bio');
             $artisans->bank_info = $request->input('bank_info');
 
@@ -258,32 +277,6 @@ $artisans = Artisan::with(['user'])->paginate(10);
             'title' => 'Deletion failed'
         ], 400);
     }
-
-
-    ///////////////////////////////////////////////
-    $artisan->notifications()->delete();
-
-    // 2. حذف اليوزر المرتبط به
-    if ($artisan->user) {
-        $artisan->user->delete();
-    }
-
-    // 3. حذف الارتزان نفسه
-    $isDeleted = $artisan->delete();
-
-    if ($isDeleted) {
-        return response()->json([
-            'icon' => 'success',
-            'title' => 'Deleted successfully'
-        ], 200);
-    } else {
-        return response()->json([
-            'icon' => 'error',
-            'title' => 'Deletion failed'
-        ], 400);
-    }
-    ////////////////////////////////////////////////////////
-
     }
 
        public function trashed() {
@@ -318,6 +311,7 @@ public function forceAll() {
     // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
     return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
 }
+
 
 
     }

@@ -59,7 +59,7 @@
         </form>
 
         <div class="auth-footer">
-            Don't have an account? <a href="{{ route('front.register') }}">Create one</a>
+            Don't have an account? <a href="{{ route('front.register.select') }}">Create one</a>
         </div>
 
     </div>

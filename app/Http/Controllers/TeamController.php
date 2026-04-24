@@ -76,7 +76,7 @@ class TeamController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-
+          $team->assignRole('team');
         return response()->json([
             'icon'  => 'success',
             'title' => 'Created successfully',
@@ -92,12 +92,11 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($guard,$id)
-    {
-        //
-   $team = Team::findOrFail($id);
+    public function show($team, $guard = null)
+{
+    $team =Team::findOrFail($team);
     return response()->view('cms.team.show', compact('team'));
-    }
+}
 
     /**
      * Show the form for editing the specified resource.

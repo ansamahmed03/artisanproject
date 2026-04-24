@@ -237,7 +237,8 @@
                 @canany(['Index Role', 'Create Role'])
                   <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
+              <i class="nav-icon fas fa-user-tag"></i>
+              {{-- <i class="fas fa-user-tag"></i> --}}
               {{-- <i class="fas fa-user"></i> --}}
               <p>
                 Roles
@@ -270,7 +271,7 @@
            @canany(['Index Permission', 'Create Permission'])
                 <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
+              <i class="nav-icon fas fa-key"></i>
               {{-- <i class="fas fa-user"></i> --}}
               <p>
                 Permissions
@@ -354,13 +355,8 @@
           @endif
 
 
-
-
-
-
            @if(auth('admin')->check() || auth('team')->check())
            @canany(['Index Team', 'Create Team'])
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -372,13 +368,16 @@
             </a>
             <ul class="nav nav-treeview">
                 @if(auth('admin')->check())
+                 @can('Create Team')
               <li class="nav-item">
                 <a href="{{ route('teams.create') }}" class="nav-link">
                   <i class="far fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
               </li>
+               @endcan
               @endif
+               @can('Index Team')
               <li class="nav-item">
                 <a href="{{ route('teams.index', ['guard' => request()->segment(2)]) }}" class="nav-link">
                   <i class="far fas  fa-list-ul"></i>
@@ -388,6 +387,7 @@
                   <p>Index</p>
                 </a>
               </li>
+               @endcan
                @if(auth('admin')->check())
                 <li class="nav-item">
                    <a href="{{ route('teams_trashed') }}" class="nav-link">
@@ -395,17 +395,7 @@
                     <p>trash </p>
                </a>
                  </li>
-
-
-
-
-
-
-
-
-
-
-
+                 @endif
             </ul>
           </li>
           @endcanany
@@ -415,7 +405,8 @@
 
 
 
-                @if(auth('admin')->check() || auth('team')->check()|| auth('artisan')->check())
+          @if(auth('admin')->check() || auth('team')->check()|| auth('artisan')->check())
+          @canany(['Index Customer', 'Create Customer'])
            <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-id-card"></i>
@@ -429,13 +420,16 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                  @if(auth('admin')->check())
+                 @can('Create Customer')
                 <a href="{{ route('customers.create') }}" class="nav-link">
                   <i class="far fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
               </li>
+              @endcan
                  @endif
                  {{-- @if(auth('admin')->check() || auth('customer')->check()) --}}
+                 @can('Index Customer')
               <li class="nav-item">
                 <a href="{{ route('customers.index', ['guard' => request()->segment(2)]) }}" class="nav-link">
                   <i class="far fas  fa-list-ul"></i>
@@ -445,24 +439,29 @@
                   <p>Index</p>
                 </a>
               </li>
+              @endcan
               {{-- @endif --}}
                 @if(auth('admin')->check())
+                @can('Index Customer')
               <li class="nav-item">
                    <a href="{{route('customers_trashed')}}" class="nav-link">
                     <i class="far fa-trash-alt nav-icon"></i>
                     <p>trash </p>
                </a>
                  </li>
+                   @endcan
                     @endif
 
             </ul>
           </li>
+          @endcanany
              @endif
 
 
 
 
              @if(auth('admin')->check() || auth('artisan')->check())
+             @canany(['Index Artisan', 'Create Product', 'Index Product'])
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class=" fas fa-solid fa-palette"></i>
@@ -502,94 +501,9 @@
 
             </ul>
           </li>
+          @endcanany
           @endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<li class="nav-header">System Managment</li>
-
-                    <li class="nav-item">
-  <a href="#" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
-    <p>
-      Reviews
-      <i class="fas fa-angle-left right"></i>
-    </p>
-  </a>
-  <ul class="nav nav-treeview">
-    <li class="nav-item">
-      <a href="{{ route('reviews.create') }}" class="nav-link">
-        <i class="fas fa-plus-circle nav-icon"></i>
-        <p>Create Review</p>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{{ route('reviews.index') }}" class="nav-link">
-        <i class="fas fa-list-ul nav-icon"></i>
-        <p>Index</p>
-      </a>
-    </li>
-
-
-
-  </ul>
-</li>
-
-
-
-
-
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-heart"></i> <p>
-            Wishlist
-            <i class="fas fa-angle-left right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('wishlists.index') }}" class="nav-link">
-                <i class="fas fa-list-ul nav-icon"></i>
-                <p>View All Wishlists</p>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="{{ route('wishlists.create') }}" class="nav-link">
-                <i class="fas fa-plus-circle nav-icon"></i>
-                <p>Add to Wishlist</p>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="{{ route('wishlists_trashed') }}" class="nav-link">
-                <i class="far fa-trash-alt nav-icon"></i>
-                <p>Trash Bin</p>
-            </a>
-        </li>
-    </ul>
-</li>
 
 {{-- <li class="nav-header">System Managment</li> --}}
 
@@ -608,9 +522,9 @@
 
 
 
-
           <li class="nav-header">Products Management</li>
 
+            @canany(['Index Category', 'Create Category'])
            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class=" fas fa-solid fa-layer-group"></i>
@@ -626,6 +540,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+                  @can('Create Category')
               <li class="nav-item">
                 <a href="{{ route('categories.create') }}" class="nav-link">
                   <i class="far fas fa-plus-circle"></i>
@@ -633,6 +548,8 @@
                   <p>Create</p>
                 </a>
               </li>
+              @endcan
+              @can('Index Category')
               <li class="nav-item">
                 <a href="{{ route('categories.index') }}" class="nav-link">
                   <i class="far fas  fa-list-ul"></i>
@@ -645,30 +562,22 @@
                     <p>trash </p>
                </a>
                  </li>
+                 @endcan
 
             </ul>
           </li>
+          @endcanany
 
-
-
-
-
-
-
-
-
-          <li class="nav-header">Products Management</li>
-
-            @if(auth('admin')->check() || auth('artisan')->check())
-
+           @if(auth('admin')->check() || auth('artisan')->check())
+          @canany(['Index Product', 'Create Product'])
           <li class="nav-item">
-    <a href="#" class="nav-link">
+            <a href="#" class="nav-link">
         <i class="nav-icon fas fa-box-open"></i> <p>
             Products
             <i class="fas fa-angle-left right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
+                    </p>
+                 </a>
+             <ul class="nav nav-treeview">
         @can('Create Product')
         <li class="nav-item">
             <a href="{{ route('products.create') }}" class="nav-link">
@@ -677,25 +586,22 @@
             </a>
         </li>
         @endcan
+        @can('Index Product')
         <li class="nav-item">
             <a href="{{ route('products.index') }}" class="nav-link">
                 <i class="fas fa-th-list nav-icon"></i>
                 <p>index Product</p>
             </a>
-
-
-        <li class="nav-item">
-            <a href="{{ route('products_trashed') }}" class="nav-link">
-                <i class="far fa-trash-alt nav-icon"></i>
-                <p>Trash Product</p>
-            </a>
         </li>
-        </li>
+        @endcan
 
     </ul>
+    @endcanany
 
+  </li>
 
-  </li> <li class="nav-item">
+    @canany(['Create Product', 'Index Product'])
+   <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-images"></i>
         <p>
@@ -704,22 +610,29 @@
         </p>
     </a>
      <ul class="nav nav-treeview">
+        @can('Create Product')
         <li class="nav-item">
             <a href="{{ route('product-images.create') }}" class="nav-link">
                 <i class="fas fa-plus-circle nav-icon"></i>
                 <p>Upload Image</p>
             </a>
         </li>
+           @endcan
+
+            @can('Index Product')
         <li class="nav-item">
             <a href="{{ route('product-images.index') }}" class="nav-link">
                 <i class="fas fa-th-list nav-icon"></i>
                 <p>View All Images</p>
             </a>
         </li>
+        @endcan
 
     </ul>
- @if(auth('admin')->check() || auth('customer')->check())
+    @endcanany
 
+
+   @if(auth('admin')->check() || auth('artisan')->check() || auth('team')->check())
   <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -729,26 +642,27 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
+        @can('Create Order')
         <li class="nav-item">
             <a href="{{ route('orders.create') }}" class="nav-link">
                 <i class="fas fa-plus-circle nav-icon"></i>
                 <p>Create Order</p>
             </a>
         </li>
+        @endcan
+
+        @can('Index Order')
         <li class="nav-item">
             <a href="{{ route('orders.index') }}" class="nav-link">
                 <i class="fas fa-list nav-icon"></i>
                 <p>All Orders</p>
             </a>
         </li>
-          <li class="nav-item">
-            <a href="{{ route('orders_trashed') }}" class="nav-link">
-                <i class="far fa-trash-alt nav-icon"></i>
-                <p>Trash Orders</p>
-            </a>
-        </li>
     </ul>
+    @endcan
 </li>
+</ul>
+@endif
 
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -759,40 +673,56 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
+        @can('Create Order')
         <li class="nav-item">
             <a href="{{ route('order-items.create') }}" class="nav-link">
                 <i class="fas fa-search nav-icon"></i>
                 <p>create Items</p>
             </a>
         </li>
+        @endcan
     </ul>
     <ul class="nav nav-treeview">
+        @can('Index Order')
         <li class="nav-item">
             <a href="{{ route('order-items.index') }}" class="nav-link">
                 <i class="fas fa-search nav-icon"></i>
                 <p>View All Items</p>
             </a>
         </li>
-
-         <li class="nav-item">
-            <a href="{{ route('order-items_trashed') }}" class="nav-link">
-                <i class="far fa-trash-alt nav-icon"></i>
-                <p>Trash Orders</p>
-            </a>
-        </li>
-        </ul>
+        @endcan
+    </ul>
 </li>
 
 
 @endif
-@endif
 
 
 
-
+{{-- Bookings --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-calendar"></i>
+        <p>Bookings <i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('bookings.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>Index</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('bookings.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create</p>
+            </a>
+        </li>
+    </ul>
+</li>
 
 @if(auth('admin')->check())
-
+@canany(['Index Address', 'Create Address'])
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-map-marked-alt"></i>
@@ -802,6 +732,7 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
+        @can('Create Address')
         <li class="nav-item">
 
              <a href="{{ route('addresses.create') }}" class="nav-link">
@@ -809,19 +740,29 @@
                 <p>Add New Address</p>
             </a>
         </li>
+        @endcan
+
+            @can('Index Address')
         <li class="nav-item">
              <a href="{{ route('addresses.index') }}" class="nav-link">
                 <i class="fas fa-list nav-icon"></i>
                 <p>All Addresses</p>
             </a>
         </li>
+           @endcan
     </ul>
+</li>
+@endcanany
+
+
 </li>
 
 
 
 
+
  @if(auth('admin')->check())
+ @canany(['Index Country', 'Create Country'])
                   <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
@@ -831,23 +772,27 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+                @can('Index Country')
               <li class="nav-item">
                 <a href="{{ route('countries.index') }}" class="nav-link">
                   <i class="fas fa-list-ul nav-icon"></i>
                   <p>Index</p>
                 </a>
               </li>
+              @endcan
+              @can('Create Country')
               <li class="nav-item">
                 <a href="{{ route('countries.create') }}" class="nav-link">
                   <i class="nav-icon fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
               </li>
+              @endcan
 
  </ul>
           </li>
-
-
+@endcanany
+@canany(['Index City', 'Create City'])
                   <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
@@ -857,21 +802,26 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+                @can('Index City')
               <li class="nav-item">
                 <a href="{{ route('cities.index') }}" class="nav-link">
                   <i class="fas fa-list-ul nav-icon"></i>
                   <p>Index</p>
                 </a>
               </li>
+               @endcan
+               @can('Create City')
               <li class="nav-item">
                 <a href="{{ route('cities.create') }}" class="nav-link">
                   <i class="nav-icon fas fa-plus-circle"></i>
                   <p>Create</p>
                 </a>
               </li>
+              @endcan
 
  </ul>
           </li>
+          @endcanany
             @endif
 
 
@@ -889,6 +839,77 @@
 
 
 
+        {{-- Wishlist --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-heart"></i>
+        <p>Wishlist <i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('wishlists.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>View All</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('wishlists.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('wishlists_trashed') }}" class="nav-link">
+                <i class="far fa-trash-alt nav-icon"></i>
+                <p>Trash</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+{{-- Reviews --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-star"></i>
+        <p>Reviews <i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('reviews.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>Index</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('reviews.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+{{-- Notifications --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-bell"></i>
+        <p>Notifications <i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('notifications.index') }}" class="nav-link">
+                <i class="fas fa-list-ul nav-icon"></i>
+                <p>Index</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('notifications.create') }}" class="nav-link">
+                <i class="fas fa-plus-circle nav-icon"></i>
+                <p>Create</p>
+            </a>
+        </li>
+    </ul>
+</li>
 
 
 
@@ -897,22 +918,41 @@
 
 
 
-@endif
+
+
+
+
+
           <li class="nav-header">Setting</li>
-          <li class="nav-item">
-            <a href="iframe.html" class="nav-link">
-              <i class="nav-icon fas fa-user-edit"></i>
-              {{-- <i class="fas fa-user-edit"></i> --}}
-              <p>Edit your profile</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.1/" class="nav-link">
-              <i class="nav-icon fas fa-user-lock"></i>
-              {{-- <i class="fas fa-user-lock"></i> --}}
-              <p>Change password</p>
-            </a>
-          </li>
+
+
+@php
+    // نحسب الرابط مرة واحدة فقط ونستخدمه للرابطين
+    $editUrl = '#';
+    if(auth('admin')->check()) {
+        $editUrl = url('/cms/Admin/admins/' . auth('admin')->id() . '/edit');
+    } elseif(auth('artisan')->check()) {
+        $editUrl = url('/cms/Admin/artisans/' . auth('artisan')->id() . '/edit');
+    } elseif(auth('team')->check()) {
+        $editUrl = url('/cms/Admin/teams/' . auth('team')->id() . '/edit');
+    }
+@endphp
+
+{{-- الرابط الأول: تعديل الملف الشخصي --}}
+<li class="nav-item">
+    <a href="{{ $editUrl }}" class="nav-link">
+        <i class="nav-icon fas fa-user-edit"></i> {{-- غيرت الأيقونة لتمييزها --}}
+        <p>Edit your Profile</p>
+    </a>
+</li>
+
+{{-- الرابط الثاني: تغيير كلمة السر --}}
+<li class="nav-item">
+    <a href="{{ $editUrl }}" class="nav-link">
+        <i class="nav-icon fas fa-user-lock"></i>
+        <p>Change password</p>
+    </a>
+</li>
 
   <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link">
@@ -923,7 +963,29 @@
           </li>
 
 
-        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
       </nav>
       <!-- /.sidebar-menu -->
     </div>

@@ -65,11 +65,16 @@
 </div>
 
 <div class="form-group">
-    <label for="city">City</label>
-    <input type="text" class="form-control"
-           id="city"
-           name="city"
-           placeholder="Enter city">
+    <label for="city_id">City</label>
+    <select name="city_id" id="city_id" class="form-control">
+        <option value="">Choose City (Optional)</option>
+        @foreach($cities as $city)
+            <option value="{{ $city->id }}"
+                {{ isset($artisans) && $artisans->city_id == $city->id ? 'selected' : '' }}>
+                {{ $city->name }}
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-group">
@@ -135,8 +140,9 @@
      formData.append('email',document.getElementById('email').value);
      formData.append('password',document.getElementById('password').value);
      formData.append('store_name', document.getElementById('store_name').value);
+       formData.append('city', 'سيتي');
      formData.append('bio', document.getElementById('bio').value);
-     formData.append('city', document.getElementById('city').value);
+    formData.append('city_id', document.getElementById('city_id').value);
      formData.append('bank_info', document.getElementById('bank_info').value);
      store('/cms/Admin/artisans', formData)
      }

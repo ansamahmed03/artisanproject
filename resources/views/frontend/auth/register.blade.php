@@ -41,7 +41,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('front.register.post') }}">
+        <form method="POST"action="{{ route('front.register') }}">
             @csrf
 
             <div class="form-group">

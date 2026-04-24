@@ -14,7 +14,7 @@ class Notification extends Model
         'message',
         'is_read',
         'notifiable_id',
-        'notifiable_type'
+        'notifiable_type',
     ];
 
     public function notifiable()

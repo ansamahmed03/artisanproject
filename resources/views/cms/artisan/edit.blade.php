@@ -69,14 +69,17 @@
            value="{{ $artisans->store_name }}"
            placeholder="Enter store name">
 </div>
-
 <div class="form-group">
-    <label for="city">City</label>
-    <input type="text" class="form-control"
-           id="city"
-           name="city"
-           value="{{ $artisans->city }}"
-           placeholder="Enter city">
+    <label for="city_id">City</label>
+    <select class="form-control" id="city_id" name="city_id">
+        <option value="">Choose City (Optional)</option>
+        @foreach($cities as $city)
+            <option value="{{ $city->id }}"
+                {{ $artisans->city_id == $city->id ? 'selected' : '' }}>
+                {{ $city->name }}
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-group">
@@ -134,7 +137,7 @@
                          formData.append('password',document.getElementById('password').value);
                          formData.append('store_name', document.getElementById('store_name').value);
                          formData.append('bio', document.getElementById('bio').value);
-                         formData.append('city', document.getElementById('city').value);
+                        formData.append('city_id', document.getElementById('city_id').value);
                          formData.append('bank_info', document.getElementById('bank_info').value);
                         //  formData.append('_method', 'PUT');
                      storeRoute('/cms/Admin/artisans-update/' + id, formData);

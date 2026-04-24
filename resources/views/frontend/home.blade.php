@@ -87,7 +87,7 @@
     <p>Explore unique handmade pieces from skilled artisans. Each item tells a story of heritage, passion, and exceptional craftsmanship.</p>
     <div class="hero-btns">
         <a href="{{ route('front.products') }}" class="btn-green">Explore products</a>
-         <a href="#" class="btn-ghost">Book a team</a>
+         <a href="{{ route('front.teams') }}" class="btn-ghost">Book a team</a>
     </div>
 </div>
 

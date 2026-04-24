@@ -76,9 +76,11 @@
                 From hand-woven textiles to hand-thrown pottery, every item on our platform is made by real people with real passion. We're proud to support local artisans and bring their creations to a global audience.
             </p>
         </div>
-        <div class="story-img">
-            <i class="fas fa-paint-brush"></i>
-        </div>
+       <div class="story-img" style="padding:0; overflow:hidden;">
+    <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80"
+         alt="Craftsmanship"
+         style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
+</div>
     </div>
 </div>
 

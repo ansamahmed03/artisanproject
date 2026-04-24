@@ -74,10 +74,10 @@ class AdminController extends Controller
 
             return response()->json([
                 'icon'  => 'success',
-                'title' => 'تم إنشاء الأدمن بنجاح والربط باليوزر',
+                'title' => 'Admin created successfully ',
             ], 200);
         } else {
-            return response()->json(['icon' => 'error', 'title' => 'فشل الحفظ'], 500);
+            return response()->json(['icon' => 'error', 'title' => 'Save failed'], 500);
         }
     }
 }  // 3. إنشاء اليوزر المرتبط به (يحتوي على البيانات الشخصية والمورف)
@@ -207,13 +207,13 @@ public function trashed() {
 public function restore($id) {
     $admin = Admin::withTrashed()->findOrFail($id);
     $admin->restore();
-    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    return redirect()->back()->with('success', 'The admin has successfully recovered');
     // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
 }
 public function force($id) {
     $admin = Admin::withTrashed()->findOrFail($id);
     $admin->forceDelete();
-    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+    return response()->json(['icon' => 'success', 'title' => 'Final deletion successfully completed'], 200);
 }
 public function forceAll() {
     // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
@@ -229,7 +229,7 @@ public function forceAll() {
     }
 
     // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
-    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+    return redirect()->back()->with('success', 'Data successfully erased');
 }
 
 // public function __construct()

@@ -141,14 +141,14 @@
     // 3. الدالة الجديدة (تفريغ السلة) - أضيفيها هنا
     function confirmForceAll() {
         Swal.fire({
-            title: 'هل أنتِ متأكدة؟',
-            text: "سيتم حذف جميع السجلات في السلة نهائياً!",
+            title: 'Are you sure?',
+            text: "All records in the basket will be permanently deleted!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'نعم، فرغ السلة!',
-            cancelButtonText: 'إلغاء'
+            confirmButtonText: 'Yes, empty the basket!',
+            cancelButtonText: 'cancle'
         }).then((result) => {
             if (result.isConfirmed) {
                 // استدعاء الأكسيوس لتنفيذ الحذف للكل

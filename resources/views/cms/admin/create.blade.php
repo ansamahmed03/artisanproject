@@ -38,7 +38,7 @@
                     name="full_name"
                     placeholder="Enter your name">
                   </div>
-                  
+
     <div class="col-md-6">
         <div class="form-group">
             <label>Role Name</label>

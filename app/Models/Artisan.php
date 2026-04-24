@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Artisan extends Authenticatable
 {
@@ -15,8 +15,14 @@ class Artisan extends Authenticatable
     use HasFactory , HasRoles, SoftDeletes;
 
       protected $fillable = [
-        'name',
+       'artisan_name',
+        'email',
+        'password',
+        'store_name',
+         'city',
         'city_id',
+           'bio',
+         'bank_info',
 
 
     ];
@@ -26,9 +32,6 @@ class Artisan extends Authenticatable
         'email',
         'bank_info',
     ];
-
-
-
 
 
 
@@ -60,6 +63,7 @@ public function products()
 }
 
 
+///////////////////////////////////////////////////////////
 public function reviews()
 {
     return $this->morphMany(Review::class, 'reviewable');
@@ -67,11 +71,27 @@ public function reviews()
 
 
 
-    /////////////////
+public function orders()
+{
+    return $this->hasManyThrough(Order::class, Product::class);
+}
+
 public function notifications()
 {
     return $this->morphMany(Notification::class, 'notifiable');
 }
-///////////////////////////
+/////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

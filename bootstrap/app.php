@@ -31,9 +31,25 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // المسار الافتراضي إذا لم يتطابق شيء (مثلاً صفحة دخول المستخدمين العاديين)
        return route('view.login', ['guard' => 'admin']);
+
+    });
+
+     $middleware->redirectUsersTo(function ($request) {
+        if (auth('admin')->check()) {
+            return url('cms/Admin/home');
+        }
+        if (auth('artisan')->check()) {
+            return url('cms/Artisan/home');
+        }
+        if (auth('team')->check()) {
+            return url('cms/Team/home');
+        }
+        return url('/');
     });
 
     })
+
+
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

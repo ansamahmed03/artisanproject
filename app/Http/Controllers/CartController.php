@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -61,38 +62,51 @@ class CartController extends Controller
         return back()->with('success', 'Removed from cart!');
     }
 
-public function checkout()
-{
-    $customer = auth('customer')->user();
-    $cartItems = $customer->carts()->with('product')->get();
+    // إتمام الطلب
+    public function checkout()
+    {
+        $customer = auth('customer')->user();
+        $cartItems = $customer->carts()->with('product.artisan')->get();
 
-    if ($cartItems->isEmpty()) {
-        return back()->with('error', 'Your cart is empty!');
-    }
+        if ($cartItems->isEmpty()) {
+            return back()->with('error', 'Your cart is empty!');
+        }
 
-    $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
+        $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
-    // إنشاء الأوردر
-    $order = \App\Models\Order::create([
-        'customer_id'  => $customer->id,
-        'total_price'  => $total,
-        'order_status' => 'pending',
-        'address_id'   => null, // بتعدليها لاحقاً إذا عندك عنوان
-    ]);
-
-    // إنشاء الأوردر آيتمز
-    foreach ($cartItems as $item) {
-        $order->orderItems()->create([
-            'product_id' => $item->product_id,
-            'quantity'   => $item->quantity,
-            'price'      => $item->product->price,
+        $order = \App\Models\Order::create([
+            'customer_id'  => $customer->id,
+            'total_price'  => $total,
+            'order_status' => 'pending',
+            'address_id'   => null,
         ]);
+
+        foreach ($cartItems as $item) {
+            $order->orderItems()->create([
+                'product_id' => $item->product_id,
+                'quantity'   => $item->quantity,
+                'price'      => $item->product->price,
+            ]);
+
+            // إشعار للأرتيزن صاحب المنتج
+            if ($item->product->artisan) {
+                NotificationController::send(
+                    $item->product->artisan,
+                    'New Order Received!',
+                    'Someone ordered your product: ' . $item->product->name
+                );
+            }
+        }
+
+        $customer->carts()->delete();
+
+        // إشعار للكستومر
+        NotificationController::send(
+            $customer,
+            'Order Placed Successfully!',
+            'Your order #' . $order->id . ' has been placed. Total: $' . number_format($total, 2)
+        );
+
+        return redirect()->route('front.orders')->with('success', 'Order placed successfully!');
     }
-
-    // مسح الكارت
-    $customer->carts()->delete();
-
-    return redirect()->route('front.orders')->with('success', 'Order placed successfully!');
-}
-
 }

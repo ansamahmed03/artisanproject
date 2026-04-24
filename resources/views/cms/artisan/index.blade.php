@@ -65,7 +65,7 @@
 
 <a href="{{ route('artisans.show', ['guard' => request()->segment(2), 'id' => $artisan->id]) }}" class="btn btn-sm" style="color: #2ecc71;" title="show">
     <i class="fas fa-eye"></i>
-</a>        
+</a>
     </a>
          @if(auth('admin')->check())
     <a href="{{ route('artisans.edit' , $artisan->id ) }}" class="btn btn-sm" style="color: #3498db;" title="edit">

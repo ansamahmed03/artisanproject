@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Customer;
@@ -60,13 +61,14 @@ class CustomerController extends Controller
                 'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);
+            $customer->assignRole('customer');
 
             return response()->json([
                 'icon'  => 'success',
-                'title' => 'تم إنشاء الأدمن بنجاح والربط باليوزر',
+                'title' => 'The costmer was successfully created',
             ], 200);
         } else {
-            return response()->json(['icon' => 'error', 'title' => 'فشل الحفظ'], 500);
+            return response()->json(['icon' => 'error', 'title' => 'Save failed'], 500);
         }
     }
     }
@@ -195,28 +197,29 @@ class CustomerController extends Controller
 public function restore($id) {
     $customer = Customer::withTrashed()->findOrFail($id);
     $customer->restore();
-    return redirect()->back()->with('success', 'تمت استعادة المسؤول بنجاح');
+    return redirect()->back()->with('success', 'Successfully restored');
     // return response()->json(['icon' => 'success', 'title' => 'تم الاسترجاع بنجاح'], 200);
 }
 public function force($id) {
     $customer = Customer::withTrashed()->findOrFail($id);
     $customer->forceDelete();
-    return response()->json(['icon' => 'success', 'title' => 'تم الحذف النهائي بنجاح'], 200);
+    return response()->json(['icon' => 'success', 'title' => 'Final deletion successful'], 200);
 }
 public function forceAll() {
     // جلب كل الأدمنز المحذوفين مع اليوزرز تبعهم
     $customers = Customer::onlyTrashed()->get();
 
     foreach($customers as $customer) {
-        // حذف اليوزر المرتبط في جدول users (إذا كان موجوداً)
+
         if($customer->user) {
             $customer->user()->forceDelete();
         }
-        // حذف الأدمن نفسه نهائياً
+
         $customer->forceDelete();
     }
 
     // return response()->json(['icon' => 'success', 'title' => 'تم تفريغ السلة وحذف الحسابات المرتبطة نهائياً'], 200);
-    return redirect()->back()->with('success', 'تم إفراغ البيانات بنجاح');
+    return redirect()->back()->with('success', 'Data successfully erased');
 }
 }
+

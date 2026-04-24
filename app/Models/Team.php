@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Team extends Authenticatable
 {
     //
+    use HasRoles;
     use SoftDeletes;
 protected $fillable = ['team_name', 'email', 'password', 'bio', 'hourly_rate', 'city_id', 'status'];
 
@@ -20,10 +21,18 @@ public function city()
         return $this->belongsTo(City::class);
     }
 
+
+
+
 /////////////////////////////////
 public function bookings()
 {
     return $this->hasMany(Booking::class);
+}
+
+public function notifications()
+{
+    return $this->morphMany(Notification::class, 'notifiable');
 }
 /////////////////////////
 

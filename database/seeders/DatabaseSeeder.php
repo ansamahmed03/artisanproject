@@ -7,6 +7,8 @@ use App\Models\ProductImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Order;
+use Database\Seeders\RoleAndPermissionSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +19,10 @@ public function run(): void
     \App\Models\Category::factory(20)->create();
 
     \App\Models\Artisan::factory(20)->create();
+
+    $this->call([
+            RoleAndPermissionSeeder::class, //
+        ]);
 
     // كل منتج إله صورة primary واحدة
     Product::factory(30)->create()->each(function ($product) {

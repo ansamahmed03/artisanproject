@@ -48,6 +48,66 @@
     .review-text { font-size: 13px; color: #666; line-height: 1.6; }
 
     .empty-sm { text-align: center; padding: 2rem; color: #aaa; font-size: 13px; }
+
+    /* Review Form Fixes */
+.review-form-container .form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 110px;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #333;
+    background: #fff;
+}
+
+.review-form-container .form-control:focus {
+    outline: none;
+    border-color: #2D6A4F;
+}
+
+.btn-cart {
+    background: #2D6A4F;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+.btn-cart:hover {
+    background: #1b4332;
+}
+
+    /* Star Rating */
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+    .star-rating input { display: none; }
+    .star-rating label {
+        font-size: 36px;
+        color: #d1d5db;
+        cursor: pointer;
+        transition: color 0.15s ease, transform 0.15s ease;
+        line-height: 1;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color: #f59e0b; }
+    .star-rating label:hover { transform: scale(1.2); }
+    .star-rating input:checked ~ label { color: #f59e0b; }
+    .star-rating input:checked + label { transform: scale(1.15); }
+    .rating-hint { font-size: 13px; color: #888; margin-top: 6px; min-height: 18px; }
 </style>
 @endsection
 
@@ -60,7 +120,7 @@
         <i class="fas fa-chevron-right" style="font-size:10px"></i>
         <a href="{{ route('front.artisans') }}">Artisans</a>
         <i class="fas fa-chevron-right" style="font-size:10px"></i>
-        <span>{{ $artisan->name }}</span>
+        <span>{{ $artisan->artisan_name }}</span>
     </div>
 
     <div class="artisan-grid">
@@ -69,14 +129,12 @@
         <div>
             <div class="artisan-card">
                 <div class="artisan-av">
-                       {{ strtoupper(substr($artisan->artisan_name, 0, 2)) }}
-                              </div>
-                <div class="artisan-name">{{ $artisan->artisan_name }}
-</div>
+                    {{ strtoupper(substr($artisan->artisan_name, 0, 2)) }}
+                </div>
+                <div class="artisan-name">{{ $artisan->artisan_name }}</div>
                 <div class="artisan-city">
                     <i class="fas fa-map-marker-alt" style="color:#2D6A4F;"></i>
-                {{ $artisan->city ?? '—' }}
-
+                    {{ $artisan->city ?? '—' }}
                 </div>
                 <span class="artisan-badge">Artisan</span>
 
@@ -95,6 +153,7 @@
 
         {{-- Right --}}
         <div>
+
             {{-- Products --}}
             <div class="content-card">
                 <div class="content-title">
@@ -159,8 +218,55 @@
                     </div>
                 @endif
             </div>
-        </div>
 
+            {{-- Add Review Form --}}
+            @auth('customer')
+            <div class="review-form-container">
+                <h3>Add a Review</h3>
+                <form action="{{ route('artisan.review.add') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="artisan_id" value="{{ $artisan->id }}">
+
+                    <label>Rating</label>
+                    <div class="star-rating-wrapper">
+                        <div class="star-rating">
+                            <input type="radio" name="rating" id="star5" value="5" required>
+                            <label for="star5" title="5 - Excellent">★</label>
+                            <input type="radio" name="rating" id="star4" value="4">
+                            <label for="star4" title="4 - Good">★</label>
+                            <input type="radio" name="rating" id="star3" value="3">
+                            <label for="star3" title="3 - Average">★</label>
+                            <input type="radio" name="rating" id="star2" value="2">
+                            <label for="star2" title="2 - Poor">★</label>
+                            <input type="radio" name="rating" id="star1" value="1">
+                            <label for="star1" title="1 - Awful">★</label>
+                        </div>
+                        <p id="rating-text" class="rating-hint">Select your rating</p>
+                    </div>
+
+                    <label>Comment</label>
+                    <textarea name="comment" class="form-control" rows="4"
+                              placeholder="Your experience..." required></textarea>
+
+                    <button type="submit" class="btn-cart"
+                            style="width: auto; padding: 12px 40px; margin-top: 1rem;">Submit Review</button>
+                </form>
+            </div>
+            @endauth
+
+        </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+const ratingLabels = {1:'Awful',2:'Poor',3:'Average',4:'Good',5:'Excellent'};
+document.querySelectorAll('.star-rating input').forEach(input => {
+    input.addEventListener('change', function () {
+        document.getElementById('rating-text').textContent =
+            ratingLabels[this.value] + ' — ' + this.value + ' stars';
+    });
+});
+</script>
+@endpush
