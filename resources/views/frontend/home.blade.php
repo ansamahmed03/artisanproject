@@ -177,8 +177,8 @@
     <h2>Are you an artisan or team leader?</h2>
     <p>Join ArtisanHub and reach thousands of customers who love authentic handmade crafts.</p>
     <div class="cta-btns">
-        <a href="#" class="btn-white">Join as artisan</a>
-        <a href="#" class="btn-white-ghost">Register a team</a>
+        <a href="{{ route('front.register.artisan') }}" class="btn-white">Join as artisan</a>
+        <a href="{{ route('front.register.team') }}" class="btn-white-ghost">Register a team</a>
     </div>
 </div>
 
