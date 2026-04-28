@@ -18,6 +18,7 @@ class FrontController extends Controller
     public function home()
     {
        $featuredProducts = Product::with(['category', 'artisan', 'images'])
+        ->where('stock_quantity', '>', 0)
     ->where('status', 'available')
     ->latest()->take(4)->get();
 
@@ -30,6 +31,7 @@ $categories = Category::withCount(['products' => function($q) {
     public function products(Request $request)
 {
     $products = Product::with(['category', 'artisan'])
+     ->where('stock_quantity', '>', 0)
         ->where('status', 'available')
 ->when($request->category, fn($q) => $q->whereIn('category_id', (array) $request->category))
         ->when($request->sort == 'price_asc', fn($q) => $q->orderBy('price', 'asc'))
@@ -45,7 +47,10 @@ $categories = Category::withCount(['products' => function($q) {
 
 public function productShow($id)
 {
-    $product = Product::with(['images', 'category', 'artisan', 'reviews'])->findOrFail($id);
+    $product = Product::with(['images', 'category', 'artisan', 'reviews'])
+       ->where('status', 'available')
+        ->where('stock_quantity', '>', 0)
+        ->findOrFail($id);
 
     $isWishlisted = false;
     if (auth('customer')->check()) {
@@ -252,6 +257,7 @@ public function search(Request $request)
     if (!$q) return redirect()->route('front.home');
 
     $products = Product::with(['category', 'artisan', 'images'])
+     ->where('stock_quantity', '>', 0)
         ->where('status', 'available')
         ->where(function($query) use ($q) {
             $query->where('name', 'LIKE', "%$q%")

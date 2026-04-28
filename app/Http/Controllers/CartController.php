@@ -81,12 +81,17 @@ class CartController extends Controller
             'address_id'   => null,
         ]);
 
+
         foreach ($cartItems as $item) {
             $order->orderItems()->create([
                 'product_id' => $item->product_id,
                 'quantity'   => $item->quantity,
                 'price'      => $item->product->price,
             ]);
+
+            
+                $item->product->decrement('stock_quantity', $item->quantity);
+
 
             // إشعار للأرتيزن صاحب المنتج
             if ($item->product->artisan) {

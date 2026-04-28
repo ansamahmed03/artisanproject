@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ArtisanAuthController;
+//use App\Http\Controllers\ArtisanAuthController;
 use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\ArtisanDashboardController;
 use App\Http\Controllers\BookingController;
@@ -135,18 +135,7 @@ Route::middleware('guest:admin,artisan,team,customer')->group(function () {
 
 Route::get('cms/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-// ===========================
-// CMS - Dashboard (All CMS Users)
-// ===========================
-Route::prefix('cms/{guard}')->middleware('auth:admin,artisan,team')->group(function () {
-    Route::get('home', [DashboardController::class, 'index'])->name('cms.home');
-    Route::get('artisans', [ArtisanController::class, 'index'])->name('artisans.index');
-    Route::get('artisans/{id}', [ArtisanController::class, 'show'])->name('artisans.show');
-    Route::get('teams', [TeamController::class, 'index'])->name('teams.index');
-    Route::get('teams/{id}', [TeamController::class, 'show'])->name('teams.show');
-    Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
-    Route::get('customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
-});
+
 
 // ===========================
 // CMS - Admin Panel (Admin & Team Only)
@@ -175,11 +164,13 @@ Route::prefix('cms/Admin')->middleware('auth:admin,team')->group(function () {
     Route::resource('admins', AdminController::class);
 
     // Teams
+    Route::get('teams/create', [TeamController::class, 'create'])->name('teams.create'); // ✅ أضف هاد قبل resource
     Route::post('teams-update/{id}', [TeamController::class, 'update'])->name('teams-update');
     Route::get('teams_trashed', [TeamController::class, 'trashed'])->name('teams_trashed');
     Route::get('teams_restore/{id}', [TeamController::class, 'restore'])->name('teams_restore');
     Route::get('teams_force/{id}', [TeamController::class, 'force'])->name('teams_force');
     Route::get('teams_force_all', [TeamController::class, 'forceAll'])->name('teams_forceAll');
+    Route::resource('teams', TeamController::class)->except(['create']);
     Route::resource('teams', TeamController::class);
 
     // Countries
@@ -298,4 +289,17 @@ Route::prefix('cms/Admin')->middleware('auth:admin,team')->group(function () {
     Route::resource('roles', RoleController::class);
 
     Route::resource('roles.permissions', RolePermissionController::class);
+});
+
+// ===========================
+// CMS - Dashboard (All CMS Users)
+// ===========================
+Route::prefix('cms/{guard}')->middleware('auth:admin,artisan,team')->group(function () {
+    Route::get('home', [DashboardController::class, 'index'])->name('cms.home');
+    Route::get('artisans', [ArtisanController::class, 'index'])->name('artisans.index');
+    Route::get('artisans/{id}', [ArtisanController::class, 'show'])->name('artisans.show');
+    Route::get('teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::get('teams/{id}', [TeamController::class, 'show'])->name('teams.show');
+    Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
 });
